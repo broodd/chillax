@@ -1,23 +1,30 @@
 <template>
-    <Page class="page page--home bg bg--main c-white" actionBarHidden="true">
-			<ScrollView class="home-panel" orientation="vertical">
-				<StackLayout height="100%">
-					<FlexboxLayout
-						class="container"
-					>
-						<StackLayout class="row text-center">
-							<FlexboxLayout class="mb-2" justifyContent="center">
+    <Page class="page page--home bg bg--cream c-white" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
+			<ScrollView class="panel panel--home" orientation="vertical">
+				<GridLayout columns="*" rows="*, auto" width="100%" height="100%">
+
+					<FlexboxLayout class="form__top container bg bg--clip" width="100%" row="0">
+						<StackLayout class="row text-center" height="100%">
+							<FlexboxLayout alignItems="center" justifyContent="center" height="100%" width="100%">
 								<Image src="~/assets/img/logo.png"/>
 							</FlexboxLayout>
-
-							<TextField v-model="email" hint="Email" />
-							<Button class="btn green" text="Sign in with google" @tap="$navigateTo(Home)" />
-							<Button class="btn blue" text="Sign in with facebook" @tap="$navigateTo(Home)" />
-							
-							<Label class="mt-2" text="New Account?" @tap="$navigateTo(Home)" />
 						</StackLayout>
 					</FlexboxLayout>
-				</StackLayout>
+
+					<FlexboxLayout class="form__bottom container pb-4" width="100%" row="1">
+						<StackLayout class="row text-center">
+							<Button class="close my-fa" text.decode="&#xe801;" @tap="$navigateTo(Home)" />
+
+							<TextField class="field" v-model="email" hint="EMAIL" />
+							<TextField class="field" v-model="email" hint="PASSWORD" />
+
+							<Button class="btn shadow" text="Sign in" @tap="$navigateTo(Home)" />
+							
+							<Label class="mt-2 new-account" text="New Account?" @tap="$navigateTo(Home)" />
+						</StackLayout>
+					</FlexboxLayout>
+					
+				</GridLayout>
 			</ScrollView>
     </Page>
 </template>
@@ -42,12 +49,12 @@
     @import '../app-variables';
     // End custom common variables
 
-    // Custom styles
-    .fa {
-        color: $accent-dark;
-    }
+		// Custom styles
+		.form__top {
+			margin-bottom: -20;
+		}
 
-    .info {
-        font-size: 20;
-    }
+		.new-account {
+			color: $black;
+		}
 </style>

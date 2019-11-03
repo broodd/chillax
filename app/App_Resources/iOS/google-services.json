@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "872116635391",
+    "firebase_url": "https://chillax4rellax.firebaseio.com",
+    "project_id": "chillax4rellax",
+    "storage_bucket": "chillax4rellax.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872116635391:android:b6165f3ddbac54668daeca",
+        "android_client_info": {
+          "package_name": "org.nativescript.chillax"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872116635391-7vopa7b84rur10la88egh50mnllmkolv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_e2j7zQgYBo1lsoq4b1YVjDJPc_Eqzeg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "872116635391-7vopa7b84rur10la88egh50mnllmkolv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
