@@ -10,7 +10,7 @@
 								<Image src="~/assets/img/logo.png"/>
 							</FlexboxLayout>
 
-							<TextField v-model="email" hint="Email" />
+							<TextField class="field" v-model="email" hint="EMAIL" />
 							<Button class="btn green" text="Sign in with google" @tap="$navigateTo(Home)" />
 							<Button class="btn blue" text="Sign in with facebook" @tap="$navigateTo(Home)" />
 							

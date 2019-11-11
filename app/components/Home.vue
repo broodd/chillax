@@ -1,5 +1,5 @@
 <template>
-    <Page class="page page--home bg bg--main c-white" actionBarHidden="true">
+    <Page class="page page--home bg bg--main c-white" actionBarHidden="true" backgroundSpanUnderStatusBar="ture">
 				<ScrollView class="home-panel" orientation="vertical">
             <StackLayout height="100%">
 							<FlexboxLayout
