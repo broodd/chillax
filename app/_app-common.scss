@@ -3,5 +3,89 @@
 
 //Font icon
 .fa {
-   font-family: "FontAwesome";
+	font-family: "FontAwesome";
+}
+
+.my-fa {
+	font-family: "fontello";
+}
+
+.container {
+	width: 100%;
+	// height: 100%;
+	// justify-content: flex-end;
+	align-items: center;
+	flex-direction: column;
+	
+	.row {
+		width: 80%;
+		// width: 100%;
+		// flex-direction: column;
+	}
+	
+	&-fluid {
+		.row {
+			width: 90%;
+		}
+	}
+}
+
+.m {
+	&t {
+		&-2 {
+			margin-top: 20;
+		}
+	}
+	&b {
+		&-2 {
+			margin-bottom: 20;
+		}
+		&-5 {
+			margin-bottom: 50;
+		}
+	}
+}
+
+.p {
+	&b {
+		&-4 {
+			padding-bottom: 40;
+		}
+	}
+}
+
+.text {
+	&-center {
+		text-align: center;
+	}
+}
+
+.c {
+	&-white {
+		color: $white;
+	}
+	&-black {
+		color: $black;
+	}
+	&-grey {
+		color: $grey;
+	}
+}
+
+.fz {
+	&-17 {
+		font-size: 17;
+	}
+	&-24 {
+		font-size: 24;
+	}
+	&-35 {
+		font-size: 35;
+	}
+}
+
+.fw {
+	&-bold {
+		font-weight: bold;
+	}
 }

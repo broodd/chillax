@@ -8,6 +8,42 @@
 // Import common styles
 @import 'app-common';
 
+.form {
+	width: 100%;
+	height: 100%;
+	&-active {
+		.close {
+			color: $black;
+			.my-fa {
+				color: $black;
+			}
+		}
+		.form__top {
+			margin-bottom: -20;
+		}
+		.form__botom {
+			background-size: cover;
+			background-position: center bottom;
+			background-image: url('~/assets/img/main_bg_clip.png');
+		}
+
+		// .new-account {
+		// 	color: $black;
+		// }
+	}
+}
+
+.close {
+	width: 50;
+	height: 50;
+	background-color: $white;
+	border-radius: 50%;
+	margin-bottom: 10;
+	font-size: 35;
+	color: $black;
+}
+
+
 .bg {
 	background-repeat: no-repeat;
 	background-position: center;
@@ -15,6 +51,24 @@
 	&--main {
 		background-image: url('~/assets/img/main_bg_wallpaper.png');
 	}
+	&--clip {
+		background-size: cover;
+		background-position: center bottom;
+		background-image: url('~/assets/img/main_bg_clip.png');
+	}
+	&--cream {
+		background-color: $cream-bg;
+	}
+}
+
+.field {
+	color: $black;
+	background-color: $white;
+	border-radius: 28;
+	border: 1px solid $cream-field;
+	padding: 10 20;
+	margin-bottom: 10;
+	text-align: left;
 }
 
 .field {
@@ -42,53 +96,12 @@
 		color: $white;
 		background-color: $blue;
 	}
-}
-.container {
-	width: 100%;
-	height: 100%;
-	align-items: center;
-	justify-content: flex-end;
-	flex-direction: column;
-	
-	.row {
-		width: 80%;
-		flex-direction: column;
-	}
-}
-
-.m {
-	&t {
-		&-2 {
-			margin-top: 20;
-		}
-	}
-	&b {
-		&-2 {
-			margin-bottom: 20;
-		}
-	}
-}
-
-.text {
-	&-center {
-		text-align: center;
-	}
-}
-
-.c {
-	&-white {
+	&.tomato {
 		color: $white;
+		background-color: $tomato;
 	}
-}
-
-.fz {
-	&-24 {
-		font-size: 24;
-	}
-}
-
-.fw {
-	&-bold {
-		font-weight: bold;
+	&.shadow {
+		// box-shadow: 0px 27px 70px rgba(0, 0, 0, .3)
+		box-shadow: 0 27 tomato;
 	}
 }
