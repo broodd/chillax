@@ -20,23 +20,27 @@ import store from './store';
 // authService.configureOAuthProviders();
 
 
-import Wellcome from "./components/Wellcome";
-import Home from "./components/Home";
+import Wellcome from './components/App'
+// import Wellcome from "./pages/Wellcome";
+// import Home from "./pages/Home";
 
 // import Login from "./components/Login";
 
 new Vue({
-	template: `
-		<Frame>
-				<Home />
-		</Frame>
-	`,
+	// template: `
+	// 	<Frame>
+	// 			<Wellcome />
+	// 	</Frame>
+	// `,
 	components: {
-		Wellcome,
-		Home,
+		// Wellcome,
+		// Wellcome,
+		// Home,
 		// Login
 	},
-	// render: h => h(Home),
+	// render: h => h(App),
+	
+	render: h => h('frame', [h(Wellcome)]),
 	store,
 }).$start();
 

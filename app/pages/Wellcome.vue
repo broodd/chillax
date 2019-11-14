@@ -28,19 +28,21 @@
 </template>
 
 <script>
-		import Login from '@/components/Login';
-		import Registration from '@/components/Registration';
-		import Home from '@/components/Home';
+		import Login from './Login';
+		import Registration from './Registration';
+		import Home from './Home';
 		
 
     export default {
+			components: {
+			},
 			computed: {
 			},
 			data() {
 				return {
+					Home,
 					Login,
 					Registration,
-					Home
 				}
 			},
     };

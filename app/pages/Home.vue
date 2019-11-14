@@ -1,13 +1,15 @@
 <template>
     <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
+			<AbsoluteLayout>
+				<Label text="ERRROR" />
+			</AbsoluteLayout>
 			<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false" @scroll="onTracksScroll">
 				<GridLayout class="" columns="*" rows="200, auto, auto, *">
 					
 					<FlexboxLayout class="container container-fluid" width="100%" row="0">
 						<StackLayout class="row" height="100%">
 							<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
-								<Label class="fz-35" text="Recent playlists"/>
-								<!-- <Image src="~/assets/img/logo.png"/> -->
+								<Label class="fz-35" text="Recent playlists" @tap="clicked"/>
 							</FlexboxLayout>
 						</StackLayout>
 					</FlexboxLayout>
@@ -15,14 +17,7 @@
 
 					<FlexboxLayout class="container container-fluid" width="100%" row="1">
 						<StackLayout class="row">
-							<Label :text="playListPage"></Label>
-							<Label :text="playListScroll"></Label>
-							<Label :text="maxPlayListScroll"></Label>
-							<ScrollView class="playlist-list" orientation="horizontal" scrollBarIndicatorVisible="false" @scroll="onPlayListScroll">
-								<StackLayout orientation="horizontal">
-									<Button v-for="(playlist, key) in playlists" :key="key" class="playlist-list__btn" :text="playlist + ' ' + (key + 1)"/>
-								</StackLayout>
-							</ScrollView>
+							<PlaylistScroll :playlists="playlists" @nextPage="onNextPage"/>
 						</StackLayout>
 					</FlexboxLayout>
 
@@ -30,7 +25,7 @@
 					<FlexboxLayout class="container container-fluid" width="100%" row="2">
 						<StackLayout class="row" height="100%">
 							<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%"> -->
-								<Label class="fz-35" text="Recent tracks"/>
+								<Label class="fz-35" text="Tracks"/>
 							</FlexboxLayout>
 						</StackLayout>
 					</FlexboxLayout>
@@ -52,7 +47,7 @@
 											<Label class="track__name" text="Focus 1" />
 											<Label class="track__author" text="some petro" />
 										</StackLayout>
-										<Button class="track__like my-fa" text.decode="&#xe802;" :class="{active: key % 2 == 0}"/>
+										<Button class="like my-fa" text.decode="&#xe802;" :class="{active: key % 2 == 0}"/>
 									</FlexboxLayout>
 								</StackLayout>
 						</StackLayout>
@@ -64,18 +59,22 @@
 </template>
 
 <script>
-		import Wellcome from '@/components/Wellcome';
-
+		import PlaylistScroll from '@/components/PlaylistScroll';
+		import axios from 'axios';
 
     export default {
+			components: {
+				PlaylistScroll
+			},
 			computed: {
 			},
 			data() {
 				return {
-					Wellcome,
-					maxPlayListScroll: 0,
-					playListScroll: 0,
-					playListPage: 1,
+					Playlist,
+
+					// maxPlayListScroll: 0,
+					// playListScroll: 0,
+					// playListPage: 1,
 					playlists: [
 						'Focus',
 						'Focus',
@@ -97,20 +96,14 @@
 				}
 			},
 			methods: {
-				onPlayListScroll (args) {
-					let elWidth = args.object.scrollableWidth;
-					let scroll = args.scrollX
-					this.playListScroll = scroll
-					if (scroll > this.maxPlayListScroll + 10) {
-						this.maxPlayListScroll = elWidth;
-						this.playListPage++;
-						if (this.playListPage < 3) {
-							this.playlists.push('focus')
-							this.playlists.push('focus')
-							this.playlists.push('focus')
-							this.playlists.push('focus')
-							this.playlists.push('focus')
-						}
+				onNextPage ({ page }) {
+					console.log('--- page', page);
+					if (page < 3) {
+						this.playlists.push('focus')
+						this.playlists.push('focus')
+						this.playlists.push('focus')
+						this.playlists.push('focus')
+						this.playlists.push('focus')
 					}
 				},
 				onTracksScroll (args) {
@@ -129,9 +122,37 @@
 						}
 					}
 				},
+				clicked () {
+					console.log('--- axios --here', );
+					// http.get(`https://jsonplaceholder.typicode.com/todos/1`)
+					// 	.then(response => response.json())
+					// 	.then(json => console.log(json))
+					// http.request({
+					// 	url: "http://localhost:3000",
+					// 	method: "GET"
+					// }).then((r) => {
+					// 		console.log('--- r', r);
+					// 	},
+					// 	(e) => {
+					// 		console.log('--- e', e);
+					// });
+
+					axios.get('https://jsonplaceholder.typicode.com/todos/1')
+					.then(response => {
+								console.log('--- response', response);
+					})
+					.catch(error => {
+						console.log(error);
+					})
+
+					// fetch("http://localhost:3000/login")
+					// .then((response) => response.json())
+					// .then((r) => {
+					// 		console.log('--- r', r.json);
+					// }).catch((err) => {
+					// });
+				}
 			},
-			created () {
-			}
     };
 </script>
 
@@ -139,67 +160,4 @@
     // Start custom common variables
     @import '../app-variables';
     // End custom common variables
-
-		// Custom styles
-		.playlist-list {
-			&__btn {
-				margin-right: 10;
-				margin-left: 0;
-				text-transform: uppercase;
-				text-align: center;
-				width: 160;
-				height: 160;
-				font-size: 22;
-				letter-spacing: 0.2;
-				color: $white;
-				// border-radius: 10;
-				background-size: cover;
-				background-image: url('~/assets/img/playlists/focus.jpg');
-				// background-color: lime;
-			}
-		}
-
-		.track {
-			margin-bottom: 10;
-			align-items: center;
-			justify-content: space-between;
-			&__button {
-				border-radius: 50%;
-				width: 80;
-				height: 80;
-				background-image: url('~/assets/img/tracks/cover.jpg');
-				background-repeat: no-repeat;
-				background-size: cover;
-
-				&__circle {
-					border-radius: 50%;
-					width: 24;
-					height: 24;
-					background-color: $white;
-				}
-			}
-
-			&__text {
-				margin-left: 20;
-				flex: 1 1 100%;
-			}
-			&__name {
-				font-size: 20;
-			}
-			&__author {
-				color: $grey;
-			}
-			&__like {
-				width: 50;
-				height: 50;
-				font-size: 20;
-				color: $grey;
-				background-color: $white;
-				border-radius: 50%;
-				android-elevation: 0;
-				&.active {
-					color: $tomato;
-				}
-			}
-		}
 </style>

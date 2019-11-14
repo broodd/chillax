@@ -15,13 +15,12 @@
 						<StackLayout class="row text-center">
 							<Button class="close my-fa" text.decode="&#xe801;" @tap="$navigateTo(Wellcome)" />
 
-							<TextField class="field" v-model="email" hint="Email" />
-							<TextField class="field" v-model="email" hint="Password" />
-							<TextField class="field" v-model="email" hint="Confirm password" />
+							<TextField class="field" v-model="email" hint="EMAIL" />
+							<TextField class="field" v-model="email" hint="PASSWORD" />
 
-							<Button class="btn blue shadow" text="Sign up" @tap="$navigateTo(Wellcome)" />
-
-							<Label class="mt-2 new-account" text="Already have an account?" @tap="$navigateTo(Login)" />
+							<Button class="btn green shadow" text="Sign in" @tap="$navigateTo(Wellcome)" />
+							
+							<Label class="mt-2 new-account" text="New Account?" @tap="$navigateTo(Registration)" />
 						</StackLayout>
 					</FlexboxLayout>
 					
@@ -31,8 +30,8 @@
 </template>
 
 <script>
-		import Wellcome from '@/components/Wellcome'
-		import Login from '@/components/Login'
+		import Wellcome from './Wellcome'
+		import Registration from './Registration'
 
     export default {
         computed: {
@@ -40,7 +39,7 @@
 				data() {
 					return {
 						Wellcome,
-						Login,
+						Registration,
 						email: ''
 					}
 				}
