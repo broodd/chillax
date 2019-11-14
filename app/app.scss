@@ -71,6 +71,15 @@
 	text-align: left;
 }
 
+.field {
+	width: 100%;
+	background-color: $white;
+	text-align: left;
+	color: $black;
+	border-radius: 28;
+	padding: 10 20;
+}
+
 .btn {
 	width: 100%;
 	color: $black;
