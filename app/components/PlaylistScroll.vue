@@ -13,7 +13,7 @@
 </template>
 
 <script>
-	import Playlist from './Playlist';
+	import Playlist from '@/pages/Playlist';
 
 	export default {
 		props: {
@@ -24,32 +24,18 @@
 				Playlist,
 
 				maxScroll: 0,
-				scroll: 0,
 				page: 1,
-				// playlists: [
-				// 	'Focus',
-				// 	'Focus',
-				// 	'Focus',
-				// 	'Focus',
-				// 	'Focus',
-				// 	// 'Focus'
-				// ],
 			}
 		},
 		methods: {
 			onPlayListScroll (args) {
-				console.log('--- args.scrollX', args.scrollX);
-				// let elWidth = args.object.scrollableWidth;
-				// let scroll = args.scrollX;
-				// this.scroll = scroll;
-				// console.log('--- this.scroll', this.scroll);
-				// if (scroll > this.maxScroll + 10) {
-				// 	this.maxScroll = elWidth;
-				// 	this.page++;
-				// 	// if (this.page < 3) {
-				// 		this.$emit('nextPage', { page })
-				// 	// }
-				// }
+				let elWidth = args.object.scrollableWidth;
+				let scroll = args.scrollX;
+				if (scroll > this.maxScroll + 10) {
+					this.maxScroll = elWidth;
+					this.page++;
+					this.$emit('nextPage', this.page)
+				}
 			},
 			goToPlaylist (id) {
 				this.$navigateTo(Playlist, {

@@ -28,9 +28,9 @@
 </template>
 
 <script>
-		import Login from './Login';
-		import Registration from './Registration';
-		import Home from './Home';
+		import Login from '@/pages/Login';
+		import Registration from '@/pages/Registration';
+		import Home from '@/pages/Home';
 		
 
     export default {

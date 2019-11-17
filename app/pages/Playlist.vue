@@ -38,8 +38,8 @@
 </template>
 
 <script>
-		import Home from './Home';
-		import Author from './Author';
+		import Home from '@/pages/Home';
+		import Author from '@/pages/Author';
 		import axios from 'axios';
 
     export default {

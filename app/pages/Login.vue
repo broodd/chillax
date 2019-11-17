@@ -15,10 +15,10 @@
 						<StackLayout class="row text-center">
 							<Button class="close my-fa" text.decode="&#xe801;" @tap="$navigateTo(Wellcome)" />
 
-							<TextField class="field" v-model="email" hint="EMAIL" />
-							<TextField class="field" v-model="email" hint="PASSWORD" />
+							<TextField class="field" v-model="email" hint="EMAIL" keyboardType="email"/>
+							<TextField class="field" v-model="password" hint="PASSWORD" :secure="true"/>
 
-							<Button class="btn green shadow" text="Sign in" @tap="$navigateTo(Wellcome)" />
+							<Button class="btn green shadow" text="Sign in" @tap="onLogin" />
 							
 							<Label class="mt-2 new-account" text="New Account?" @tap="$navigateTo(Registration)" />
 						</StackLayout>
@@ -30,8 +30,9 @@
 </template>
 
 <script>
-		import Wellcome from './Wellcome'
-		import Registration from './Registration'
+		import Wellcome from '@/pages/Wellcome';
+		import Registration from '@/pages/Registration';
+		import AuthService from '@/services/auth';
 
     export default {
         computed: {
@@ -40,7 +41,27 @@
 					return {
 						Wellcome,
 						Registration,
-						email: ''
+						email: '',
+						password: ''
+					}
+				},
+				methods: {
+					async onLogin () {
+						AuthService.login({
+							email: this.email,
+							password: this.password
+						})
+							.then(data => {
+								console.log('--- data', data);
+							})
+							.catch(err => {
+								console.log('--- err', err);
+							})
+
+						// const response = await AuthService.login({
+						// 	email: this.email,
+						// 	password: this.password
+						// });
 					}
 				}
     };
