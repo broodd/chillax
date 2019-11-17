@@ -1,5 +1,8 @@
 <template>
-	<Wellcome />
+	<!-- <Frame> -->
+		<Wellcome />
+		<!-- <Button text="ERROR"></Button> -->
+	<!-- </Frame> -->
 
 	<!-- <BottomNavigation>
 		<TabStrip v-if="false">

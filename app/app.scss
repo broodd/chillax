@@ -43,6 +43,16 @@
 	color: $black;
 }
 
+.error {
+	color: $tomato;
+	text-align: left;
+
+	&--field {
+		font-size: 12;
+		margin-bottom: 10;
+		padding-left: 20;
+	}
+}
 
 .bg {
 	background-repeat: no-repeat;
@@ -67,7 +77,7 @@
 	border-radius: 28;
 	border: 1px solid $cream-field;
 	padding: 10 20;
-	margin-bottom: 10;
+	margin-bottom: 0;
 	text-align: left;
 }
 

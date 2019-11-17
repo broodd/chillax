@@ -1,27 +1,8 @@
 import Vue from "nativescript-vue";
-import store from './store';
-// const firebase = require("nativescript-plugin-firebase");
-// const firebaseWebApi = require("nativescript-plugin-firebase/app");
+import store from '@/store';
 
-// firebase.init({
-// 	// Optionally pass in properties for database, authentication and cloud messaging,
-// 	// see their respective docs.
-// }).then(
-// 	function () {
-// 		console.log("firebase.init done");
-// 		console.log("[*] Firebase was successfully initialised");
-// 	},
-// 	function (error) {
-// 		console.log("firebase.init error: " + error);
-// 	}
-// );
-
-// var authService = require("./auth-service");
-// authService.configureOAuthProviders();
-
-
-import Wellcome from './components/App'
-// import Wellcome from "./pages/Wellcome";
+// import App from './components/App'
+import Wellcome from "@/pages/Wellcome";
 // import Home from "./pages/Home";
 
 // import Login from "./components/Login";
@@ -33,18 +14,19 @@ new Vue({
 	// 	</Frame>
 	// `,
 	components: {
-		// Wellcome,
-		// Wellcome,
+		Wellcome,
+		// App,
 		// Home,
 		// Login
 	},
 	// render: h => h(App),
 	
+	// render: h => h('frame', [h(App)]),
 	render: h => h('frame', [h(Wellcome)]),
 	store,
 }).$start();
 
-Vue.config.silent = true;
+Vue.config.silent = false;
 
 {/* <BottomNavigation>
 	<TabStrip>

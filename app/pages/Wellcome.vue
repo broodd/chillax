@@ -14,7 +14,6 @@
 
 					<FlexboxLayout class="form__bottom container pb-4" width="100%" row="1">
 						<StackLayout class="row text-center">
-							<Label :text="state"></Label>
 							<Button class="btn green" text="Sign in" @tap="$navigateTo(Login)" />
 							<Button class="btn green" text="Home" @tap="$navigateTo(Home)" />
 							
@@ -28,6 +27,7 @@
 </template>
 
 <script>
+		const appSettings = require("tns-core-modules/application-settings");
 		import Login from '@/pages/Login';
 		import Registration from '@/pages/Registration';
 		import Home from '@/pages/Home';
@@ -45,6 +45,15 @@
 					Registration,
 				}
 			},
+			created () {
+				const token = appSettings.getString('token');
+				console.log('--- token', token);
+
+				if (token) {
+					console.log('--- nav to home', );
+					this.$navigateTo(Home);
+				}
+			}
     };
 </script>
 
