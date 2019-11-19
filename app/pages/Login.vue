@@ -15,16 +15,15 @@
 						<StackLayout class="row text-center">
 							<Button class="close my-fa" text.decode="&#xe801;" @tap="$navigateTo(Wellcome)" />
 
-							<TextField class="field" v-model="email" hint="email" keyboardType="email" @focus="clearErrors"/>
+							<TextField class="field" v-model="email" hint="email" keyboardType="email" @focus="clearErrors('email')"/>
 							<Label class="error error--field" :text="errors.email" />
 
-							<TextField class="field" v-model="password" hint="password" :secure="true" @focus="clearErrors"/>
+							<TextField class="field" v-model="password" hint="password" :secure="true" @focus="clearErrors('password')"/>
 							<Label class="error error--field" :text="errors.password" />
 
 							<Button class="btn green shadow" text="Sign in" @tap="onLogin" />
 							
 							<Label class="mt-2 new-account" text="New Account?" @tap="$navigateTo(Registration)" />
-							<Label :text="token"/>
 						</StackLayout>
 					</FlexboxLayout>
 					
@@ -38,18 +37,16 @@
 		import Home from '@/pages/Home';
 		import Registration from '@/pages/Registration';
 		import AuthService from '@/services/auth';
-		import store from '@/store';
 
     export default {
         computed: {
-					token () {
-						return store.getters.getToken;
-					}
 				},
 				data() {
 					return {
+						Wellcome,
 						Home,
 						Registration,
+
 						email: '',
 						password: '',
 						errors: {
@@ -59,11 +56,15 @@
 					}
 				},
 				methods: {
-					clearErrors () {
-						this.errors = {
-							email: '',
-							password: ''
-						};
+					clearErrors (field) {
+						if (field) {
+							this.$set(this.errors, field, '');
+						} else {
+							this.errors = {
+								email: '',
+								password: ''
+							};
+						}
 					},
 					async onLogin () {
 						try {
@@ -74,38 +75,17 @@
 								password: this.password
 							});
 
-							// this.$store.dispatch('setToken', response.data.token);
-							console.log('--- response', response.data.token);
-							store.dispatch('setToken', response.data.token)
+							this.$store.dispatch('setToken', response.data.token)
 								.then(() => {
-									console.log('--- store.getters.token', store.getters.token);
 									this.$navigateTo(Home);
 								});
 						} catch (err) {
-							// if (err.response.data && typeof err.response.data.message == 'object') {
-							// 	for (const e of err.response.data.message) {
-							// 		this.$set(this.errors, e.field, e.message);
-							// 	}
-							// }
+							if (err.response && err.response.data && typeof err.response.data.message == 'object') {
+								for (const e of err.response.data.message) {
+									this.$set(this.errors, e.field, e.message);
+								}
+							}
 						}
-						
-						// AuthService.login({
-						// 	email: this.email,
-						// 	password: this.password
-						// })
-						// 	.then(data => {
-						// 		console.log('--- data', data);
-						// 		// console.log('--- data', data);
-						// 	})
-						// 	.catch(err => {
-						// 		console.log('--- catch err', err.response);
-						// 		// console.log('--- err', err);
-						// 	})
-
-						// const response = await AuthService.login({
-						// 	email: this.email,
-						// 	password: this.password
-						// });
 					}
 				}
     };

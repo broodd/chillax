@@ -1,4 +1,4 @@
-import appSettings from 'tns-core-modules/application-settings';
+const appSettings = require("tns-core-modules/application-settings");
 
 const state = {
 	token: undefined,

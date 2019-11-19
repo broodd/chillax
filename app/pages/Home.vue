@@ -9,7 +9,7 @@
 					<FlexboxLayout class="container container-fluid" width="100%" row="0">
 						<StackLayout class="row" height="100%">
 							<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
-								<Label class="fz-35" text="Recent playlists" @tap="clicked"/>
+								<Label class="fz-35" text="Recent playlists"/>
 							</FlexboxLayout>
 						</StackLayout>
 					</FlexboxLayout>
@@ -24,7 +24,7 @@
 					
 					<FlexboxLayout class="container container-fluid" width="100%" row="2">
 						<StackLayout class="row" height="100%">
-							<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%"> -->
+							<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
 								<Label class="fz-35" text="Tracks"/>
 							</FlexboxLayout>
 						</StackLayout>
@@ -42,10 +42,11 @@
 </template>
 
 <script>
-		import axios from 'axios';
 		import PlaylistScroll from '@/components/PlaylistScroll';
 		import TrackScroll from '@/components/TrackScroll';
 		import TrackScrollMixin from '@/mixins/TrackScrollMixin';
+		import PlaylistService from '@/services/playlist';
+		import TrackService from '@/services/track';
 
     export default {
 			components: {
@@ -57,67 +58,44 @@
 			},
 			data() {
 				return {
-					playlists: [
-						'Focus',
-						'Focus',
-						'Focus',
-						'Focus',
-						'Focus',
-					],
-					tracks: [
-						'Focus',
-						'Focus',
-						'Focus',
-						'Focus',
-						'Focus',
-					]
+					playlists: [],
+					tracks: []
 				}
 			},
 			methods: {
 				onNextPagePlaylist (page) {
-					this.playlists.push('focus')
-					this.playlists.push('focus')
-					this.playlists.push('focus')
-					this.playlists.push('focus')
-					this.playlists.push('focus')
+					// this.loadPlaylists(page);
 				},
 				onNextPageTrack (page) {
-					this.tracks.push('focus')
-					this.tracks.push('focus')
-					this.tracks.push('focus')
-					this.tracks.push('focus')
-					this.tracks.push('focus')
+					// this.loadTracks(page);
 				},
-				clicked () {
-					console.log('--- axios --here', );
-					// http.get(`https://jsonplaceholder.typicode.com/todos/1`)
-					// 	.then(response => response.json())
-					// 	.then(json => console.log(json))
-					// http.request({
-					// 	url: "http://localhost:3000",
-					// 	method: "GET"
-					// }).then((r) => {
-					// 		console.log('--- r', r);
-					// 	},
-					// 	(e) => {
-					// 		console.log('--- e', e);
-					// });
-
-					axios.get('https://jsonplaceholder.typicode.com/todos/1')
-					.then(response => {
-								console.log('--- response', response);
-					})
-					.catch(error => {
-						console.log(error);
-					})
-
-					// fetch("http://localhost:3000/login")
-					// .then((response) => response.json())
-					// .then((r) => {
-					// 		console.log('--- r', r.json);
-					// }).catch((err) => {
-					// });
+				async loadPlaylists (page = 1) {
+					try {
+						const playlists = await PlaylistService.getPlaylists({
+							page
+						});
+						
+						console.log('--- playlists', playlists.data.data);
+						this.playlists = playlists.data.data;
+					} catch (err) {
+						// console.log('--- ', err.response.message);
+					}
+				},
+				async loadTracks (page = 1) {
+					try {
+						const tracks = await TrackService.getTracks({
+							page
+						});
+						
+						this.tracks = tracks.data.data;
+					} catch (err) {
+						console.log('--- ', err.response.message);
+					}
 				}
+			},
+			created () {
+				this.loadPlaylists()
+				this.loadTracks()
 			}
     };
 </script>

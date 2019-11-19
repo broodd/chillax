@@ -20,8 +20,8 @@ new Vue({
 		// Login
 	},
 	// render: h => h(App),
-	
 	// render: h => h('frame', [h(App)]),
+	
 	render: h => h('frame', [h(Wellcome)]),
 	store,
 }).$start();

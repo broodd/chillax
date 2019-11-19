@@ -2,11 +2,11 @@
 	<ScrollView class="playlist-list" orientation="horizontal" scrollBarIndicatorVisible="false" @scroll="onPlayListScroll">
 		<StackLayout orientation="horizontal">
 			<Button
-				v-for="(playlist, key) in playlists"
-				:key="key"
-				@tap="goToPlaylist(key)"
+				v-for="playlist in playlists"
+				:key="playlist._id"
+				@tap="goToPlaylist(playlist._id)"
 				class="playlist-list__btn"
-				:text="playlist + ' ' + (key + 1)"
+				:text="playlist.name"
 			/>
 		</StackLayout>
 	</ScrollView>

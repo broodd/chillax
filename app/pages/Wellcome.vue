@@ -5,7 +5,7 @@
 					
 					<FlexboxLayout class="form__top container" width="100%" row="0">
 						<StackLayout class="row text-center" height="100%">
-							<FlexboxLayout alignItems="center" justifyContent="center" height="100%">
+							<FlexboxLayout alignItems="center" justifyContent="center" height="100%" @tap="checkToken">
 								<Image src="~/assets/img/logo.png"/>
 							</FlexboxLayout>
 						</StackLayout>
@@ -45,14 +45,25 @@
 					Registration,
 				}
 			},
-			created () {
-				const token = appSettings.getString('token');
-				console.log('--- token', token);
+			methods: {
+				checkToken () {
+					try {
+						const token = this.$store.getters.getToken || appSettings.getString('token');
+						console.log('--- token', token);
 
-				if (token) {
-					console.log('--- nav to home', );
-					this.$navigateTo(Home);
+						if (token) {
+							this.$store.dispatch('setToken', token)
+								.then(() => {
+									this.$navigateTo(Home);
+								})
+						}
+					} catch (err) {
+						console.log('--- err', err);
+					}
 				}
+			},
+			created () {
+				this.checkToken()
 			}
     };
 </script>

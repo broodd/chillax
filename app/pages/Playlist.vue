@@ -6,29 +6,18 @@
 					<FlexboxLayout class="container container-fluid playlist__header" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus.jpg')">
 						<StackLayout class="row" height="100%">
 							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="space-around"  height="100%">
-								<Label class="fz-35" :text="name + ' ' + id" @tap="$navigateTo(Home)"/>
+								<Label class="fz-35" :text="playlist.name" @tap="$navigateTo(Home)"/>
 								<FlexboxLayout alignItems="center">
-									<Button class="like my-fa" text.decode="&#xe802;" :class="'active'"/>
+									<Button class="like my-fa" text.decode="&#xe802;" :class="{active: playlist.liked}"/>
 								</FlexboxLayout>
-								<Label class="fz-24" text="author" @tap="goToAuthor(123)"/>
+								<Label class="fz-24" text="author" @tap="goToAuthor(playlist.author)"/>
 							</FlexboxLayout>
 						</StackLayout>
 					</FlexboxLayout>
 
 					<FlexboxLayout class="container container-fluid" width="100%" row="1">
 						<StackLayout class="row">
-								<StackLayout orientation="vertical">
-									<FlexboxLayout v-for="(playlist, key) in tracks" :key="key" class="track" width="100%">
-										<AbsoluteLayout class="track__button">
-											<Button class="track__button__circle" left="28" top="28"/>
-										</AbsoluteLayout>
-										<StackLayout class="track__text">
-											<Label class="track__name" :text="'Focus #' + key" />
-											<Label class="track__author" text="some petro" />
-										</StackLayout>
-										<Button class="like my-fa" text.decode="&#xe802;" :class="{active: key % 2 == 0}"/>
-									</FlexboxLayout>
-								</StackLayout>
+							<TrackScroll :tracks="tracks"/>
 						</StackLayout>
 					</FlexboxLayout>
 
@@ -40,15 +29,19 @@
 <script>
 		import Home from '@/pages/Home';
 		import Author from '@/pages/Author';
-		import axios from 'axios';
+		import TrackScroll from '@/components/TrackScroll';
+		import TrackScrollMixin from '@/mixins/TrackScrollMixin';
+		import TrackService from '@/services/track';
+		import PlaylistService from '@/services/playlist';
 
     export default {
 			props: {
 				id: String
 			},
 			components: {
-				
+				TrackScroll
 			},
+			mixins: [TrackScrollMixin],
 			computed: {
 			},
 			data() {
@@ -56,18 +49,8 @@
 					Home,
 					Author,
 
-					name: 'Focus on one',
-
-					maxTracksScroll: 0,
-					tracksScroll: 0,
-					trackPage: 1,
-					tracks: [
-						'Focus',
-						'Focus',
-						'Focus',
-						'Focus',
-						'Focus',
-					]
+					playlist: {},
+					tracks: []
 				}
 			},
 			methods: {
@@ -78,23 +61,37 @@
 						}
 					})
 				},
-				onTracksScroll (args) {
-					let elWidth = args.object.scrollableHeight;
-					let scroll = args.scrollY
-					this.tracksScroll = scroll
-					if (scroll > this.maxTracksScroll + 10) {
-						this.maxTracksScroll = elWidth;
-						this.trackPage++;
-						if (this.trackPage < 3) {
-							this.tracks.push('focus')
-							this.tracks.push('focus')
-							this.tracks.push('focus')
-							this.tracks.push('focus')
-							this.tracks.push('focus')
-						}
+				onNextPageTrack (page) {
+					this.loadPlaylist(page);
+				},
+				async loadTracks (page = 1) {
+					try {
+						const tracks = await TrackService.getTracks({
+							page
+						});
+						
+						this.tracks = tracks.data.data;
+					} catch (err) {
+						console.log('--- ', err.response.message);
+					}
+				},
+				async loadPlaylist () {
+					try {
+						const playlist = await PlaylistService.getPlaylist({
+							id: this.id
+						});
+						
+						console.log('--- playlists.data.data', playlists.data.data);
+						this.playlist = playlists.data.data;
+					} catch (err) {
+						console.log('--- ', err.response.message);
 					}
 				},
 			},
+			created () {
+				console.log('--- this.id', this.id);
+				this.loadPlaylist();
+			}
     };
 </script>
 
