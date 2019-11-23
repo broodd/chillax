@@ -75,10 +75,9 @@
 							page
 						});
 						
-						console.log('--- playlists', playlists.data.data);
 						this.playlists = playlists.data.data;
 					} catch (err) {
-						// console.log('--- ', err.response.message);
+						console.dir('--- err', err);
 					}
 				},
 				async loadTracks (page = 1) {
@@ -89,7 +88,7 @@
 						
 						this.tracks = tracks.data.data;
 					} catch (err) {
-						console.log('--- ', err.response.message);
+						console.log('--- err', err);
 					}
 				}
 			},

@@ -10,8 +10,9 @@
 						<StackLayout class="row" height="100%">
 							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="flex-end" height="100%">
 								<Image class="author__img" src="~/assets/img/authors/author.png"/>
-								<Label class="fz-24" :text="'author ' + id" @tap="$navigateTo(Home)"/>
-								<Label class="fz-17" :text="'Followers ' + 15"/>
+								<Label class="fz-24" :text="author.profile.name" @tap="$navigateTo(Home)"/>
+								<Label class="fz-17" :text="author.followersCount"/>
+								<Label class="fz-17" :text="id"/>
 							</FlexboxLayout>
 						</StackLayout>
 					</FlexboxLayout>
@@ -36,13 +37,16 @@
 </template>
 
 <script>
-		import axios from 'axios';
 		import Home from './Home';
 		import PlaylistScroll from '@/components/PlaylistScroll';
 		import TrackScroll from '@/components/TrackScroll';
 		import TrackScrollMixin from '@/mixins/TrackScrollMixin';
+		import AthorService from '@/services/user';
+		import PlaylistService from '@/services/playlist';
+		import TrackService from '@/services/track';
 
     export default {
+			name: 'Author',
 			props: {
 				id: String
 			},
@@ -57,44 +61,63 @@
 				return {
 					Home,
 
-					playlists: [
-						'Focus',
-						'Focus',
-						'Focus',
-						'Focus',
-						'Focus',
-						// 'Focus'
-					],
-					tracks: [
-						'Focus',
-						'Focus',
-						'Focus',
-						'Focus',
-						'Focus',
-					]
+					author: {
+						profile: {}
+					},
+					playlists: [],
+					tracks: []
 				}
 			},
 			methods: {
 				onNextPagePlaylist (page) {
-					this.playlists.push('focus')
-					this.playlists.push('focus')
-					this.playlists.push('focus')
-					this.playlists.push('focus')
-					this.playlists.push('focus')
+					this.loadPlaylists(page);
 				},
 				onNextPageTrack (page) {
-					this.tracks.push('focus')
-					this.tracks.push('focus')
-					this.tracks.push('focus')
-					this.tracks.push('focus')
-					this.tracks.push('focus')
+					this.loadTracks(page);
+				},
+				async loadAuthor () {
+					try {
+						const author = await AthorService.getAuthor({
+							id: this.id
+						});
+
+						this.author = author.data.data;
+					} catch (err)  {
+						console.log('--- err', err);
+					}
+				},
+				async loadPlaylists (page = 1) {
+					try {
+						const playlists = await PlaylistService.getPlaylistsByAuthor({
+							id: this.id,
+							page
+						});
+						
+						this.playlists = playlists.data.data;
+					} catch (err) {
+						console.dir('--- err', err);
+					}
+				},
+				async loadTracks (page = 1) {
+					try {
+						const tracks = await TrackService.getTracksByAuthor({
+							id: this.id,
+							page
+						});
+						
+						this.tracks = tracks.data.data;
+					} catch (err) {
+						console.log('--- err', err);
+					}
 				},
 			},
+			async created () {
+				await this.loadAuthor();
+				this.loadPlaylists();
+				this.loadTracks();
+			}
     };
 </script>
 
 <style scoped lang="scss">
-    // Start custom common variables
-    @import '../app-variables';
-    // End custom common variables
 </style>

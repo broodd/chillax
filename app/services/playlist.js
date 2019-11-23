@@ -7,4 +7,11 @@ export default {
 	getPlaylist (params) {
 		return api().get(`playlist/${params.id}`);
 	},
+	getPlaylistsByAuthor (params) {
+		return api().get(`playlists/author/${params.id}`, { params });
+	},
+
+	likePlaylist (params) {
+		return api().put(`playlist/like/${params.id}`);
+	}
 };

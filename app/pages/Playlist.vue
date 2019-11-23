@@ -8,9 +8,9 @@
 							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="space-around"  height="100%">
 								<Label class="fz-35" :text="playlist.name" @tap="$navigateTo(Home)"/>
 								<FlexboxLayout alignItems="center">
-									<Button class="like my-fa" text.decode="&#xe802;" :class="{active: playlist.liked}"/>
+									<Button class="like my-fa" text.decode="&#xe802;" :class="{active: playlist.liked}" @tap="onLikePlaylist"/>
 								</FlexboxLayout>
-								<Label class="fz-24" text="author" @tap="goToAuthor(playlist.author)"/>
+								<Label class="fz-24" :text="'awd'" @tap="goToAuthor()"/>
 							</FlexboxLayout>
 						</StackLayout>
 					</FlexboxLayout>
@@ -49,7 +49,9 @@
 					Home,
 					Author,
 
-					playlist: {},
+					playlist: {
+						author: {}
+					},
 					tracks: []
 				}
 			},
@@ -57,17 +59,34 @@
 				goToAuthor (id) {
 					this.$navigateTo(Author, {
 						props: {
-							id
+							id: this.playlist.author._id
 						}
 					})
 				},
 				onNextPageTrack (page) {
-					this.loadPlaylist(page);
+					this.loadTracks(page);
+				},
+				
+				async loadPlaylist () {
+					try {
+						const playlist = await PlaylistService.getPlaylist({
+							id: this.id
+						});
+						
+						if (playlist.data.data[0]) {
+							this.playlist = playlist.data.data[0];
+						} else {
+							console.log('--- Not found', );
+						}
+					} catch (err) {
+						console.log('--- ', err.response.message);
+					}
 				},
 				async loadTracks (page = 1) {
 					try {
-						const tracks = await TrackService.getTracks({
-							page
+						const tracks = await TrackService.getTracksByPlaylist({
+							id: this.id,
+							page,
 						});
 						
 						this.tracks = tracks.data.data;
@@ -75,22 +94,22 @@
 						console.log('--- ', err.response.message);
 					}
 				},
-				async loadPlaylist () {
+				async onLikePlaylist () {
 					try {
-						const playlist = await PlaylistService.getPlaylist({
+						const liked = await PlaylistService.likePlaylist({
 							id: this.id
 						});
 						
-						console.log('--- playlists.data.data', playlists.data.data);
-						this.playlist = playlists.data.data;
+						this.$set(this.playlist, 'liked', liked.data.data);
+						console.log('--- this.playlist.liked', this.playlist.liked);
 					} catch (err) {
 						console.log('--- ', err.response.message);
 					}
-				},
+				}
 			},
 			created () {
-				console.log('--- this.id', this.id);
 				this.loadPlaylist();
+				this.loadTracks();
 			}
     };
 </script>

@@ -82,6 +82,7 @@
 						} catch (err) {
 							if (err.response && err.response.data && typeof err.response.data.message == 'object') {
 								for (const e of err.response.data.message) {
+									console.log('--- err.response.data', e.field, e.message);
 									this.$set(this.errors, e.field, e.message);
 								}
 							}

@@ -7,10 +7,10 @@ export default () => {
 	const apiClient = axios.create({
 		baseURL: 'http://192.168.0.103:3000',
 		// baseURL: 'https://event-me.herokuapp.com',
-		headers: {
+		headers: { 
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
-			authorization: token
+			authorization: token || undefined
 		}
 	});
 
