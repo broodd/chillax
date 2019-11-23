@@ -16,6 +16,7 @@
 	import Playlist from '@/pages/Playlist';
 
 	export default {
+		name: 'PlaylistScroll',
 		props: {
 			playlists: Array
 		},

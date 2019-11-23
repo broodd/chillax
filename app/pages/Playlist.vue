@@ -3,14 +3,14 @@
 			<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false" @scroll="onTracksScroll">
 				<GridLayout class="" columns="*" rows="300, *">
 					
-					<FlexboxLayout class="container container-fluid playlist__header" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus.jpg')">
+					<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
 						<StackLayout class="row" height="100%">
-							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="space-around"  height="100%">
+							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
 								<Label class="fz-35" :text="playlist.name" @tap="$navigateTo(Home)"/>
+								<Label class="fz-24 my-2" :text="'awd ' + !!playlist.author._id" @tap="goToAuthor()"/>
 								<FlexboxLayout alignItems="center">
 									<Button class="like my-fa" text.decode="&#xe802;" :class="{active: playlist.liked}" @tap="onLikePlaylist"/>
 								</FlexboxLayout>
-								<Label class="fz-24" :text="'awd'" @tap="goToAuthor()"/>
 							</FlexboxLayout>
 						</StackLayout>
 					</FlexboxLayout>
@@ -35,6 +35,7 @@
 		import PlaylistService from '@/services/playlist';
 
     export default {
+			name: 'Playlist',
 			props: {
 				id: String
 			},
@@ -56,7 +57,7 @@
 				}
 			},
 			methods: {
-				goToAuthor (id) {
+				goToAuthor () {
 					this.$navigateTo(Author, {
 						props: {
 							id: this.playlist.author._id

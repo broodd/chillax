@@ -1,30 +1,30 @@
 <template>
 	<StackLayout orientation="vertical">
-		<FlexboxLayout v-for="(track, index) in tracks" :key="track._id" class="track" width="100%">
-			<AbsoluteLayout class="track__button">
-				<Button class="track__button__circle" left="28" top="28"/>
-			</AbsoluteLayout>
-			<StackLayout class="track__text">
-				<Label class="track__name" :text="track.name" />
-			</StackLayout>
-			<Button class="like my-fa" text.decode="&#xe802;" :class="{active: track.liked}" @tap="onLikeTrack(track._id, index)"/>
-		</FlexboxLayout>
+		<Track v-for="(track, index) in tracks" :key="track._id" :index="index" :track="track" class="track" @likeTrack="onLikeTrack" />
 	</StackLayout>
 </template>
 
 <script>
+	import Author from '@/pages/Author';
+	import Track from '@/components/Track';
 	import TrackService from '@/services/track';
 
 	export default {
+		name: 'TrackScroll',
 		props: {
 			tracks: Array
 		},
+		components: {
+			Track
+		},
 		data() {
 			return {
+				Author
 			}
 		},
 		methods: {
 			async onLikeTrack (id, index) {
+				console.log('--- like', );
 				try {
 					const liked = await TrackService.likePlaylist({
 						id
@@ -34,7 +34,14 @@
 				} catch (err) {
 					console.log('--- ', err.response.message);
 				}
-			}
+			},
+			goToAuthor (id) {
+				this.$navigateTo(Author, {
+					props: {
+						id
+					}
+				})
+			},
 		}
 	}
 </script>

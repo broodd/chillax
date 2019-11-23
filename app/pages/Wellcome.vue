@@ -1,5 +1,5 @@
 <template>
-    <Page class="page page--home c-white" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
+    <Page class="page page--home c-white" actionBarHidden="true" backgroundSpanUnderStatusBar="true" androidStatusBarBackground="#51927B">
 			<ScrollView class="panel panel--home" orientation="vertical">
 				<GridLayout class="form bg bg--main" columns="*" rows="*, auto">
 					
@@ -34,6 +34,7 @@
 		
 
     export default {
+			name: 'Wellcome',
 			components: {
 			},
 			computed: {

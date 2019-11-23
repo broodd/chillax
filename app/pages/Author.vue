@@ -4,15 +4,14 @@
 				<Label text="ERRROR" />
 			</AbsoluteLayout>
 			<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false" @scroll="onTracksScroll">
-				<GridLayout class="" columns="*" rows="200, auto, auto, *">
+				<GridLayout class="" columns="*" rows="250, auto, auto, *">
 					
-					<FlexboxLayout class="container container-fluid" width="100%" row="0">
+					<FlexboxLayout class="container container-fluid bg--top" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
 						<StackLayout class="row" height="100%">
-							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="flex-end" height="100%">
+							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center" height="100%">
 								<Image class="author__img" src="~/assets/img/authors/author.png"/>
-								<Label class="fz-24" :text="author.profile.name" @tap="$navigateTo(Home)"/>
+								<Label class="fz-24 my-2" :text="author.profile.name"/>
 								<Label class="fz-17" :text="author.followersCount"/>
-								<Label class="fz-17" :text="id"/>
 							</FlexboxLayout>
 						</StackLayout>
 					</FlexboxLayout>
@@ -37,10 +36,9 @@
 </template>
 
 <script>
-		import Home from './Home';
-		import PlaylistScroll from '@/components/PlaylistScroll';
-		import TrackScroll from '@/components/TrackScroll';
+		// import TrackScroll from '@/components/TrackScroll';
 		import TrackScrollMixin from '@/mixins/TrackScrollMixin';
+		// import PlaylistScroll from '@/components/PlaylistScroll';
 		import AthorService from '@/services/user';
 		import PlaylistService from '@/services/playlist';
 		import TrackService from '@/services/track';
@@ -51,16 +49,14 @@
 				id: String
 			},
 			components: {
-				PlaylistScroll,
-				TrackScroll
+				// TrackScroll,
+				// PlaylistScroll
 			},
 			mixins: [TrackScrollMixin],
 			computed: {
 			},
 			data() {
 				return {
-					Home,
-
 					author: {
 						profile: {}
 					},

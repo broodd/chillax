@@ -1,12 +1,12 @@
 <template>
-    <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
-			<AbsoluteLayout>
-				<Label text="ERRROR" />
-			</AbsoluteLayout>
+    <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true"  androidStatusBarBackground="#04303C">
 			<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false" @scroll="onTracksScroll">
-				<GridLayout class="" columns="*" rows="200, auto, auto, *">
+				<GridLayout class="" columns="*" rows="250, auto, auto, *">
+					<AbsoluteLayout row="0">
+						<Label text="ERRROR" />
+					</AbsoluteLayout>
 					
-					<FlexboxLayout class="container container-fluid" width="100%" row="0">
+					<FlexboxLayout class="container container-fluid bg bg--top home__header" width="100%" row="0">
 						<StackLayout class="row" height="100%">
 							<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
 								<Label class="fz-35" text="Recent playlists"/>
@@ -22,7 +22,7 @@
 					</FlexboxLayout>
 
 					
-					<FlexboxLayout class="container container-fluid" width="100%" row="2">
+					<FlexboxLayout class="container container-fluid my-2" width="100%" row="2">
 						<StackLayout class="row" height="100%">
 							<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
 								<Label class="fz-35" text="Tracks"/>
@@ -42,16 +42,17 @@
 </template>
 
 <script>
-		import PlaylistScroll from '@/components/PlaylistScroll';
-		import TrackScroll from '@/components/TrackScroll';
+		// import PlaylistScroll from '@/components/PlaylistScroll';
+		// import TrackScroll from '@/components/TrackScroll';
 		import TrackScrollMixin from '@/mixins/TrackScrollMixin';
 		import PlaylistService from '@/services/playlist';
 		import TrackService from '@/services/track';
 
     export default {
+			name: 'Home',
 			components: {
-				PlaylistScroll,
-				TrackScroll
+				// PlaylistScroll,
+				// TrackScroll
 			},
 			mixins: [TrackScrollMixin],
 			computed: {
@@ -103,4 +104,20 @@
     // Start custom common variables
     @import '../app-variables';
     // End custom common variables
+
+		.home {
+			&__header {
+				background-image: url('~/assets/img/main_bg_clip.png');
+				background-position: center bottom;
+			}
+		}
+		// 	text-align: center;
+		// 	background-position: center bottom;
+		// 	color: $white;
+		// 	padding-bottom: 20;
+		// }
+
+		.page--home {
+			background-color: #F1F2F5;
+		}
 </style>
