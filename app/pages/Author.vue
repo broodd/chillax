@@ -1,10 +1,10 @@
 <template>
     <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
-			<AbsoluteLayout>
+			<!-- <AbsoluteLayout>
 				<Label text="ERRROR" />
-			</AbsoluteLayout>
-			<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false" @scroll="onTracksScroll">
-				<GridLayout class="" columns="*" rows="250, auto, auto, *">
+			</AbsoluteLayout> -->
+			<VerticalScroll @nextPage="onNextPageTrack">
+				<GridLayout class="" columns="*" rows="250, auto, *">
 					
 					<FlexboxLayout class="container container-fluid bg--top" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
 						<StackLayout class="row" height="100%">
@@ -19,26 +19,28 @@
 
 					<FlexboxLayout class="container container-fluid" width="100%" row="1">
 						<StackLayout class="row">
-							<PlaylistScroll :playlists="playlists" @nextPage="onNextPagePlaylist"/>
+							<HorizontalScroll @nextPage="onNextPagePlaylist" class="playlist-list">
+								<PlaylistButton
+									v-for="playlist in playlists"
+									:key="playlist._id"
+									:playlist="playlist"
+								/>
+							</HorizontalScroll>
 						</StackLayout>
 					</FlexboxLayout>
-
 					
-					<FlexboxLayout class="container container-fluid" width="100%" row="3">
+					<FlexboxLayout class="container container-fluid" width="100%" row="2">
 						<StackLayout class="row">
 							<TrackScroll :tracks="tracks"/>
 						</StackLayout>
 					</FlexboxLayout>
 
 				</GridLayout>
-			</ScrollView>
+			</VerticalScroll>
     </Page>
 </template>
 
 <script>
-		// import TrackScroll from '@/components/TrackScroll';
-		import TrackScrollMixin from '@/mixins/TrackScrollMixin';
-		// import PlaylistScroll from '@/components/PlaylistScroll';
 		import AthorService from '@/services/user';
 		import PlaylistService from '@/services/playlist';
 		import TrackService from '@/services/track';
@@ -49,10 +51,7 @@
 				id: String
 			},
 			components: {
-				// TrackScroll,
-				// PlaylistScroll
 			},
-			mixins: [TrackScrollMixin],
 			computed: {
 			},
 			data() {

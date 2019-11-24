@@ -1,6 +1,6 @@
 <template>
     <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true"  androidStatusBarBackground="#04303C">
-			<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false" @scroll="onTracksScroll">
+			<VerticalScroll @nextPage="onNextPageTrack">
 				<GridLayout class="" columns="*" rows="250, auto, auto, *">
 					<AbsoluteLayout row="0">
 						<Label text="ERRROR" />
@@ -17,7 +17,13 @@
 
 					<FlexboxLayout class="container container-fluid" width="100%" row="1">
 						<StackLayout class="row">
-							<PlaylistScroll :playlists="playlists" @nextPage="onNextPagePlaylist"/>
+							<HorizontalScroll @nextPage="onNextPagePlaylist" class="playlist-list">
+								<PlaylistButton
+									v-for="playlist in playlists"
+									:key="playlist._id"
+									:playlist="playlist"
+								/>
+							</HorizontalScroll>
 						</StackLayout>
 					</FlexboxLayout>
 
@@ -37,24 +43,20 @@
 					</FlexboxLayout>
 
 				</GridLayout>
-			</ScrollView>
+			</VerticalScroll>
     </Page>
 </template>
 
 <script>
-		// import PlaylistScroll from '@/components/PlaylistScroll';
-		// import TrackScroll from '@/components/TrackScroll';
-		import TrackScrollMixin from '@/mixins/TrackScrollMixin';
+		import TrackScroll from '@/components/TrackScroll';
 		import PlaylistService from '@/services/playlist';
 		import TrackService from '@/services/track';
 
     export default {
 			name: 'Home',
 			components: {
-				// PlaylistScroll,
-				// TrackScroll
+				TrackScroll,
 			},
-			mixins: [TrackScrollMixin],
 			computed: {
 			},
 			data() {
@@ -65,9 +67,11 @@
 			},
 			methods: {
 				onNextPagePlaylist (page) {
+					console.log('--- more', );
 					// this.loadPlaylists(page);
 				},
 				onNextPageTrack (page) {
+					console.log('--- more tracks', );
 					// this.loadTracks(page);
 				},
 				async loadPlaylists (page = 1) {

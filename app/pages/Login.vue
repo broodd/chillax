@@ -53,7 +53,7 @@
 						errors: {
 							email: '',
 							password: ''
-						},
+						}
 					}
 				},
 				methods: {

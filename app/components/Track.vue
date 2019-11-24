@@ -1,17 +1,19 @@
 <template>
-	<FlexboxLayout class="track">
-		<AbsoluteLayout class="track__button" @tap="state = !state">
-			<Button class="track__button__circle" left="28" top="28" :class="{ active: state }"/>
+	<FlexboxLayout class="track" :class="{ active: stage }">
+		<AbsoluteLayout class="track__button" @tap="stage = !stage">
+			<Label class="track__button__circle" left="28" top="28"/>
 		</AbsoluteLayout>
 		<StackLayout class="track__text">
 			<Label class="track__name" :text="track.name" />
-			<Label class="track__author" :text="'petro' + !!track.author._id" @tap="goToAuthor(track.author._id)"/>
+			<Label class="track__author" :text="'petro' + !!track.author._id" @tap="goToAuthor()"/>
 		</StackLayout>
 		<Button class="like my-fa" text.decode="&#xe802;" :class="{ active: track.liked }" @tap="$emit('likeTrack', track._id, index)"/>
 	</FlexboxLayout>
 </template>
 
 <script>
+	import Author from '@/pages/Author';
+
 	export default {
 		name: 'Track',
 		props: {
@@ -20,10 +22,17 @@
 		},
 		data () {
 			return {
-				state: false
+				stage: false
 			}
 		},
 		methods: {
+			goToAuthor () {
+				this.$navigateTo(Author, {
+					props: {
+						id: this.track.author._id
+					}
+				})
+			}
 		}
 	}
 </script>

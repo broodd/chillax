@@ -6,7 +6,7 @@
 					<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
 						<StackLayout class="row" height="100%">
 							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
-								<Label class="fz-35" :text="playlist.name" @tap="$navigateTo(Home)"/>
+								<Label class="fz-35" :text="playlist.name" @tap="$navigateTo(AddPlaylist)"/>
 								<Label class="fz-24 my-2" :text="'awd ' + !!playlist.author._id" @tap="goToAuthor()"/>
 								<FlexboxLayout alignItems="center">
 									<Button class="like my-fa" text.decode="&#xe802;" :class="{active: playlist.liked}" @tap="onLikePlaylist"/>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-		import Home from '@/pages/Home';
+		import AddPlaylist from '@/pages/AddPlaylist';
 		import Author from '@/pages/Author';
 		import TrackScroll from '@/components/TrackScroll';
 		import TrackScrollMixin from '@/mixins/TrackScrollMixin';
@@ -47,7 +47,7 @@
 			},
 			data() {
 				return {
-					Home,
+					AddPlaylist,
 					Author,
 
 					playlist: {

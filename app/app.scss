@@ -10,6 +10,7 @@
 
 .page {
 	background-color: $cream-bg;
+	// color: rgb(94, 94, 94);
 }
 
 .bg--top {
@@ -93,16 +94,22 @@
 	padding: 10 20;
 	margin-bottom: 0;
 	text-align: left;
+	
+	&--green {
+		background-color: $green;
+		color: $white;
+		placeholder-color: $white;;
+	}
 }
 
-.field {
-	width: 100%;
-	background-color: $white;
-	text-align: left;
-	color: $black;
-	border-radius: 28;
-	padding: 10 20;
-}
+// .field {
+// 	width: 100%;
+// 	background-color: $white;
+// 	text-align: left;
+// 	color: $black;
+// 	border-radius: 28;
+// 	padding: 10 20;
+// }
 
 .btn {
 	width: 100%;
@@ -156,23 +163,35 @@
 	}
 }
 
+
 .track {
 	margin-bottom: 10;
 	align-items: center;
 	justify-content: space-between;
+
+	&.active {
+		.track__button__circle {
+			border-radius: 0;
+		}	
+	}
+
 	&__button {
 		border-radius: 50%;
 		width: 80;
 		height: 80;
-		background-image: url('~/assets/img/tracks/cover.jpg');
+		background-color: $grey;
+		// background-image: url('~/assets/img/tracks/cover.jpg');
 		background-repeat: no-repeat;
 		background-size: cover;
+		transition: all 400ms ease;
 
 		&__circle {
 			border-radius: 50%;
 			width: 24;
 			height: 24;
 			background-color: $cream-bg;
+			color: $black;
+			font-size: 29;
 		}
 	}
 
@@ -188,6 +207,37 @@
 	}
 }
 
+.template {
+	&__btn {
+		margin-right: 10;
+		margin-left: 0;
+		justify-content: center;
+		align-items: center;
+		width: 160;
+		height: 160;
+		font-size: 22;
+		letter-spacing: 0.2;
+		color: $white;
+		border-radius: 10;
+		background-size: cover;
+		border: 10 solid $green;
+
+		&.active {
+			.template__text {
+				background-color: rgba(0, 0, 0, 0.7);
+			}
+		}
+	}
+	&__text {
+		margin: 0;
+		padding: 8 15;
+		text-transform: uppercase;
+		border-radius: 5;
+		font-size: 17;
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+}
+
 .like {
 	width: 50;
 	height: 50;
@@ -198,6 +248,12 @@
 	android-elevation: 0;
 	&.active {
 		color: $tomato;
+	}
+	&.add {
+		font-size: 30;
+		&.active {
+			color: $green;
+		}
 	}
 }
 
