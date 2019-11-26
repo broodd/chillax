@@ -64,6 +64,7 @@
 		// import TrackScroll from '@/components/TrackScroll';
 		import TrackService from '@/services/track';
 		import PlaylistService from '@/services/playlist';
+		import TemplateService from '@/services/template';
 
     export default {
 			name: 'AddPlaylist',
@@ -96,18 +97,15 @@
 					templates: [
 						{
 							name: 'blue',
-							img: 'blue.jpg',
-							active: false
+							img: 'blue.jpg'
 						},
 						{
 							name: 'green',
-							img: 'green.jpg',
-							active: false
+							img: 'green.jpg'
 						},
 						{
 							name: 'pink',
-							img: 'pink.jpg',
-							active: false
+							img: 'pink.jpg'
 						}
 					]
 				}
@@ -127,10 +125,22 @@
 					this.selectedTemplate = index;
 
 					this.image = `http://192.168.0.103:3000/static-tracks/${this.templates[index].img}`;
+				},
+				async loadTemplates (page = 1) {
+					try {
+						const templates = await TemplateService.getTemplates({
+							page
+						});
+						
+						this.templates = templates;
+					} catch (err) {
+						console.log('--- err', err);
+					}
 				}
 			},
-			created () {
+			async created () {
 				// fetch templates
+				await this.
 			}
     };
 </script>
