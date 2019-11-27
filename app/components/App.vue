@@ -1,7 +1,7 @@
 <template>
 	<Frame>
-		<Home v-if="token"/>
-		<Wellcome v-else/>
+		<Wellcome v-if="!token"/>
+		<Home v-else/>
 	</Frame>
 </template>
 
@@ -23,7 +23,7 @@
 		},
 		computed: {
 			token () {
-				return this.$store.getters.getToken || appSettings.getString('token');
+				return appSettings.getString('token') || '';
 			}
 		}
 	}

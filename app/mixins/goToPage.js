@@ -7,7 +7,7 @@ export default {
         transition: {
 					name: "fade",
           duration: 250,
-          curve: "easeInOut"
+          curve: "easeIn"
         }
       });
     }

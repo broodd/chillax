@@ -3,10 +3,6 @@
 			<GridLayout columns="*" rows="*, auto" height="100%">
 				<VerticalScroll @nextPage="onNextPageTrack">
 					<GridLayout class="" columns="*" rows="250, auto, auto, *">
-						<AbsoluteLayout row="0">
-							<Label text="ERRROR" />
-						</AbsoluteLayout>
-						
 						<FlexboxLayout class="container container-fluid bg bg--top home__header" width="100%" row="0">
 							<StackLayout class="row" height="100%">
 								<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
@@ -37,6 +33,7 @@
 							</StackLayout>
 						</FlexboxLayout>
 
+
 						<FlexboxLayout class="container container-fluid" width="100%" row="3">
 							<StackLayout class="row">
 								<TrackScroll :tracks="tracks"/>
@@ -44,15 +41,14 @@
 						</FlexboxLayout>
 					</GridLayout>
 				</VerticalScroll>
-				<!-- <FlexboxLayout row="7" alignItems="center" flexDirection="row" id="bottom-nav"> -->
-				<GridLayout row="4" rows="*" columns="*">
-					<FlexboxLayout class="nav" columns="4">
-						<Label row="0" col="0" text="Home" class="my-fa active"></Label>
-						<Label row="0" col="1" text="Liked" class="my-fa" @tap="goToLiked()"></Label>
-						<Label row="0" col="2" text="Me" class="my-fa" @tap="goToMe()"></Label>
-						<Label row="0" col="3" text="Add" class="my-fa"></Label>
-					</FlexboxLayout>
+
+				<GridLayout class="nav" row="4" rows="*" columns="*, *, *, *">
+					<Label row="0" col="0" text.decode="&#xe801;" class="my-fa active">
+					<Label row="0" col="1" text="Liked" class="my-fa" @tap="goToLiked()"></Label>
+					<Label row="0" col="2" text="Me" class="my-fa" @tap="goToMe()"></Label>
+					<Label row="0" col="3" text="Add" class="my-fa"></Label>
 				</GridLayout>
+				
 			</GridLayout>
     </Page>
 </template>
@@ -87,10 +83,11 @@
 						const playlists = await PlaylistService.getPlaylists({
 							page
 						});
-						
-						this.playlists = playlists.data.data;
+
+						if (playlists.data)
+							this.playlists = playlists.data.data;
 					} catch (err) {
-						console.dir('--- err', err);
+						console.log('--- err', err);
 					}
 				},
 				async loadTracks (page = 1) {
@@ -98,8 +95,9 @@
 						const tracks = await TrackService.getTracks({
 							page
 						});
-						
-						this.tracks = tracks.data.data;
+
+						if (tracks.data)
+							this.tracks = tracks.data.data;
 					} catch (err) {
 						console.log('--- err', err);
 					}

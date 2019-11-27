@@ -27,7 +27,7 @@ const actions = {
 
 const getters = {
 	getToken: (state) => {
-		return state.token;
+		return state.token || appSettings.getString('token');
 	}
 }
 
