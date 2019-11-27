@@ -20,7 +20,7 @@
 
 							<Label class="fz-17" text="Select image"/>
 
-							<HorizontalScroll>
+							<HorizontalScroll @nextPage="loadTemplates">
 								<FlexboxLayout
 									v-for="(template, key) in templates"
 									class="template__btn"
@@ -94,20 +94,7 @@
 
 					image: '~/assets/img/playlists/focus_more_big_clip.png',
 					selectedTemplate: 0,
-					templates: [
-						{
-							name: 'blue',
-							img: 'blue.jpg'
-						},
-						{
-							name: 'green',
-							img: 'green.jpg'
-						},
-						{
-							name: 'pink',
-							img: 'pink.jpg'
-						}
-					]
+					templates: []
 				}
 			},
 			methods: {
@@ -140,7 +127,7 @@
 			},
 			async created () {
 				// fetch templates
-				await this.
+				await this.loadTemplates();
 			}
     };
 </script>

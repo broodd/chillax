@@ -27,10 +27,8 @@
 </template>
 
 <script>
-		const appSettings = require("tns-core-modules/application-settings");
 		import Login from '@/pages/Login';
 		import Registration from '@/pages/Registration';
-		import Home from '@/pages/Home';
 		
 
     export default {
@@ -41,30 +39,9 @@
 			},
 			data() {
 				return {
-					Home,
 					Login,
 					Registration,
 				}
-			},
-			methods: {
-				checkToken () {
-					try {
-						const token = this.$store.getters.getToken || appSettings.getString('token');
-						console.log('--- token', token);
-
-						if (token) {
-							this.$store.dispatch('setToken', token)
-								.then(() => {
-									this.$navigateTo(Home);
-								})
-						}
-					} catch (err) {
-						console.log('--- err', err);
-					}
-				}
-			},
-			created () {
-				this.checkToken()
 			}
     };
 </script>

@@ -16,17 +16,18 @@ import TrackScroll from '@/components/TrackScroll';
 Vue.component('TrackScroll', TrackScroll);
 
 import App from './components/App';
-import Wellcome from "@/pages/Wellcome";
+// import Wellcome from "@/pages/Wellcome";
 
 new Vue({
 	components: {
-		Wellcome,
-		// App,
+		// Wellcome,
+		App,
 	},
 	// render: h => h(App),
 	// render: h => h('frame', [h(App)]),
 	
-	render: h => h('frame', [h(Wellcome)]),
+	// render: h => h('frame', [h(Wellcome)]),
+	render: h => h('frame', [h(App)]),
 	store,
 }).$start();
 

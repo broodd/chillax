@@ -1,38 +1,13 @@
 <template>
-	<!-- <Frame> -->
-		<Wellcome />
-		<!-- <Button text="ERROR"></Button> -->
-	<!-- </Frame> -->
-
-	<!-- <BottomNavigation>
-		<TabStrip v-if="false">
-			<TabStripItem>
-				<Label text="Home"></Label>
-			</TabStripItem>
-			<TabStripItem>
-				<Label text="Login"></Label>
-			</TabStripItem>
-		</TabStrip>
-
-		<TabContentItem>
-			<Frame>
-				<Wellcome />
-			</Frame>
-		</TabContentItem>
-
-		<TabContentItem>
-			<Frame>
-				<Login />
-			</Frame>
-		</TabContentItem>
-	</BottomNavigation> -->
+	<Home v-if="token"/>
+	<Wellcome v-else/>
 </template>
 
 
 <script>
+	const appSettings = require("tns-core-modules/application-settings");
 	import Wellcome from '@/pages/Wellcome';
 	import Home from '@/pages/Home';
-	import Login from '@/pages/Login';
 
 	export default {
 		components: {
@@ -43,6 +18,11 @@
 		data () {
 			return {
 				
+			}
+		},
+		computed: {
+			token () {
+				return this.$store.getters.getToken || appSettings.getString('token');
 			}
 		}
 	}
