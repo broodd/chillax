@@ -1,12 +1,12 @@
 <template>
     <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
-			<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false" @scroll="onTracksScroll">
+			<VerticalScroll @nextPage="onNextPageTrack">
 				<GridLayout class="" columns="*" rows="300, *">
 					
 					<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
 						<StackLayout class="row" height="100%">
 							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
-								<Label class="fz-35" :text="playlist.name" @tap="$navigateTo(AddPlaylist)"/>
+								<Label class="fz-35" :text="playlist.name" @tap="$goToPage(AddPlaylist)"/>
 								<Label class="fz-24 my-2" :text="'awd ' + !!playlist.author._id" @tap="goToAuthor()"/>
 								<FlexboxLayout alignItems="center">
 									<Button class="like my-fa" text.decode="&#xe802;" :class="{active: playlist.liked}" @tap="onLikePlaylist"/>
@@ -22,15 +22,13 @@
 					</FlexboxLayout>
 
 				</GridLayout>
-			</ScrollView>
+			</VerticalScroll>
     </Page>
 </template>
 
 <script>
 		import AddPlaylist from '@/pages/AddPlaylist';
 		import Author from '@/pages/Author';
-		import TrackScroll from '@/components/TrackScroll';
-		import TrackScrollMixin from '@/mixins/TrackScrollMixin';
 		import TrackService from '@/services/track';
 		import PlaylistService from '@/services/playlist';
 
@@ -39,10 +37,6 @@
 			props: {
 				id: String
 			},
-			components: {
-				TrackScroll
-			},
-			mixins: [TrackScrollMixin],
 			computed: {
 			},
 			data() {
@@ -58,10 +52,8 @@
 			},
 			methods: {
 				goToAuthor () {
-					this.$navigateTo(Author, {
-						props: {
-							id: this.playlist.author._id
-						}
+					this.$goToPage(Author, {
+						id: this.playlist.author._id
 					})
 				},
 				onNextPageTrack (page) {

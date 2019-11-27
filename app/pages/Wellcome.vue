@@ -14,10 +14,10 @@
 
 					<FlexboxLayout class="form__bottom container pb-4" width="100%" row="1">
 						<StackLayout class="row text-center">
-							<Button class="btn green" text="Sign in" @tap="$navigateTo(Login)" />
-							<Button class="btn green" text="Home" @tap="$navigateTo(Home)" />
+							<Button class="btn green" text="Sign in" @tap="$goToPage(Login)" />
+							<Button class="btn green" text="Home" @tap="$goToPage(Home)" />
 							
-							<Label class="mt-2 new-account" text="New Account?" @tap="$navigateTo(Registration)" />
+							<Label class="mt-2 new-account" text="New Account?" @tap="$goToPage(Registration)" />
 						</StackLayout>
 					</FlexboxLayout>
 
@@ -40,7 +40,7 @@
 			data() {
 				return {
 					Login,
-					Registration,
+					Registration
 				}
 			}
     };

@@ -1,6 +1,8 @@
 <template>
-	<Home v-if="token"/>
-	<Wellcome v-else/>
+	<Frame>
+		<Home v-if="token"/>
+		<Wellcome v-else/>
+	</Frame>
 </template>
 
 
@@ -12,8 +14,7 @@
 	export default {
 		components: {
 			Wellcome,
-			Home,
-			Login
+			Home
 		},
 		data () {
 			return {
