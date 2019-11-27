@@ -102,6 +102,13 @@
 	}
 }
 
+.input {
+	border-color: red;
+	&.error {
+		border-bottom-color: $tomato;
+	}
+}
+
 // .field {
 // 	width: 100%;
 // 	background-color: $white;

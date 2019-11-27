@@ -26,14 +26,14 @@
 									class="template__btn"
 									:class="{ active: key == selectedTemplate }"
 									:key="key"
-									:backgroundImage="`http://192.168.0.103:3000/static-tracks/${template.img}`"
+									:backgroundImage="`http://192.168.0.103:3000/static/tracks/${template.img}.jpg`"
 									@tap="selectTemplate(key)"
 								>
 									<Label class="template__text" :text="key == selectedTemplate ? '✔️' : template.name"/>
 								</FlexboxLayout>
 							</HorizontalScroll>
 
-							<Button class="btn green shadow" text="Done" @tap="stage = !stage"/>
+							<Button v-if="playlist.name" class="btn green shadow" text="Done" @tap="stage = !stage"/>
 
 						</StackLayout>
 					</FlexboxLayout>
@@ -41,14 +41,16 @@
 					<FlexboxLayout v-if="stage" class="container container-fluid" width="100%" row="1">
 						<StackLayout class="row">
 							<FlexboxLayout v-for="(track, key) in tracks" :key="key" class="track">
-								<AbsoluteLayout class="track__button" :backgroundImage="track.stage ? image : ''">
+								<AbsoluteLayout class="track__button" :backgroundImage="track.img" @tap="uploadTrackFile(key)">
 									<Label class="track__button__circle" left="28" top="28"/>
 								</AbsoluteLayout>
 								<StackLayout class="track__text">
 									<Label v-if="track.stage" class="track__name" :text="track.name" />
-									<TextField v-else class="input" v-model="track.name" hint="track name"/>
+									<template v-else>
+										<TextField class="input" v-model="track.name" hint="track name"/>
+									</template>
 								</StackLayout>
-								<Button v-if="!track.stage" class="like my-fa add active" text.decode="&#xe805;" @tap="track.stage = !track.stage"/>
+								<Button v-if="!track.stage && (track.name && track.img)" class="like my-fa add active" text.decode="&#xe805;" @tap="addTrack(track)"/>
 							</FlexboxLayout>
 							</StackLayout>
 					</FlexboxLayout>
@@ -87,7 +89,12 @@
 					tracks: [
 						{
 							name: '',
-							stage: false
+							img: '',
+							stage: false,
+							errors: {
+								name: true,
+								img: false
+							}
 						}
 					],
 
@@ -96,17 +103,17 @@
 					templates: [
 						{
 							name: 'blue',
-							img: 'blue.jpg',
+							img: 'blue',
 							active: false
 						},
 						{
 							name: 'green',
-							img: 'green.jpg',
+							img: 'green',
 							active: false
 						},
 						{
 							name: 'pink',
-							img: 'pink.jpg',
+							img: 'pink',
 							active: false
 						}
 					]
@@ -126,7 +133,23 @@
 				selectTemplate (index) {
 					this.selectedTemplate = index;
 
-					this.image = `http://192.168.0.103:3000/static-tracks/${this.templates[index].img}`;
+					this.image = `http://192.168.0.103:3000/static/tracks/${this.templates[index].img}.jpg`;
+				},
+				uploadTrackFile (index) {
+					const track = this.tracks[index];
+
+					this.$set(track, 'img', this.image);
+				},
+				addTrack (track) {
+					if (track.name && track.img) {
+						this.$set(track, 'stage', true);
+
+						this.tracks.push({
+							name: '',
+							img: '',
+							stage: false
+						})
+					}
 				}
 			},
 			created () {
