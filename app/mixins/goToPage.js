@@ -5,9 +5,9 @@ export default {
         props,
         animated: true,
         transition: {
-          name: "slideLeft",
+					name: "fade",
           duration: 250,
-          curve: "easeIn"
+          curve: "easeInOut"
         }
       });
     }

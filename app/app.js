@@ -3,7 +3,7 @@ import store from '@/store';
 
 // Global mixins
 import goToPage from '@/mixins/goToPage';
-Vue.use(goToPage);
+Vue.mixin(goToPage);
 
 // My global components
 import HorizontalScroll from '@/components/HorizontalScroll';
@@ -19,17 +19,13 @@ import TrackScroll from '@/components/TrackScroll';
 Vue.component('TrackScroll', TrackScroll);
 
 import App from './components/App';
+// import App from './components/App';
 
 new Vue({
 	components: {
-		// Wellcome,
 		App,
 	},
 	render: h => h(App),
-	// render: h => h('frame', [h(App)]),
-	
-	// render: h => h('frame', [h(Wellcome)]),
-	// render: h => h('frame', [h(App)]),
 	store
 }).$start();
 

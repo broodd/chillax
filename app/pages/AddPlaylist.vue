@@ -13,7 +13,6 @@
 
 					<FlexboxLayout v-if="!stage" class="container container-fluid" width="100%" row="1">
 						<StackLayout class="row">
-							<!-- <TrackScroll :tracks="tracks"/> -->
 
 							<TextField class="field field--green" v-model="playlist.name" hint="input playlist name" @focus="clearErrors('name')"/>
 							<Label class="error error--field" :text="errors.name" />
@@ -26,7 +25,7 @@
 									class="template__btn"
 									:class="{ active: key == selectedTemplate }"
 									:key="key"
-									:backgroundImage="`http://192.168.0.103:3000/static/tracks/${template.img}.jpg`"
+									:backgroundImage="`http://192.168.0.104:3000/static/tracks/${template.img}.jpg`"
 									@tap="selectTemplate(key)"
 								>
 									<Label class="template__text" :text="key == selectedTemplate ? '✔️' : template.name"/>
@@ -51,8 +50,11 @@
 									</template>
 								</StackLayout>
 								<Button v-if="!track.stage && (track.name && track.img)" class="like my-fa add active" text.decode="&#xe805;" @tap="addTrack(track)"/>
+								<Button v-if="track.stage" class="like my-fa add active" text.decode="&#xe801;" @tap="deleteTrack(key)"/>
 							</FlexboxLayout>
-							</StackLayout>
+
+							<Button v-if="tracks.length > 1" class="btn green shadow" text="Done" @tap="postPlaylist"/>
+						</StackLayout>
 					</FlexboxLayout>
 
 				</GridLayout>
@@ -118,7 +120,7 @@
 				selectTemplate (index) {
 					this.selectedTemplate = index;
 
-					this.image = `http://192.168.0.103:3000/static/tracks/${this.templates[index].img}.jpg`;
+					this.image = `http://192.168.0.104:3000/static/tracks/${this.templates[index].img}.jpg`;
 				},
 				uploadTrackFile (index) {
 					const track = this.tracks[index];
@@ -136,13 +138,19 @@
 						})
 					}
 				},
+				deleteTrack (index) {
+					this.tracks.splice(index, 1);
+				},
+				async postPlaylist () {
+					
+				},
 				async loadTemplates (page = 1) {
 					try {
 						const templates = await TemplateService.getTemplates({
 							page
 						});
 						
-						this.templates = templates;
+						this.templates = templates.data.data;
 					} catch (err) {
 						console.log('--- err', err);
 					}
@@ -151,6 +159,7 @@
 			async created () {
 				// fetch templates
 				await this.loadTemplates();
+				this.selectTemplate(0);
 			}
     };
 </script>

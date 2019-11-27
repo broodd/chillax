@@ -1,59 +1,59 @@
 <template>
     <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true"  androidStatusBarBackground="#04303C">
-			<VerticalScroll @nextPage="onNextPageTrack">
-				<GridLayout class="" columns="*" rows="250, auto, auto, *, auto">
-					<AbsoluteLayout row="0">
-						<Label text="ERRROR" />
-					</AbsoluteLayout>
-					
-					<FlexboxLayout class="container container-fluid bg bg--top home__header" width="100%" row="0">
-						<StackLayout class="row" height="100%">
-							<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
-								<Label class="fz-35" text="Recent playlists"/>
-							</FlexboxLayout>
-						</StackLayout>
-					</FlexboxLayout>
+			<GridLayout columns="*" rows="*, auto" height="100%">
+				<VerticalScroll @nextPage="onNextPageTrack">
+					<GridLayout class="" columns="*" rows="250, auto, auto, *">
+						<AbsoluteLayout row="0">
+							<Label text="ERRROR" />
+						</AbsoluteLayout>
+						
+						<FlexboxLayout class="container container-fluid bg bg--top home__header" width="100%" row="0">
+							<StackLayout class="row" height="100%">
+								<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
+									<Label class="fz-35" text="Recent playlists"/>
+								</FlexboxLayout>
+							</StackLayout>
+						</FlexboxLayout>
 
 
-					<FlexboxLayout class="container container-fluid" width="100%" row="1">
-						<StackLayout class="row">
-							<HorizontalScroll @nextPage="onNextPagePlaylist" class="playlist-list">
-								<PlaylistButton
-									v-for="playlist in playlists"
-									:key="playlist._id"
-									:playlist="playlist"
-								/>
-							</HorizontalScroll>
-						</StackLayout>
-					</FlexboxLayout>
+						<FlexboxLayout class="container container-fluid" width="100%" row="1">
+							<StackLayout class="row">
+								<HorizontalScroll @nextPage="onNextPagePlaylist" class="playlist-list">
+									<PlaylistButton
+										v-for="playlist in playlists"
+										:key="playlist._id"
+										:playlist="playlist"
+									/>
+								</HorizontalScroll>
+							</StackLayout>
+						</FlexboxLayout>
 
-					
-					<FlexboxLayout class="container container-fluid my-2" width="100%" row="2">
-						<StackLayout class="row" height="100%">
-							<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
-								<Label class="fz-35" text="Tracks"/>
-							</FlexboxLayout>
-						</StackLayout>
-					</FlexboxLayout>
+						
+						<FlexboxLayout class="container container-fluid my-2" width="100%" row="2">
+							<StackLayout class="row" height="100%">
+								<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
+									<Label class="fz-35" text="Tracks"/>
+								</FlexboxLayout>
+							</StackLayout>
+						</FlexboxLayout>
 
-					<FlexboxLayout class="container container-fluid" width="100%" row="3">
-						<StackLayout class="row">
-							<TrackScroll :tracks="tracks"/>
-						</StackLayout>
-					</FlexboxLayout>
-					
-					<!-- <FlexboxLayout row="7" alignItems="center" flexDirection="row" id="bottom-nav"> -->
-					<GridLayout row="4" rows="*" columns="*">
-						<GridLayout row="0" col="0" rows="*" columns="*, *, *, *, *"
-							class="nav">
-								<Label row="0" col="0" text="Home" class="my-fa active"></Label>
-								<Label row="0" col="1" text="Liked" class="my-fa" @tap="goToLiked()"></Label>
-								<Label row="0" col="2" text="Me" class="my-fa" @tap="goToMe()"></Label>
-								<Label row="0" col="3" text="Add" class="my-fa"></Label>
-						</GridLayout>
+						<FlexboxLayout class="container container-fluid" width="100%" row="3">
+							<StackLayout class="row">
+								<TrackScroll :tracks="tracks"/>
+							</StackLayout>
+						</FlexboxLayout>
 					</GridLayout>
+				</VerticalScroll>
+				<!-- <FlexboxLayout row="7" alignItems="center" flexDirection="row" id="bottom-nav"> -->
+				<GridLayout row="4" rows="*" columns="*">
+					<FlexboxLayout class="nav" columns="4">
+						<Label row="0" col="0" text="Home" class="my-fa active"></Label>
+						<Label row="0" col="1" text="Liked" class="my-fa" @tap="goToLiked()"></Label>
+						<Label row="0" col="2" text="Me" class="my-fa" @tap="goToMe()"></Label>
+						<Label row="0" col="3" text="Add" class="my-fa"></Label>
+					</FlexboxLayout>
 				</GridLayout>
-			</VerticalScroll>
+			</GridLayout>
     </Page>
 </template>
 

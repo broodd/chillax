@@ -5,7 +5,7 @@ export default () => {
 	const token = store.getters.getToken;
 
 	const apiClient = axios.create({
-		baseURL: 'http://192.168.0.103:3000',
+		baseURL: 'http://192.168.0.104:3000',
 		// baseURL: 'https://event-me.herokuapp.com',
 		headers: { 
 			Accept: 'application/json',
@@ -14,15 +14,21 @@ export default () => {
 		}
 	});
 
-	// apiClient.interceptors.response.use(response => {
-	// 	return response
-	// },
-	// 	error => {
-	// 		if (error.response)
-	// 			console.error('--- Server error ---', error.response.data);
-	// 		return error
-	// 	}
-	// );
+	apiClient.interceptors.response.use(response => {
+		return response
+	},
+		error => {
+			if (error.response)
+				console.error('--- Server error ---', error.response);
+			if (error.response.status === 401) {
+				store.dispatch('setToken', '')
+					.then(() => {
+						console.log('--- empty token', );
+					})
+			}
+			return error
+		}
+	);
 
 	// axios.interceptors.response.use((response) => {
 	// 	return response;

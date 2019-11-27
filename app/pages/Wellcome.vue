@@ -5,7 +5,7 @@
 					
 					<FlexboxLayout class="form__top container" width="100%" row="0">
 						<StackLayout class="row text-center" height="100%">
-							<FlexboxLayout alignItems="center" justifyContent="center" height="100%" @tap="checkToken">
+							<FlexboxLayout alignItems="center" justifyContent="center" height="100%">
 								<Image src="~/assets/img/logo.png"/>
 							</FlexboxLayout>
 						</StackLayout>
@@ -28,8 +28,8 @@
 
 <script>
 		import Login from '@/pages/Login';
-		import Registration from '@/pages/Registration';
-		
+		import Registration from '@/pages/Registration';		
+		import Home from '@/pages/Home';		
 
     export default {
 			name: 'Wellcome',
@@ -40,7 +40,8 @@
 			data() {
 				return {
 					Login,
-					Registration
+					Registration,
+					Home
 				}
 			}
     };
