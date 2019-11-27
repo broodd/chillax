@@ -13,7 +13,7 @@
 
 					<FlexboxLayout class="form__bottom container pb-4" width="100%" row="1">
 						<StackLayout class="row text-center">
-							<Button class="close my-fa" text.decode="&#xe801;" @tap="$navigateTo(Wellcome)" />
+							<Button class="close my-fa" text.decode="&#xe801;" @tap="$goToPage(Wellcome)" />
 
 							<TextField class="field" v-model="email" hint="email" keyboardType="email" @focus="clearErrors('email')"/>
 							<Label class="error error--field" :text="errors.email" />
@@ -23,7 +23,7 @@
 
 							<Button class="btn green shadow" text="Sign in" @tap="onLogin" />
 							
-							<Label class="mt-2 new-account" text="New Account?" @tap="$navigateTo(Registration)" />
+							<Label class="mt-2 new-account" text="New Account?" @tap="$goToPage(Registration)" />
 						</StackLayout>
 					</FlexboxLayout>
 					
@@ -78,7 +78,7 @@
 
 							this.$store.dispatch('setToken', response.data.token)
 								.then(() => {
-									this.$navigateTo(Home);
+									this.$goToPage(Home);
 								});
 						} catch (err) {
 							if (err.response && err.response.data && typeof err.response.data.message == 'object') {

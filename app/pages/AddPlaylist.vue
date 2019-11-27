@@ -20,7 +20,7 @@
 
 							<Label class="fz-17" text="Select image"/>
 
-							<HorizontalScroll>
+							<HorizontalScroll @nextPage="loadTemplates">
 								<FlexboxLayout
 									v-for="(template, key) in templates"
 									class="template__btn"
@@ -66,6 +66,7 @@
 		// import TrackScroll from '@/components/TrackScroll';
 		import TrackService from '@/services/track';
 		import PlaylistService from '@/services/playlist';
+		import TemplateService from '@/services/template';
 
     export default {
 			name: 'AddPlaylist',
@@ -100,23 +101,7 @@
 
 					image: '~/assets/img/playlists/focus_more_big_clip.png',
 					selectedTemplate: 0,
-					templates: [
-						{
-							name: 'blue',
-							img: 'blue',
-							active: false
-						},
-						{
-							name: 'green',
-							img: 'green',
-							active: false
-						},
-						{
-							name: 'pink',
-							img: 'pink',
-							active: false
-						}
-					]
+					templates: []
 				}
 			},
 			methods: {
@@ -150,10 +135,22 @@
 							stage: false
 						})
 					}
+				},
+				async loadTemplates (page = 1) {
+					try {
+						const templates = await TemplateService.getTemplates({
+							page
+						});
+						
+						this.templates = templates;
+					} catch (err) {
+						console.log('--- err', err);
+					}
 				}
 			},
-			created () {
+			async created () {
 				// fetch templates
+				await this.loadTemplates();
 			}
     };
 </script>

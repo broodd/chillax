@@ -1,8 +1,11 @@
 import Vue from "nativescript-vue";
 import store from '@/store';
 
+// Global mixins
+import goToPage from '@/mixins/goToPage';
+Vue.use(goToPage);
 
-// my components
+// My global components
 import HorizontalScroll from '@/components/HorizontalScroll';
 Vue.component('HorizontalScroll', HorizontalScroll);
 
@@ -16,18 +19,19 @@ import TrackScroll from '@/components/TrackScroll';
 Vue.component('TrackScroll', TrackScroll);
 
 import App from './components/App';
-import Wellcome from "@/pages/Wellcome";
 
 new Vue({
 	components: {
-		Wellcome,
-		// App,
+		// Wellcome,
+		App,
 	},
-	// render: h => h(App),
+	render: h => h(App),
 	// render: h => h('frame', [h(App)]),
 	
-	render: h => h('frame', [h(Wellcome)]),
-	store,
+	// render: h => h('frame', [h(Wellcome)]),
+	// render: h => h('frame', [h(App)]),
+	store
 }).$start();
 
 Vue.config.silent = false;
+

@@ -1,7 +1,7 @@
 <template>
     <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true"  androidStatusBarBackground="#04303C">
 			<VerticalScroll @nextPage="onNextPageTrack">
-				<GridLayout class="" columns="*" rows="250, auto, auto, *">
+				<GridLayout class="" columns="*" rows="250, auto, auto, *, auto">
 					<AbsoluteLayout row="0">
 						<Label text="ERRROR" />
 					</AbsoluteLayout>
@@ -41,7 +41,17 @@
 							<TrackScroll :tracks="tracks"/>
 						</StackLayout>
 					</FlexboxLayout>
-
+					
+					<!-- <FlexboxLayout row="7" alignItems="center" flexDirection="row" id="bottom-nav"> -->
+					<GridLayout row="4" rows="*" columns="*">
+						<GridLayout row="0" col="0" rows="*" columns="*, *, *, *, *"
+							class="nav">
+								<Label row="0" col="0" text="Home" class="my-fa active"></Label>
+								<Label row="0" col="1" text="Liked" class="my-fa" @tap="goToLiked()"></Label>
+								<Label row="0" col="2" text="Me" class="my-fa" @tap="goToMe()"></Label>
+								<Label row="0" col="3" text="Add" class="my-fa"></Label>
+						</GridLayout>
+					</GridLayout>
 				</GridLayout>
 			</VerticalScroll>
     </Page>
@@ -67,12 +77,10 @@
 			},
 			methods: {
 				onNextPagePlaylist (page) {
-					console.log('--- more', );
-					// this.loadPlaylists(page);
+					this.loadPlaylists(page);
 				},
 				onNextPageTrack (page) {
-					console.log('--- more tracks', );
-					// this.loadTracks(page);
+					this.loadTracks(page);
 				},
 				async loadPlaylists (page = 1) {
 					try {

@@ -14,10 +14,10 @@
 
 					<FlexboxLayout class="form__bottom container pb-4" width="100%" row="1">
 						<StackLayout class="row text-center">
-							<Button class="btn green" text="Sign in" @tap="$navigateTo(Login)" />
-							<Button class="btn green" text="Home" @tap="$navigateTo(Home)" />
+							<Button class="btn green" text="Sign in" @tap="$goToPage(Login)" />
+							<Button class="btn green" text="Home" @tap="$goToPage(Home)" />
 							
-							<Label class="mt-2 new-account" text="New Account?" @tap="$navigateTo(Registration)" />
+							<Label class="mt-2 new-account" text="New Account?" @tap="$goToPage(Registration)" />
 						</StackLayout>
 					</FlexboxLayout>
 
@@ -27,10 +27,8 @@
 </template>
 
 <script>
-		const appSettings = require("tns-core-modules/application-settings");
 		import Login from '@/pages/Login';
 		import Registration from '@/pages/Registration';
-		import Home from '@/pages/Home';
 		
 
     export default {
@@ -41,30 +39,9 @@
 			},
 			data() {
 				return {
-					Home,
 					Login,
-					Registration,
+					Registration
 				}
-			},
-			methods: {
-				checkToken () {
-					try {
-						const token = this.$store.getters.getToken || appSettings.getString('token');
-						console.log('--- token', token);
-
-						if (token) {
-							this.$store.dispatch('setToken', token)
-								.then(() => {
-									this.$navigateTo(Home);
-								})
-						}
-					} catch (err) {
-						console.log('--- err', err);
-					}
-				}
-			},
-			created () {
-				this.checkToken()
 			}
     };
 </script>
