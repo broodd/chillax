@@ -25,7 +25,7 @@
 									class="template__btn"
 									:class="{ active: key == selectedTemplate }"
 									:key="key"
-									:backgroundImage="`http://192.168.0.104:3000/static/tracks/${template.img}.jpg`"
+									:backgroundImage="`http://192.168.0.101:3000/static/tracks/${template.img}.jpg`"
 									@tap="selectTemplate(key)"
 								>
 									<Label class="template__text" :text="key == selectedTemplate ? '✔️' : template.name"/>
@@ -120,7 +120,7 @@
 				selectTemplate (index) {
 					this.selectedTemplate = index;
 
-					this.image = `http://192.168.0.104:3000/static/tracks/${this.templates[index].img}.jpg`;
+					this.image = `http://192.168.0.101:3000/static/tracks/${this.templates[index].img}.jpg`;
 				},
 				uploadTrackFile (index) {
 					const track = this.tracks[index];
