@@ -5,7 +5,7 @@ export default () => {
 	const token = store.getters.getToken;
 
 	const apiClient = axios.create({
-		baseURL: 'http://192.168.0.101:3000',
+		baseURL: 'http://192.168.0.103:3000',
 		// baseURL: 'https://event-me.herokuapp.com',
 		headers: { 
 			Accept: 'application/json',

@@ -42,12 +42,7 @@
 					</GridLayout>
 				</VerticalScroll>
 
-				<GridLayout class="nav" row="4" rows="*" columns="*, *, *, *">
-					<Label row="0" col="0" text.decode="&#xe806;" class="my-fa active"/>
-					<Label row="0" col="1" text="Liked" class="my-fa" @tap="goToLiked()"/>
-					<Label row="0" col="2" text="Me" class="my-fa" @tap="goToMe()"/>
-					<Label row="0" col="3" text="Add" class="my-fa"></Label>
-				</GridLayout>
+				<NavBottom />
 				
 			</GridLayout>
     </Page>
@@ -57,11 +52,13 @@
 		import TrackScroll from '@/components/TrackScroll';
 		import PlaylistService from '@/services/playlist';
 		import TrackService from '@/services/track';
+		import NavBottom from '@/components/NavBottom';
 
     export default {
 			name: 'Home',
 			components: {
 				TrackScroll,
+				NavBottom
 			},
 			computed: {
 			},
@@ -72,6 +69,12 @@
 				}
 			},
 			methods: {
+				goToLiked () {
+
+				},
+				goToMe () {
+
+				},
 				onNextPagePlaylist (page) {
 					this.loadPlaylists(page);
 				},

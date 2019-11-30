@@ -25,6 +25,9 @@
 			token () {
 				return appSettings.getString('token') || '';
 			}
+		},
+		created () {
+			appSettings.setString('token', '');
 		}
 	}
 </script>

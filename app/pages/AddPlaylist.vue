@@ -14,7 +14,7 @@
 					<FlexboxLayout v-if="!stage" class="container container-fluid" width="100%" row="1">
 						<StackLayout class="row">
 
-							<TextField class="field field--green" v-model="playlist.name" hint="input playlist name" @focus="clearErrors('name')"/>
+							<TextField class="field field--green" v-model="playlist.name" hint="Input playlist name" @focus="clearErrors('name')"/>
 							<Label class="error error--field" :text="errors.name" />
 
 							<Label class="fz-17" text="Select image"/>
@@ -25,7 +25,7 @@
 									class="template__btn"
 									:class="{ active: key == selectedTemplate }"
 									:key="key"
-									:backgroundImage="`http://192.168.0.101:3000/static/tracks/${template.img}.jpg`"
+									:backgroundImage="`http://192.168.0.103:3000/static/tracks/${template.img}.jpg`"
 									@tap="selectTemplate(key)"
 								>
 									<Label class="template__text" :text="key == selectedTemplate ? '✔️' : template.name"/>
@@ -39,7 +39,8 @@
 
 					<FlexboxLayout v-if="stage" class="container container-fluid" width="100%" row="1">
 						<StackLayout class="row">
-							<FlexboxLayout v-for="(track, key) in tracks" :key="key" class="track">
+							<FlexboxLayout v-for="(track, key) in tracks" :key="track._id" class="track">
+								<Label :text="'#' + key"></Label>
 								<AbsoluteLayout class="track__button" :backgroundImage="track.img" @tap="uploadTrackFile(key)">
 									<Label class="track__button__circle" left="28" top="28"/>
 								</AbsoluteLayout>
@@ -49,8 +50,8 @@
 										<TextField class="input" v-model="track.name" hint="track name"/>
 									</template>
 								</StackLayout>
-								<Button v-if="!track.stage && (track.name && track.img)" class="like my-fa add active" text.decode="&#xe805;" @tap="addTrack(track)"/>
-								<Button v-if="track.stage" class="like my-fa add active" text.decode="&#xe801;" @tap="deleteTrack(key)"/>
+								<Button v-if="!track.stage && (track.name && track.img)" class="like my-fa add active" text.decode="&#xe805;" @tap="addTrack(key)"/>
+								<!-- <Button v-if="track.stage" class="like my-fa add active" text.decode="&#xe801;" @tap="deleteTrack(key)"/> -->
 							</FlexboxLayout>
 
 							<Button v-if="tracks.length > 1" class="btn green shadow" text="Done" @tap="postPlaylist"/>
@@ -63,6 +64,9 @@
 </template>
 
 <script>
+		import axios from 'axios';
+		const audio = require('nativescript-audio');
+		const mPicker = require("nativescript-mediafilepicker");
 		import Home from '@/pages/Home';
 		import Author from '@/pages/Author';
 		// import TrackScroll from '@/components/TrackScroll';
@@ -93,11 +97,8 @@
 						{
 							name: '',
 							img: '',
-							stage: false,
-							errors: {
-								name: true,
-								img: false
-							}
+							audio: '',
+							stage: false
 						}
 					],
 
@@ -120,26 +121,115 @@
 				selectTemplate (index) {
 					this.selectedTemplate = index;
 
-					this.image = `http://192.168.0.101:3000/static/tracks/${this.templates[index].img}.jpg`;
+					this.image = `http://192.168.0.103:3000/static/tracks/${this.templates[index].img}.jpg`;
 				},
 				uploadTrackFile (index) {
+					const _self = this;
+					const track = _self.tracks[index];
+
+					let options = {
+						android: {
+							isCaptureMood: false, // if true then voice recorder will open directly.
+							isNeedRecorder: true,
+							maxNumberFiles: 1,
+							isNeedFolderList: true,
+							maxSize: 354000 // Maximum size of recorded file in bytes. 5900 = ~ 1 second
+						},
+						ios: {
+							isCaptureMood: false, // if true then voice recorder will open directly.
+							maxNumberFiles: 5,
+							audioMaximumDuration: 10,
+						}
+					};
+
+					const mediafilepicker = new mPicker.Mediafilepicker();
+					mediafilepicker.openAudioPicker(options);
+ 
+					mediafilepicker.on("getFiles", function (res) {
+							let results = res.object.get('results');
+							console.dir(res);
+
+							_self.$set(track, 'img', _self.image);
+					});
+					
+					mediafilepicker.on("error", function (res) {
+							let msg = res.object.get('msg');
+							console.log(msg);
+					});
+					
+					mediafilepicker.on("cancel", function (res) {
+							let msg = res.object.get('msg');
+							console.log(msg);
+					});
+				},
+				addTrack (index) {
+					try {
+						var bodyFormData = new FormData();
+						bodyFormData.append('userId', '123');
+						console.log('--- bodyFormData', bodyFormData, 'append');
+
+						axios({
+							method: 'put',
+							url: 'http://192.168.0.103:3000/audio-file',
+							data: bodyFormData,
+							headers: {
+								Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZGRlYjExNjAyMzIyNjE3NjgwOTRkOTgiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNTc1MTE5ODY1LCJleHAiOjE1NzU3MjQ2NjV9.Qv8b-N4ppugW-Zl_Cjk9UcsX6r4b3LCA1vbFDNpVJdI',
+								'Content-Type': 'multipart/form-data'
+							}
+						})
+						.then(function (response) {
+								//handle success
+								console.log('okey', response);
+						})
+						.catch(function (response) {
+								//handle error
+								console.log('bad', response);
+						});
+					} catch (err) {
+						console.log('--- err', err);
+					}
+					
 					const track = this.tracks[index];
 
-					this.$set(track, 'img', this.image);
-				},
-				addTrack (track) {
 					if (track.name && track.img) {
 						this.$set(track, 'stage', true);
 
 						this.tracks.push({
 							name: '',
+							audio: '',
 							img: '',
 							stage: false
 						})
 					}
+
+					// const player = new audio.TNSPlayer();
+					// const playerOptions = {
+					// 	audioFile: '/storage/emulated/0/zedge/ringtone/Rock_Guitar_2-bfe6b0fa-539d-367d-8cce-18b3b0d9071b.mp3',
+					// 	loop: false,
+					// 	completeCallback: function() {
+					// 		console.log('finished playing');
+					// 	},
+					// 	errorCallback: function(errorObject) {
+					// 		console.log(JSON.stringify(errorObject));
+					// 	},
+					// 	infoCallback: function(args) {
+					// 		console.log(JSON.stringify(args));
+					// 	}
+					// };
+
+					// player
+					// 	.playFromFile(playerOptions)
+					// 	.then(function(res) {
+					// 		console.log(res);
+					// 	})
+					// 	.catch(function(err) {
+					// 		console.log('something went wrong...', err);
+					// 	});
 				},
 				deleteTrack (index) {
-					this.tracks.splice(index, 1);
+					// it`s not work, and I dont know why
+					//  [Vue warn]: Error in nextTick: "Error: Can't insert child, because the reference node has a different parent."
+					// this.tracks.splice(index, 1);
 				},
 				async postPlaylist () {
 					
