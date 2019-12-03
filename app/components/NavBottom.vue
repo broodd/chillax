@@ -16,8 +16,7 @@
 	export default {
 		props: {
 			activeIndex: {
-				type: Number,
-				default: 0
+				type: Number
 			}
 		},
 		methods: {

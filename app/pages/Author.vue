@@ -3,40 +3,45 @@
 			<!-- <AbsoluteLayout>
 				<Label text="ERRROR" />
 			</AbsoluteLayout> -->
-			<VerticalScroll @nextPage="onNextPageTrack">
-				<GridLayout class="" columns="*" rows="250, auto, *">
-					
-					<FlexboxLayout class="container container-fluid bg--top" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
-						<StackLayout class="row" height="100%">
-							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center" height="100%">
-								<Image class="author__img" src="~/assets/img/authors/author.png"/>
-								<Label class="fz-24 my-2" :text="author.profile.name"/>
-								<Label class="fz-17" :text="author.followersCount"/>
-							</FlexboxLayout>
-						</StackLayout>
-					</FlexboxLayout>
+			<GridLayout columns="*" rows="*, auto" height="100%">
+				<VerticalScroll @nextPage="onNextPageTrack">
+					<GridLayout class="" columns="*" rows="250, auto, *">
+						
+						<FlexboxLayout class="container container-fluid bg--top" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
+							<StackLayout class="row" height="100%">
+								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center" height="100%">
+									<Image class="author__img" src="~/assets/img/authors/author.png"/>
+									<Label class="fz-24 my-2" :text="author.profile.name"/>
+									<Label class="fz-17" :text="author.followersCount"/>
+								</FlexboxLayout>
+							</StackLayout>
+						</FlexboxLayout>
 
 
-					<FlexboxLayout class="container container-fluid" width="100%" row="1">
-						<StackLayout class="row">
-							<HorizontalScroll @nextPage="onNextPagePlaylist" class="playlist-list">
-								<PlaylistButton
-									v-for="playlist in playlists"
-									:key="playlist._id"
-									:playlist="playlist"
-								/>
-							</HorizontalScroll>
-						</StackLayout>
-					</FlexboxLayout>
-					
-					<FlexboxLayout class="container container-fluid" width="100%" row="2">
-						<StackLayout class="row">
-							<TrackScroll :tracks="tracks"/>
-						</StackLayout>
-					</FlexboxLayout>
+						<FlexboxLayout class="container container-fluid" width="100%" row="1">
+							<StackLayout class="row">
+								<HorizontalScroll @nextPage="onNextPagePlaylist" class="playlist-list">
+									<PlaylistButton
+										v-for="playlist in playlists"
+										:key="playlist._id"
+										:playlist="playlist"
+									/>
+								</HorizontalScroll>
+							</StackLayout>
+						</FlexboxLayout>
+						
+						<FlexboxLayout class="container container-fluid" width="100%" row="2">
+							<StackLayout class="row">
+								<TrackScroll :tracks="tracks"/>
+							</StackLayout>
+						</FlexboxLayout>
 
-				</GridLayout>
-			</VerticalScroll>
+					</GridLayout>
+				</VerticalScroll>
+
+				<NavBottom activeIndex="3" />
+				
+			</GridLayout>
     </Page>
 </template>
 
@@ -44,6 +49,7 @@
 		import AthorService from '@/services/user';
 		import PlaylistService from '@/services/playlist';
 		import TrackService from '@/services/track';
+		import NavBottom from '@/components/NavBottom';
 
     export default {
 			name: 'Author',

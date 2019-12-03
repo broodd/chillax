@@ -1,65 +1,70 @@
 <template>
     <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
-			<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false">
-				<GridLayout class="" columns="*" rows="250, *">
-					
-					<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="image">
-						<StackLayout class="row" height="100%">
-							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
-								<Label class="fz-35" :text="playlist.name"/>
-							</FlexboxLayout>
-						</StackLayout>
-					</FlexboxLayout>
-
-					<FlexboxLayout v-if="!stage" class="container container-fluid" width="100%" row="1">
-						<StackLayout class="row">
-
-							<TextField class="field field--green" v-model="playlist.name" hint="Input playlist name" @focus="clearErrors('name')"/>
-							<Label class="error error--field" :text="errors.name" />
-
-							<Label class="fz-17" text="Select image"/>
-
-							<HorizontalScroll @nextPage="loadTemplates">
-								<FlexboxLayout
-									v-for="(template, key) in templates"
-									class="template__btn"
-									:class="{ active: key == selectedTemplate }"
-									:key="key"
-									:backgroundImage="`http://192.168.0.103:3000/static/tracks/${template.img}.jpg`"
-									@tap="selectTemplate(key)"
-								>
-									<Label class="template__text" :text="key == selectedTemplate ? '✔️' : template.name"/>
+			<GridLayout columns="*" rows="*, auto" height="100%">
+				<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false">
+					<GridLayout class="" columns="*" rows="250, *">
+						
+						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="image">
+							<StackLayout class="row" height="100%">
+								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
+									<Label class="fz-35" :text="playlist.name"/>
 								</FlexboxLayout>
-							</HorizontalScroll>
+							</StackLayout>
+						</FlexboxLayout>
 
-							<Button v-if="playlist.name" class="btn green shadow" text="Done" @tap="stage = !stage"/>
+						<FlexboxLayout v-if="!stage" class="container container-fluid" width="100%" row="1">
+							<StackLayout class="row">
 
-						</StackLayout>
-					</FlexboxLayout>
+								<TextField class="field field--green" v-model="playlist.name" hint="Input playlist name" @focus="clearErrors('name')"/>
+								<Label class="error error--field" :text="errors.name" />
 
-					<FlexboxLayout v-if="stage" class="container container-fluid" width="100%" row="1">
-						<StackLayout class="row">
-							<FlexboxLayout v-for="(track, key) in tracks" :key="track._id" class="track">
-								<Label :text="'#' + key"></Label>
-								<AbsoluteLayout class="track__button" :backgroundImage="track.img" @tap="uploadTrackFile(key)">
-									<Label class="track__button__circle" left="28" top="28"/>
-								</AbsoluteLayout>
-								<StackLayout class="track__text">
-									<Label v-if="track.stage" class="track__name" :text="track.name" />
-									<template v-else>
-										<TextField class="input" v-model="track.name" hint="track name"/>
-									</template>
-								</StackLayout>
-								<Button v-if="!track.stage && (track.name && track.img)" class="like my-fa add active" text.decode="&#xe805;" @tap="addTrack(key)"/>
-								<!-- <Button v-if="track.stage" class="like my-fa add active" text.decode="&#xe801;" @tap="deleteTrack(key)"/> -->
-							</FlexboxLayout>
+								<Label class="fz-17" text="Select image"/>
 
-							<Button v-if="tracks.length > 1" class="btn green shadow" text="Done" @tap="postPlaylist"/>
-						</StackLayout>
-					</FlexboxLayout>
+								<HorizontalScroll @nextPage="loadTemplates">
+									<FlexboxLayout
+										v-for="(template, key) in templates"
+										class="template__btn"
+										:class="{ active: key == selectedTemplate }"
+										:key="key"
+										:backgroundImage="`http://192.168.0.103:3000/static/tracks/${template.img}.jpg`"
+										@tap="selectTemplate(key)"
+									>
+										<Label class="template__text" :text="key == selectedTemplate ? '✔️' : template.name"/>
+									</FlexboxLayout>
+								</HorizontalScroll>
 
-				</GridLayout>
-			</ScrollView>
+								<Button v-if="playlist.name" class="btn green shadow" text="Done" @tap="stage = !stage"/>
+
+							</StackLayout>
+						</FlexboxLayout>
+
+						<FlexboxLayout v-if="stage" class="container container-fluid" width="100%" row="1">
+							<StackLayout class="row">
+								<FlexboxLayout v-for="(track, key) in tracks" :key="track._id" class="track">
+									<Label :text="'#' + key"></Label>
+									<AbsoluteLayout class="track__button" :backgroundImage="track.img" @tap="uploadTrackFile(key)">
+										<Label class="track__button__circle" left="28" top="28"/>
+									</AbsoluteLayout>
+									<StackLayout class="track__text">
+										<Label v-if="track.stage" class="track__name" :text="track.name" />
+										<template v-else>
+											<TextField class="input" v-model="track.name" hint="track name"/>
+										</template>
+									</StackLayout>
+									<Button v-if="!track.stage && (track.name && track.img)" class="like my-fa add active" text.decode="&#xe805;" @tap="addTrack(key)"/>
+									<!-- <Button v-if="track.stage" class="like my-fa add active" text.decode="&#xe801;" @tap="deleteTrack(key)"/> -->
+								</FlexboxLayout>
+
+								<Button v-if="tracks.length > 1" class="btn green shadow" text="Done" @tap="postPlaylist"/>
+							</StackLayout>
+						</FlexboxLayout>
+
+					</GridLayout>
+				</ScrollView>
+
+				<NavBottom activeIndex="3" />
+				
+			</GridLayout>
     </Page>
 </template>
 
@@ -67,12 +72,14 @@
 		import axios from 'axios';
 		const audio = require('nativescript-audio');
 		const mPicker = require("nativescript-mediafilepicker");
+		const fileSystemModule = require("tns-core-modules/file-system");
 		import Home from '@/pages/Home';
 		import Author from '@/pages/Author';
 		// import TrackScroll from '@/components/TrackScroll';
 		import TrackService from '@/services/track';
 		import PlaylistService from '@/services/playlist';
 		import TemplateService from '@/services/template';
+		import NavBottom from '@/components/NavBottom';
 
     export default {
 			name: 'AddPlaylist',
@@ -150,6 +157,7 @@
 							console.dir(res);
 
 							_self.$set(track, 'img', _self.image);
+							// _self.$set(track, 'audio', results);
 					});
 					
 					mediafilepicker.on("error", function (res) {
@@ -166,6 +174,8 @@
 					try {
 						var bodyFormData = new FormData();
 						bodyFormData.append('userId', '123');
+						const imageFile = fileSystemModule.File.fromPath('/storage/emulated/0/zedge/ringtone/Rock_Guitar_2-bfe6b0fa-539d-367d-8cce-18b3b0d9071b.mp3');
+						bodyFormData.append('audio', imageFile);
 						console.log('--- bodyFormData', bodyFormData, 'append');
 
 						axios({

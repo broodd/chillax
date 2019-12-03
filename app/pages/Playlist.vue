@@ -1,28 +1,33 @@
 <template>
     <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
-			<VerticalScroll @nextPage="onNextPageTrack">
-				<GridLayout class="" columns="*" rows="300, *">
-					
-					<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
-						<StackLayout class="row" height="100%">
-							<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
-								<Label class="fz-35" :text="playlist.name" @tap="$goToPage(AddPlaylist)"/>
-								<Label class="fz-24 my-2" :text="'awd ' + !!playlist.author._id" @tap="goToAuthor()"/>
-								<FlexboxLayout alignItems="center">
-									<Button class="like my-fa" text.decode="&#xe802;" :class="{active: playlist.liked}" @tap="onLikePlaylist"/>
+			<GridLayout columns="*" rows="*, auto" height="100%">
+				<VerticalScroll @nextPage="onNextPageTrack">
+					<GridLayout class="" columns="*" rows="300, *">
+						
+						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
+							<StackLayout class="row" height="100%">
+								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
+									<Label class="fz-35" :text="playlist.name" @tap="$goToPage(AddPlaylist)"/>
+									<Label class="fz-24 my-2" :text="'awd ' + !!playlist.author._id" @tap="goToAuthor()"/>
+									<FlexboxLayout alignItems="center">
+										<Button class="like my-fa" text.decode="&#xe802;" :class="{active: playlist.liked}" @tap="onLikePlaylist"/>
+									</FlexboxLayout>
 								</FlexboxLayout>
-							</FlexboxLayout>
-						</StackLayout>
-					</FlexboxLayout>
+							</StackLayout>
+						</FlexboxLayout>
 
-					<FlexboxLayout class="container container-fluid" width="100%" row="1">
-						<StackLayout class="row">
-							<TrackScroll :tracks="tracks"/>
-						</StackLayout>
-					</FlexboxLayout>
+						<FlexboxLayout class="container container-fluid" width="100%" row="1">
+							<StackLayout class="row">
+								<TrackScroll :tracks="tracks"/>
+							</StackLayout>
+						</FlexboxLayout>
 
-				</GridLayout>
-			</VerticalScroll>
+					</GridLayout>
+				</VerticalScroll>
+
+				<NavBottom />
+				
+			</GridLayout>
     </Page>
 </template>
 
@@ -31,6 +36,7 @@
 		import Author from '@/pages/Author';
 		import TrackService from '@/services/track';
 		import PlaylistService from '@/services/playlist';
+		import NavBottom from '@/components/NavBottom';
 
     export default {
 			name: 'Playlist',

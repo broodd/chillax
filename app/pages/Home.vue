@@ -42,7 +42,7 @@
 					</GridLayout>
 				</VerticalScroll>
 
-				<NavBottom />
+				<NavBottom activeIndex="0"/>
 				
 			</GridLayout>
     </Page>
