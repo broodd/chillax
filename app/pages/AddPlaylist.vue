@@ -73,6 +73,7 @@
 		const audio = require('nativescript-audio');
 		const mPicker = require("nativescript-mediafilepicker");
 		const fs = require("tns-core-modules/file-system");
+		const bgHttp = require("nativescript-background-http");
 		import Home from '@/pages/Home';
 		import Author from '@/pages/Author';
 		// import TrackScroll from '@/components/TrackScroll';
@@ -160,6 +161,40 @@
 								console.dir(results[0].file);
 								_self.$set(track, 'img', _self.image);
 								_self.$set(track, 'audio', results[0].file);
+
+								
+								let session = bgHttp.session("image-upload");
+								let request = {
+										url: 'http://192.168.0.104:3000/audio-file',
+										method: "PUT",
+										headers: {
+												"Content-Type": "multipart/form-data",
+												Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZGRlYjExNjAyMzIyNjE3NjgwOTRkOTgiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNTc1MTE5ODY1LCJleHAiOjE1NzU3MjQ2NjV9.Qv8b-N4ppugW-Zl_Cjk9UcsX6r4b3LCA1vbFDNpVJdI',
+										},
+										description: 'FileName'
+								};
+								let params = [{
+										name: "name",
+										value: "name 123"
+									},
+									{
+										name: "playlistId",
+										value: "5ddeb28b7ed4b206b8f72e0a"
+									},
+									{
+										name: 'audio',
+										filename: results[0].file
+								}];
+								let task = session.multipartUpload(params, request);
+								task.on("error", (e) => {
+										console.log('--- e --bad', e);
+										// reject(e);
+								});
+								task.on("complete", (e) => {
+										console.log('--- e --okey', e);
+										// resolve(e);
+								}); 
+								
 							}
 					});
 					
@@ -180,22 +215,41 @@
 						var bodyFormData = new FormData();
 						bodyFormData.append('name', 'name 123');
 						bodyFormData.append('playlistId', '5ddeb28b7ed4b206b8f72e0a');
+
 						const imageFile = fs.File.fromPath(track.audio);
 						const binarySource = imageFile.readSync(err => { console.log("Error:" + err); });
-						console.log('--- binarySource', binarySource);
 						bodyFormData.append('audio', binarySource);
+						// bodyFormData.append('audio', binarySource);
+
+
+						// var name = imageFile.path.substr(imageFile.path.lastIndexOf("/") + 1);
+						// // upload configuration
+						// var bghttp = require("nativescript-background-http");
+						// var session = bghttp.session("image-upload");
+
+						// var request = {
+						// 		url: 'http://192.168.0.104:3000/audio-file-test',
+						// 		method: "POST",
+						// 		headers: {
+						// 				"Content-Type": "application/octet-stream"
+						// 		},
+						// 		description: "Uploading " + name
+						// };
+
+						// var task = session.uploadFile(imageFile.path, request);
 
 						const request = {
-							method: 'put',
+							method: 'POST',
 							url: 'http://192.168.0.104:3000/audio-file',
 							data: bodyFormData,
 							headers: {
 								Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZGRlYjExNjAyMzIyNjE3NjgwOTRkOTgiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNTc1MTE5ODY1LCJleHAiOjE1NzU3MjQ2NjV9.Qv8b-N4ppugW-Zl_Cjk9UcsX6r4b3LCA1vbFDNpVJdI',
-								'Content-Type': 'multipart/form-data'
+								'content-type': 'multipart/form-data;',
+								'Accept': '*/*',
+								'accept-encoding': 'gzip, deflate'
 								// "Content-Type": "application/octet-stream"
 							}
 						}
-						console.log('--- request', request);
 						axios(request)
 						.then(function (response) {
 								//handle success

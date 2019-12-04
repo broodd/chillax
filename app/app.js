@@ -18,8 +18,8 @@ Vue.component('PlaylistButton', PlaylistButton);
 import TrackScroll from '@/components/TrackScroll';
 Vue.component('TrackScroll', TrackScroll);
 
-// import App from './components/App';
 import App from './components/App';
+// import App from './components/App';
 
 new Vue({
 	components: {
