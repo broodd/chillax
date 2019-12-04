@@ -1,6 +1,6 @@
 <template>
 	<FlexboxLayout class="track" :class="{ active: stage }">
-		<AbsoluteLayout class="track__button" @tap="stage = !stage" :backgroundImage="`http://192.168.0.103:3000/static/tracks/${track.img}.jpg`">
+		<AbsoluteLayout class="track__button" @tap="stage = !stage" :backgroundImage="`http://192.168.0.104:3000/static/tracks/${track.img}.jpg`">
 			<Label class="track__button__circle" left="28" top="28"/>
 		</AbsoluteLayout>
 		<StackLayout class="track__text">

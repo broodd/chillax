@@ -88,7 +88,8 @@
 						});
 
 						if (playlists.data)
-							this.playlists = playlists.data.data;
+							this.playlists = this.playlists.concat(playlists.data.data);
+							// this.playlists = playlists.data.data;
 					} catch (err) {
 						console.log('--- err', err);
 					}
@@ -100,7 +101,8 @@
 						});
 
 						if (tracks.data)
-							this.tracks = tracks.data.data;
+							this.tracks = this.tracks.concat(tracks.data.data);
+							// this.tracks = tracks.data.data;
 					} catch (err) {
 						console.log('--- err', err);
 					}

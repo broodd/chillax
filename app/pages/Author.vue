@@ -57,6 +57,7 @@
 				id: String
 			},
 			components: {
+				NavBottom
 			},
 			computed: {
 			},

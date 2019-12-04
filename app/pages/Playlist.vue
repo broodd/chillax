@@ -43,6 +43,9 @@
 			props: {
 				id: String
 			},
+			components: {
+				NavBottom
+			},
 			computed: {
 			},
 			data() {

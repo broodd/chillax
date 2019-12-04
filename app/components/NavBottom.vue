@@ -16,7 +16,7 @@
 	export default {
 		props: {
 			activeIndex: {
-				type: Number
+				type: [Number, String]
 			}
 		},
 		methods: {
