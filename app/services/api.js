@@ -20,12 +20,12 @@ export default () => {
 		error => {
 			if (error.response)
 				console.error('--- Server error ---', error.response);
-			if (error.response.status === 401) {
-				store.dispatch('setToken', '')
-					.then(() => {
-						console.log('--- empty token', );
-					})
-			}
+			// if (error.response.status === 401) {
+			// 	store.dispatch('setToken', '')
+			// 		.then(() => {
+			// 			console.log('--- empty token', );
+			// 		})
+			// }
 			return error
 		}
 	);

@@ -72,7 +72,7 @@
 		const audioPlayer = require('nativescript-audio');
 		const mediaPicker = require('nativescript-mediafilepicker');
 		import Home from '@/pages/Home';
-		import Author from '@/pages/Author';
+		import Playlist from '@/pages/Playlist';
 		import TrackService from '@/services/track';
 		import PlaylistService from '@/services/playlist';
 		import TemplateService from '@/services/template';
@@ -130,6 +130,15 @@
 					this.playlist.img = this.templates[index].img;
 					this.image = `http://192.168.0.104:3000/static/tracks/${this.templates[index].img}.jpg`;
 				},
+				async postPlaylist () {
+					const playlist = await PlaylistService.postPlyalist({
+						name: this.playlist.name,
+						img: this.playlist.img
+					})
+					
+					this.playlist = playlist.data.data;
+					this.stage = 1;		
+				},
 				uploadTrackFile (index) {
 					const _self = this;
 					const track = _self.tracks[index];
@@ -170,7 +179,7 @@
 						console.log(msg);
 					});
 				},
-				addTrack (index) {
+				async addTrack (index) {
 					try {
 						const track = this.tracks[index];
 						const params = [
@@ -209,19 +218,11 @@
 					//  [Vue warn]: Error in nextTick: "Error: Can't insert child, because the reference node has a different parent."
 					// this.tracks.splice(index, 1);
 				},
-				async postPlaylist () {
-					const playlist = await PlaylistService.postPlyalist({
-						name: this.playlist.name,
-						img: this.playlist.img
-					})
-					
-					this.playlist = playlist;
-					this.stage = 1;		
-				},
 				goToPlaylist () {
-					// this.$goToPage(Playlist, {
-					// 	id: 
-					// })
+					const id = this.playlist._id;
+					this.$goToPage(Playlist, {
+						id
+					});
 				},
 				async loadTemplates (page = 1) {
 					try {

@@ -9,9 +9,9 @@
 
 <script>
 	import Home from '@/pages/Home';
-	// import Liked from '@/pages/Liked';
+	import Liked from '@/pages/Liked';
 	import AddPlaylist from '@/pages/AddPlaylist';
-	// import User from '@/pages/User';
+	import Author from '@/pages/Author';
 
 	export default {
 		props: {
@@ -24,14 +24,14 @@
 				this.$goToPage(Home);
 			},
 			goToLiked () {
-				this.$goToPage(Home);
+				this.$goToPage(Liked);
 			},
 			goToAdd () {
 				this.$goToPage(AddPlaylist);
 			},
 			goToMe () {
 				const id = this.$store.getters.getUserId;
-				this.$goToPage(Authod, {
+				this.$goToPage(Author, {
 					id
 				});
 			}
