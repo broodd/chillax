@@ -30,7 +30,10 @@
 				this.$goToPage(AddPlaylist);
 			},
 			goToMe () {
-				this.$goToPage(AddPlaylist);
+				const id = this.$store.getters.getUserId;
+				this.$goToPage(Authod, {
+					id
+				});
 			}
 		}
 	}

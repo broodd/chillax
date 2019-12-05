@@ -10,9 +10,11 @@ const mutations = {
 		state.token = token;
 		appSettings.setString('token', token);
 	},
-	setUser (state, { token, user }) {
+	setUser (state, { token, userId }) {
 		state.token = token;
-		state.user = user;
+		state.userId = userId;
+		appSettings.setString('token', token);
+		appSettings.setString('userId', userId);
 	}
 };
 
@@ -28,7 +30,10 @@ const actions = {
 const getters = {
 	getToken: (state) => {
 		return state.token || appSettings.getString('token');
-	}
+	},
+	getUserId: (state) => {
+		return state.userId || appSettings.getString('userId');
+	},
 }
 
 export default {

@@ -80,7 +80,10 @@
 								password: this.password
 							});
 
-							this.$store.dispatch('setToken', response.data.token)
+							this.$store.dispatch('setUser', {
+								token: response.data.token,
+								userId: response.data.user._id
+							})
 								.then(() => {
 									this.$goToPage(Home);
 								});
