@@ -10,6 +10,10 @@ export default {
 	getPlaylistsByAuthor (params) {
 		return api().get(`playlists/author/${params.id}`, { params });
 	},
+	
+	postPlyalist (params) {
+		return api().post('playlist', params);
+	},
 
 	likePlaylist (params) {
 		return api().put(`playlist/like/${params.id}`);

@@ -33,7 +33,7 @@
 									</FlexboxLayout>
 								</HorizontalScroll>
 
-								<Button v-if="playlist.name" class="btn green shadow" text="Done" @tap="stage = !stage"/>
+								<Button v-if="playlist.name" class="btn green shadow" text="Done" @tap="postPlaylist"/>
 
 							</StackLayout>
 						</FlexboxLayout>
@@ -55,7 +55,7 @@
 									<!-- <Button v-if="track.stage" class="like my-fa add active" text.decode="&#xe801;" @tap="deleteTrack(key)"/> -->
 								</FlexboxLayout>
 
-								<Button v-if="tracks.length > 1" class="btn green shadow" text="Done" @tap="postPlaylist"/>
+								<Button v-if="tracks.length > 1" class="btn green shadow" text="Done" @tap="goToPlaylist"/>
 							</StackLayout>
 						</FlexboxLayout>
 
@@ -69,17 +69,14 @@
 </template>
 
 <script>
-		import axios from 'axios';
-		const audio = require('nativescript-audio');
-		const mPicker = require("nativescript-mediafilepicker");
-		const fs = require("tns-core-modules/file-system");
-		const bgHttp = require("nativescript-background-http");
+		const audioPlayer = require('nativescript-audio');
+		const mediaPicker = require('nativescript-mediafilepicker');
 		import Home from '@/pages/Home';
 		import Author from '@/pages/Author';
-		// import TrackScroll from '@/components/TrackScroll';
 		import TrackService from '@/services/track';
 		import PlaylistService from '@/services/playlist';
 		import TemplateService from '@/services/template';
+		import UploadService from '@/services/upload';
 		import NavBottom from '@/components/NavBottom';
 
     export default {
@@ -130,6 +127,7 @@
 				selectTemplate (index) {
 					this.selectedTemplate = index;
 
+					this.playlist.img = this.templates[index].img;
 					this.image = `http://192.168.0.104:3000/static/tracks/${this.templates[index].img}.jpg`;
 				},
 				uploadTrackFile (index) {
@@ -151,114 +149,46 @@
 						}
 					};
 
-					const mediafilepicker = new mPicker.Mediafilepicker();
+					const mediafilepicker = new mediaPicker.Mediafilepicker();
 					mediafilepicker.openAudioPicker(options);
  
 					mediafilepicker.on("getFiles", function (res) {
-							let results = res.object.get('results');
-							console.log('--- res[0]', results[0]);
-							if (results[0]) {
-								console.dir(results[0].file);
-								_self.$set(track, 'img', _self.image);
-								_self.$set(track, 'audio', results[0].file);
-
-								
-								let session = bgHttp.session("image-upload");
-								let request = {
-										url: 'http://192.168.0.104:3000/audio-file',
-										method: "PUT",
-										headers: {
-												"Content-Type": "multipart/form-data",
-												Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZGRlYjExNjAyMzIyNjE3NjgwOTRkOTgiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNTc1MTE5ODY1LCJleHAiOjE1NzU3MjQ2NjV9.Qv8b-N4ppugW-Zl_Cjk9UcsX6r4b3LCA1vbFDNpVJdI',
-										},
-										description: 'FileName'
-								};
-								let params = [{
-										name: "name",
-										value: "name 123"
-									},
-									{
-										name: "playlistId",
-										value: "5ddeb28b7ed4b206b8f72e0a"
-									},
-									{
-										name: 'audio',
-										filename: results[0].file
-								}];
-								let task = session.multipartUpload(params, request);
-								task.on("error", (e) => {
-										console.log('--- e --bad', e);
-										// reject(e);
-								});
-								task.on("complete", (e) => {
-										console.log('--- e --okey', e);
-										// resolve(e);
-								}); 
-								
-							}
+						let results = res.object.get('results');
+						if (results[0]) {
+							_self.$set(track, 'img', _self.image);
+							_self.$set(track, 'audio', results[0].file);
+						}
 					});
 					
 					mediafilepicker.on("error", function (res) {
-							let msg = res.object.get('msg');
-							console.log(msg);
+						let msg = res.object.get('msg');
+						console.log(msg);
 					});
 					
 					mediafilepicker.on("cancel", function (res) {
-							let msg = res.object.get('msg');
-							console.log(msg);
+						let msg = res.object.get('msg');
+						console.log(msg);
 					});
 				},
 				addTrack (index) {
 					try {
 						const track = this.tracks[index];
-
-						var bodyFormData = new FormData();
-						bodyFormData.append('name', 'name 123');
-						bodyFormData.append('playlistId', '5ddeb28b7ed4b206b8f72e0a');
-
-						const imageFile = fs.File.fromPath(track.audio);
-						const binarySource = imageFile.readSync(err => { console.log("Error:" + err); });
-						bodyFormData.append('audio', binarySource);
-						// bodyFormData.append('audio', binarySource);
-
-
-						// var name = imageFile.path.substr(imageFile.path.lastIndexOf("/") + 1);
-						// // upload configuration
-						// var bghttp = require("nativescript-background-http");
-						// var session = bghttp.session("image-upload");
-
-						// var request = {
-						// 		url: 'http://192.168.0.104:3000/audio-file-test',
-						// 		method: "POST",
-						// 		headers: {
-						// 				"Content-Type": "application/octet-stream"
-						// 		},
-						// 		description: "Uploading " + name
-						// };
-
-						// var task = session.uploadFile(imageFile.path, request);
-
-						const request = {
-							method: 'POST',
-							url: 'http://192.168.0.104:3000/audio-file',
-							data: bodyFormData,
-							headers: {
-								Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZGRlYjExNjAyMzIyNjE3NjgwOTRkOTgiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNTc1MTE5ODY1LCJleHAiOjE1NzU3MjQ2NjV9.Qv8b-N4ppugW-Zl_Cjk9UcsX6r4b3LCA1vbFDNpVJdI',
-								'content-type': 'multipart/form-data;',
-								'Accept': '*/*',
-								'accept-encoding': 'gzip, deflate'
-								// "Content-Type": "application/octet-stream"
+						const params = [
+							{
+								name: 'name',
+								value: track.name
+							},
+							{
+								name: 'playlistId',
+								value: this.playlist._id
+							},
+							{
+								name: 'audio',
+								filename: track.audio
 							}
-						}
-						axios(request)
-						.then(function (response) {
-								//handle success
-								console.log('okey', response);
-						})
-						.catch(function (response) {
-								//handle error
-								console.log('bad', response);
-						});
+						];
+
+						const task = await UploadService.uploadFile(params);
 
 						if (track.name && track.img) {
 							this.$set(track, 'stage', true);
@@ -273,32 +203,6 @@
 					} catch (err) {
 						console.log('--- err', err);
 					}
-
-					
-
-					// const player = new audio.TNSPlayer();
-					// const playerOptions = {
-					// 	audioFile: '/storage/emulated/0/zedge/ringtone/Rock_Guitar_2-bfe6b0fa-539d-367d-8cce-18b3b0d9071b.mp3',
-					// 	loop: false,
-					// 	completeCallback: function() {
-					// 		console.log('finished playing');
-					// 	},
-					// 	errorCallback: function(errorObject) {
-					// 		console.log(JSON.stringify(errorObject));
-					// 	},
-					// 	infoCallback: function(args) {
-					// 		console.log(JSON.stringify(args));
-					// 	}
-					// };
-
-					// player
-					// 	.playFromFile(playerOptions)
-					// 	.then(function(res) {
-					// 		console.log(res);
-					// 	})
-					// 	.catch(function(err) {
-					// 		console.log('something went wrong...', err);
-					// 	});
 				},
 				deleteTrack (index) {
 					// it`s not work, and I dont know why
@@ -306,7 +210,18 @@
 					// this.tracks.splice(index, 1);
 				},
 				async postPlaylist () {
+					const playlist = await PlaylistService.postPlyalist({
+						name: this.playlist.name,
+						img: this.playlist.img
+					})
 					
+					this.playlist = playlist;
+					this.stage = 1;		
+				},
+				goToPlaylist () {
+					// this.$goToPage(Playlist, {
+					// 	id: 
+					// })
 				},
 				async loadTemplates (page = 1) {
 					try {
