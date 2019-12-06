@@ -7,9 +7,9 @@
 				<VerticalScroll @nextPage="onNextPageTrack">
 					<GridLayout class="" columns="*" rows="250, auto, *">
 						
-						<FlexboxLayout class="container container-fluid bg--top" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
+						<FlexboxLayout class="container container-fluid bg--top" width="100%" row="0" backgroundImage="~/assets/authors/default_clip.png">
 							<StackLayout class="row" height="100%">
-								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center" height="100%">
+								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center" height="100%" @tap="logOut">
 									<Image class="author__img" src="~/assets/img/authors/author.png"/>
 									<Label class="fz-24 my-2" :text="author.profile.name"/>
 									<Label class="fz-17" :text="author.followersCount"/>
@@ -49,6 +49,7 @@
 		import AthorService from '@/services/user';
 		import PlaylistService from '@/services/playlist';
 		import TrackService from '@/services/track';
+		import Wellcome from '@/pages/Wellcome';
 
     export default {
 			name: 'Author',
@@ -93,7 +94,8 @@
 							page
 						});
 						
-						this.playlists = playlists.data.data;
+						if (playlists.data)
+							this.playlists = this.playlists.concat(playlists.data.data);
 					} catch (err) {
 						console.dir('--- err', err);
 					}
@@ -105,11 +107,20 @@
 							page
 						});
 						
-						this.tracks = tracks.data.data;
+						if (tracks.data)
+							this.tracks = this.tracks.concat(tracks.data.data);
 					} catch (err) {
 						console.log('--- err', err);
 					}
 				},
+				logOut () {
+					this.$store.dispatch('setUser', {
+						token: '',
+						userId: ''
+					}).then(() => {
+						this.$goToPage(Wellcome);
+					})
+				}
 			},
 			async created () {
 				await this.loadAuthor();

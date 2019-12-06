@@ -65,12 +65,6 @@
 				}
 			},
 			methods: {
-				goToLiked () {
-
-				},
-				goToMe () {
-
-				},
 				onNextPagePlaylist (page) {
 					this.loadPlaylists(page);
 				},
@@ -99,7 +93,6 @@
 
 						if (tracks.data)
 							this.tracks = this.tracks.concat(tracks.data.data);
-							// this.tracks = tracks.data.data;
 					} catch (err) {
 						console.log('--- err', err);
 					}

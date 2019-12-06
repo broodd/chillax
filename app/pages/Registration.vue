@@ -36,67 +36,67 @@
 </template>
 
 <script>
-		import Wellcome from './Wellcome';
-		import Home from '@/pages/Home';
-		import Login from './Login';
-		import AuthService from '@/services/auth';
+	import Wellcome from './Wellcome';
+	import Home from '@/pages/Home';
+	import Login from './Login';
+	import AuthService from '@/services/auth';
 
-    export default {
-				name: 'Registration',
-        computed: {
-				},
-				data() {
-					return {
-						Wellcome,
-						Login,
-						
-						name: '',
+	export default {
+			name: 'Registration',
+			computed: {
+			},
+			data() {
+				return {
+					Wellcome,
+					Login,
+					
+					name: '',
+					email: '',
+					password: '',
+					errors: {
 						email: '',
-						password: '',
-						errors: {
+						password: ''
+					},
+				}
+			},
+			methods: {
+				clearErrors (field) {
+					if (field) {
+						this.$set(this.errors, field, '');
+					} else {
+						this.errors = {
 							email: '',
 							password: ''
-						},
+						};
 					}
 				},
-				methods: {
-					clearErrors (field) {
-						if (field) {
-							this.$set(this.errors, field, '');
-						} else {
-							this.errors = {
-								email: '',
-								password: ''
-							};
-						}
-					},
-					async onSignUp () {
-						try {
-							this.clearErrors();
+				async onSignUp () {
+					try {
+						this.clearErrors();
 
-							const response = await AuthService.signUp({
-								name: this.name,
-								email: this.email,
-								password: this.password
-							});
+						const response = await AuthService.signUp({
+							name: this.name,
+							email: this.email,
+							password: this.password
+						});
 
-							this.$store.dispatch('setUser', {
-								token: response.data.token,
-								userId: response.data.user._id
-							})
-								.then(() => {
-									this.$goToPage(Home);
-								});
-						} catch (err) {
-							if (err.response && err.response.data && typeof err.response.data.message == 'object') {
-								for (const e of err.response.data.message) {
-									this.$set(this.errors, e.field, e.message);
-								}
+						this.$store.dispatch('setUser', {
+							token: response.data.token,
+							userId: response.data.user._id
+						})
+							// .then(() => {
+								this.$goToPage(Home);
+							// });
+					} catch (err) {
+						if (err.response && err.response.data && typeof err.response.data.message == 'object') {
+							for (const e of err.response.data.message) {
+								this.$set(this.errors, e.field, e.message);
 							}
 						}
 					}
 				}
-    };
+			}
+	};
 </script>
 
 <style scoped lang="scss">

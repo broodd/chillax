@@ -4,10 +4,10 @@
 				<VerticalScroll @nextPage="onNextPageTrack">
 					<GridLayout class="" columns="*" rows="300, *">
 						
-						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" style="background-image: url('~/assets/img/playlists/focus_more_big_clip.png')">
+						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="`http://192.168.100.37:3000/static/playlists/${playlist.img}_clip.png`">
 							<StackLayout class="row" height="100%">
 								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
-									<Label class="fz-35" :text="playlist.name" @tap="$goToPage(AddPlaylist)"/>
+									<Label class="fz-35" :text="playlist.name"/>
 									<Label class="fz-24 my-2" :text="'awd ' + !!playlist.author._id" @tap="goToAuthor()"/>
 									<FlexboxLayout alignItems="center">
 										<Button class="like my-fa" text.decode="&#xe802;" :class="{active: playlist.liked}" @tap="onLikePlaylist"/>
@@ -76,7 +76,7 @@
 						if (playlist.data.data[0]) {
 							this.playlist = playlist.data.data[0];
 						} else {
-							console.log('--- Not found', );
+							console.log('--- Not found Playlist', );
 						}
 					} catch (err) {
 						console.log('--- ', err.response.message);
@@ -89,7 +89,8 @@
 							page,
 						});
 						
-						this.tracks = tracks.data.data;
+						if (tracks.data)
+							this.tracks = this.tracks.concat(tracks.data.data);
 					} catch (err) {
 						console.log('--- ', err.response.message);
 					}
@@ -101,7 +102,6 @@
 						});
 						
 						this.$set(this.playlist, 'liked', liked.data.data);
-						console.log('--- this.playlist.liked', this.playlist.liked);
 					} catch (err) {
 						console.log('--- ', err.response.message);
 					}

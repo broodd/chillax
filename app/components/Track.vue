@@ -1,6 +1,6 @@
 <template>
 	<FlexboxLayout class="track" :class="{ active: stage }">
-		<AbsoluteLayout class="track__button" @tap="playTrack" :backgroundImage="`http://192.168.0.104:3000/static/tracks/${track.img}.jpg`">
+		<AbsoluteLayout class="track__button" @tap="playTrack" :backgroundImage="`http://192.168.100.37:3000/static/tracks/${track.img}.jpg`">
 			<Label class="track__button__circle" left="28" top="28"/>
 		</AbsoluteLayout>
 		<StackLayout class="track__text">
@@ -13,6 +13,8 @@
 
 <script>
 	import Author from '@/pages/Author';
+	const audioPlayer = require('nativescript-audio');
+	const player = new audioPlayer.TNSPlayer();
 
 	export default {
 		name: 'Track',
@@ -22,7 +24,8 @@
 		},
 		data () {
 			return {
-				stage: false
+				stage: false,
+				countPlaying: 0
 			}
 		},
 		methods: {
@@ -34,31 +37,44 @@
 				})
 			},
 			playTrack () {
-				this.stage = !this.stage;
+				try {
+					if (this.stage == true) {
+						player.pause();
+						this.stage = false;
+					} else {
+						if (this.countPlaying > 1) {
+							player.resume();
+							this.stage = true;
+						} else {
+							const playerOptions = {
+								audioFile: `http://192.168.100.37:3000/static/audio${this.track.src}`,
+								loop: false,
+								completeCallback: () => {
+									console.log('finished playing');
+									this.countPlaying = 0
+								},
+								errorCallback: (errorObject) => {
+									console.log(JSON.stringify(errorObject));
+								},
+								infoCallback: (args) => {
+									console.log(JSON.stringify(args));
+								}
+							};
 
-				// const player = new audio.TNSPlayer();
-				// const playerOptions = {
-				// 	audioFile: '/storage/emulated/0/zedge/ringtone/Rock_Guitar_2-bfe6b0fa-539d-367d-8cce-18b3b0d9071b.mp3',
-				// 	loop: false,
-				// 	completeCallback: function() {
-				// 		console.log('finished playing');
-				// 	},
-				// 	errorCallback: function(errorObject) {
-				// 		console.log(JSON.stringify(errorObject));
-				// 	},
-				// 	infoCallback: function(args) {
-				// 		console.log(JSON.stringify(args));
-				// 	}
-				// };
-
-				// player
-				// 	.playFromFile(playerOptions)
-				// 	.then(function(res) {
-				// 		console.log(res);
-				// 	})
-				// 	.catch(function(err) {
-				// 		console.log('something went wrong...', err);
-				// 	});
+							player
+								.playFromFile(playerOptions)
+								.then(() => {
+									this.stage = true;
+								})
+						}
+						
+						this.counter++;
+					}
+				} catch (err) {
+					console.log('something went wrong...', err);
+					
+					this.stage = false;
+				}
 			}
 		}
 	}

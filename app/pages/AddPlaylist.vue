@@ -4,7 +4,7 @@
 				<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false">
 					<GridLayout class="" columns="*" rows="250, *">
 						
-						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="image">
+						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="playlist.img ? `http://192.168.100.37:3000/static/playlists/${playlist.img}_clip.png` : ''">
 							<StackLayout class="row" height="100%">
 								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
 									<Label class="fz-35" :text="playlist.name"/>
@@ -26,7 +26,7 @@
 										class="template__btn"
 										:class="{ active: key == selectedTemplate }"
 										:key="key"
-										:backgroundImage="`http://192.168.0.104:3000/static/tracks/${template.img}.jpg`"
+										:backgroundImage="`http://192.168.100.37:3000/static/tracks/${template.img}.jpg`"
 										@tap="selectTemplate(key)"
 									>
 										<Label class="template__text" :text="key == selectedTemplate ? '✔️' : template.name"/>
@@ -42,7 +42,7 @@
 							<StackLayout class="row">
 								<FlexboxLayout v-for="(track, key) in tracks" :key="track._id" class="track">
 									<Label :text="'#' + key"></Label>
-									<AbsoluteLayout class="track__button" :backgroundImage="track.img" @tap="uploadTrackFile(key)">
+									<AbsoluteLayout class="track__button" :backgroundImage="track.img ? track.img : ''" @tap="uploadTrackFile(key)">
 										<Label class="track__button__circle" left="28" top="28"/>
 									</AbsoluteLayout>
 									<StackLayout class="track__text">
@@ -69,179 +69,178 @@
 </template>
 
 <script>
-		const audioPlayer = require('nativescript-audio');
-		const mediaPicker = require('nativescript-mediafilepicker');
-		import Home from '@/pages/Home';
-		import Playlist from '@/pages/Playlist';
-		import TrackService from '@/services/track';
-		import PlaylistService from '@/services/playlist';
-		import TemplateService from '@/services/template';
-		import UploadService from '@/services/upload';
-		import NavBottom from '@/components/NavBottom';
+	const mediaPicker = require('nativescript-mediafilepicker');
+	import Home from '@/pages/Home';
+	import Playlist from '@/pages/Playlist';
+	import TrackService from '@/services/track';
+	import PlaylistService from '@/services/playlist';
+	import TemplateService from '@/services/template';
+	import UploadService from '@/services/upload';
+	import NavBottom from '@/components/NavBottom';
 
-    export default {
-			name: 'AddPlaylist',
-			components: {
-				NavBottom
-			},
-			computed: {
-			},
-			data() {
-				return {
-					errors: {
-						name: '',
-						img: ''
-					},
-					stage: 0,
+	export default {
+		name: 'AddPlaylist',
+		components: {
+			NavBottom
+		},
+		computed: {
+		},
+		data() {
+			return {
+				errors: {
+					name: '',
+					img: ''
+				},
+				stage: 0,
 
-					playlist: {
+				playlist: {
+					name: '',
+					img: '',
+					author: {}
+				},
+				tracks: [
+					{
 						name: '',
 						img: '',
-						author: {}
-					},
-					tracks: [
-						{
-							name: '',
-							img: '',
-							audio: '',
-							stage: false
-						}
-					],
-
-					image: '~/assets/img/playlists/focus_more_big_clip.png',
-					selectedTemplate: 0,
-					templates: []
-				}
-			},
-			methods: {
-				clearErrors (field) {
-					if (field) {
-						this.$set(this.errors, field, '');
-					} else {
-						this.errors = {
-							email: '',
-							password: ''
-						};
+						audio: '',
+						stage: false
 					}
-				},
-				selectTemplate (index) {
-					this.selectedTemplate = index;
+				],
 
-					this.playlist.img = this.templates[index].img;
-					this.image = `http://192.168.0.104:3000/static/tracks/${this.templates[index].img}.jpg`;
-				},
-				async postPlaylist () {
-					const playlist = await PlaylistService.postPlyalist({
-						name: this.playlist.name,
-						img: this.playlist.img
-					})
-					
-					this.playlist = playlist.data.data;
-					this.stage = 1;		
-				},
-				uploadTrackFile (index) {
-					const _self = this;
-					const track = _self.tracks[index];
-
-					let options = {
-						android: {
-							isCaptureMood: false, // if true then voice recorder will open directly.
-							isNeedRecorder: true,
-							maxNumberFiles: 1,
-							isNeedFolderList: true,
-							maxSize: 354000 // Maximum size of recorded file in bytes. 5900 = ~ 1 second
-						},
-						ios: {
-							isCaptureMood: false, // if true then voice recorder will open directly.
-							maxNumberFiles: 5,
-							audioMaximumDuration: 10,
-						}
-					};
-
-					const mediafilepicker = new mediaPicker.Mediafilepicker();
-					mediafilepicker.openAudioPicker(options);
- 
-					mediafilepicker.on("getFiles", function (res) {
-						let results = res.object.get('results');
-						if (results[0]) {
-							_self.$set(track, 'img', _self.image);
-							_self.$set(track, 'audio', results[0].file);
-						}
-					});
-					
-					mediafilepicker.on("error", function (res) {
-						let msg = res.object.get('msg');
-						console.log(msg);
-					});
-					
-					mediafilepicker.on("cancel", function (res) {
-						let msg = res.object.get('msg');
-						console.log(msg);
-					});
-				},
-				async addTrack (index) {
-					try {
-						const track = this.tracks[index];
-						const params = [
-							{
-								name: 'name',
-								value: track.name
-							},
-							{
-								name: 'playlistId',
-								value: this.playlist._id
-							},
-							{
-								name: 'audio',
-								filename: track.audio
-							}
-						];
-
-						const task = await UploadService.uploadFile(params);
-
-						if (track.name && track.img) {
-							this.$set(track, 'stage', true);
-
-							this.tracks.push({
-								name: '',
-								audio: '',
-								img: '',
-								stage: false
-							})
-						}
-					} catch (err) {
-						console.log('--- err', err);
-					}
-				},
-				deleteTrack (index) {
-					// it`s not work, and I dont know why
-					//  [Vue warn]: Error in nextTick: "Error: Can't insert child, because the reference node has a different parent."
-					// this.tracks.splice(index, 1);
-				},
-				goToPlaylist () {
-					const id = this.playlist._id;
-					this.$goToPage(Playlist, {
-						id
-					});
-				},
-				async loadTemplates (page = 1) {
-					try {
-						const templates = await TemplateService.getTemplates({
-							page
-						});
-						
-						this.templates = templates.data.data;
-					} catch (err) {
-						console.log('--- err', err);
-					}
-				}
-			},
-			async created () {
-				// fetch templates
-				await this.loadTemplates();
-				this.selectTemplate(0);
+				selectedTemplate: 0,
+				templates: []
 			}
-    };
+		},
+		methods: {
+			clearErrors (field) {
+				if (field) {
+					this.$set(this.errors, field, '');
+				} else {
+					this.errors = {
+						email: '',
+						password: ''
+					};
+				}
+			},
+			selectTemplate (index) {
+				this.selectedTemplate = index;
+
+				this.playlist.img = this.templates[index].img;
+			},
+			async postPlaylist () {
+				const playlist = await PlaylistService.postPlyalist({
+					name: this.playlist.name,
+					img: this.playlist.img
+				})
+				
+				this.playlist = playlist.data.data;
+				this.stage = 1;		
+			},
+			uploadTrackFile (index) {
+				const track = this.tracks[index];
+
+				let options = {
+					android: {
+						isCaptureMood: false, // if true then voice recorder will open directly.
+						isNeedRecorder: true,
+						maxNumberFiles: 1,
+						isNeedFolderList: true,
+						maxSize: 354000 // Maximum size of recorded file in bytes. 5900 = ~ 1 second
+					},
+					ios: {
+						isCaptureMood: false, // if true then voice recorder will open directly.
+						maxNumberFiles: 5,
+						audioMaximumDuration: 10,
+					}
+				};
+
+				const mediafilepicker = new mediaPicker.Mediafilepicker();
+				mediafilepicker.openAudioPicker(options);
+
+				mediafilepicker.on("getFiles", (res) => {
+					let results = res.object.get('results');
+					if (results[0]) {
+						this.$set(track, 'img', `http://192.168.100.37:3000/static/tracks/${this.playlist.img}.jpg`);
+						this.$set(track, 'audio', results[0].file);
+					}
+				});
+				
+				mediafilepicker.on("error", (res) => {
+					let msg = res.object.get('msg');
+					console.log(msg);
+				});
+				
+				mediafilepicker.on("cancel", (res) => {
+					let msg = res.object.get('msg');
+					console.log(msg);
+				});
+			},
+			async addTrack (index) {
+				try {
+					const track = this.tracks[index];
+					const params = [
+						{
+							name: 'name',
+							value: track.name
+						},
+						{
+							name: 'playlistId',
+							value: this.playlist._id
+						},
+						{
+							name: 'audio',
+							filename: track.audio
+						}
+					];
+
+					console.log('--- params', params);
+
+					const task = await UploadService.uploadFile(params);
+
+					if (track.name && track.img) {
+						this.$set(track, 'stage', true);
+
+						this.tracks.push({
+							name: '',
+							audio: '',
+							img: '',
+							stage: false
+						})
+					}
+				} catch (err) {
+					console.log('--- err upload',);
+					console.dir(err);
+				}
+			},
+			deleteTrack (index) {
+				// it`s not work, and I dont know why
+				//  [Vue warn]: Error in nextTick: "Error: Can't insert child, because the reference node has a different parent."
+				// this.tracks.splice(index, 1);
+			},
+			goToPlaylist () {
+				const id = this.playlist._id;
+				this.$goToPage(Playlist, {
+					id
+				});
+			},
+			async loadTemplates (page = 1) {
+				try {
+					const templates = await TemplateService.getTemplates({
+						page
+					});
+					
+					this.templates = templates.data.data;
+				} catch (err) {
+					console.log('--- err', err);
+				}
+			}
+		},
+		async created () {
+			// fetch templates
+			await this.loadTemplates();
+			this.selectTemplate(0);
+		}
+	};
 </script>
 
 <style scoped lang="scss">
