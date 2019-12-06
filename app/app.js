@@ -15,11 +15,14 @@ Vue.component('VerticalScroll', VerticalScroll);
 import PlaylistButton from '@/components/PlaylistButton';
 Vue.component('PlaylistButton', PlaylistButton);
 
-import TrackScroll from '@/components/TrackScroll';
-Vue.component('TrackScroll', TrackScroll);
+import TrackList from '@/components/TrackList';
+Vue.component('TrackList', TrackList);
 
-// import App from './components/App';
+import NavBottom from '@/components/NavBottom';
+Vue.component('NavBottom', NavBottom);
+
 import App from './components/App';
+// import App from './components/App';
 
 new Vue({
 	components: {

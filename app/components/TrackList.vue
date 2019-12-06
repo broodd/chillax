@@ -10,7 +10,7 @@
 	import TrackService from '@/services/track';
 
 	export default {
-		name: 'TrackScroll',
+		name: 'TrackList',
 		props: {
 			tracks: Array
 		},

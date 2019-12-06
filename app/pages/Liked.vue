@@ -6,7 +6,7 @@
 						<FlexboxLayout class="container container-fluid bg bg--top home__header" width="100%" row="0">
 							<StackLayout class="row" height="100%">
 								<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
-									<Label class="fz-35" text="Recent playlists"/>
+									<Label class="fz-35" text="Liked playlists"/>
 								</FlexboxLayout>
 							</StackLayout>
 						</FlexboxLayout>
@@ -28,7 +28,7 @@
 						<FlexboxLayout class="container container-fluid my-2" width="100%" row="2">
 							<StackLayout class="row" height="100%">
 								<FlexboxLayout flexDirection="column" justifyContent="flex-end" height="100%">
-									<Label class="fz-35" text="Tracks"/>
+									<Label class="fz-35" text="Liked tracks"/>
 								</FlexboxLayout>
 							</StackLayout>
 						</FlexboxLayout>
@@ -36,29 +36,25 @@
 
 						<FlexboxLayout class="container container-fluid" width="100%" row="3">
 							<StackLayout class="row">
-								<TrackScroll :tracks="tracks"/>
+								<TrackList :tracks="tracks"/>
 							</StackLayout>
 						</FlexboxLayout>
 					</GridLayout>
 				</VerticalScroll>
 
-				<NavBottom activeIndex="0"/>
+				<NavBottom activeIndex="1"/>
 				
 			</GridLayout>
     </Page>
 </template>
 
 <script>
-		import TrackScroll from '@/components/TrackScroll';
 		import PlaylistService from '@/services/playlist';
 		import TrackService from '@/services/track';
-		import NavBottom from '@/components/NavBottom';
 
     export default {
 			name: 'Home',
 			components: {
-				TrackScroll,
-				NavBottom
 			},
 			computed: {
 			},
@@ -83,20 +79,21 @@
 				},
 				async loadPlaylists (page = 1) {
 					try {
-						const playlists = await PlaylistService.getPlaylists({
+						const playlists = await PlaylistService.getLikedPlaylists({
 							page
 						});
 
+						console.log('--- playlists', playlists);
+
 						if (playlists.data)
 							this.playlists = this.playlists.concat(playlists.data.data);
-							// this.playlists = playlists.data.data;
 					} catch (err) {
 						console.log('--- err', err);
 					}
 				},
 				async loadTracks (page = 1) {
 					try {
-						const tracks = await TrackService.getTracks({
+						const tracks = await TrackService.getLikedTracks({
 							page
 						});
 

@@ -36,7 +36,7 @@
 
 						<FlexboxLayout class="container container-fluid" width="100%" row="3">
 							<StackLayout class="row">
-								<TrackScroll :tracks="tracks"/>
+								<TrackList :tracks="tracks"/>
 							</StackLayout>
 						</FlexboxLayout>
 					</GridLayout>
@@ -49,16 +49,12 @@
 </template>
 
 <script>
-		import TrackScroll from '@/components/TrackScroll';
 		import PlaylistService from '@/services/playlist';
 		import TrackService from '@/services/track';
-		import NavBottom from '@/components/NavBottom';
 
     export default {
 			name: 'Home',
 			components: {
-				TrackScroll,
-				NavBottom
 			},
 			computed: {
 			},

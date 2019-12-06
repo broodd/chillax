@@ -14,21 +14,21 @@ export default () => {
 		}
 	});
 
-	apiClient.interceptors.response.use(response => {
-		return response
-	},
-		error => {
-			if (error.response)
-				console.error('--- Server error ---', error.response);
-			// if (error.response.status === 401) {
-			// 	store.dispatch('setToken', '')
-			// 		.then(() => {
-			// 			console.log('--- empty token', );
-			// 		})
-			// }
-			return error
-		}
-	);
+	// apiClient.interceptors.response.use(response => {
+	// 	return response
+	// },
+	// 	error => {
+	// 		if (error.response)
+	// 			console.error('--- Server error ---', error.response);
+	// 		// if (error.response.status === 401) {
+	// 		// 	store.dispatch('setToken', '')
+	// 		// 		.then(() => {
+	// 		// 			console.log('--- empty token', );
+	// 		// 		})
+	// 		// }
+	// 		return error
+	// 	}
+	// );
 
 	// axios.interceptors.response.use((response) => {
 	// 	return response;

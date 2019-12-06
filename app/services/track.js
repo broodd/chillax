@@ -10,6 +10,9 @@ export default {
 	getTracksByAuthor (params) {
 		return api().get(`tracks/author/${params.id}`, { params });
 	},
+	getLikedTracks (params) {
+		return api().get('tracks/liked', { params });
+	},
 
 	likePlaylist(params) {
 		return api().put(`track/like/${params.id}`);

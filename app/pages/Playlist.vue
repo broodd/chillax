@@ -18,7 +18,7 @@
 
 						<FlexboxLayout class="container container-fluid" width="100%" row="1">
 							<StackLayout class="row">
-								<TrackScroll :tracks="tracks"/>
+								<TrackList :tracks="tracks"/>
 							</StackLayout>
 						</FlexboxLayout>
 
@@ -36,7 +36,6 @@
 		import Author from '@/pages/Author';
 		import TrackService from '@/services/track';
 		import PlaylistService from '@/services/playlist';
-		import NavBottom from '@/components/NavBottom';
 
     export default {
 			name: 'Playlist',
@@ -44,7 +43,6 @@
 				id: String
 			},
 			components: {
-				NavBottom
 			},
 			computed: {
 			},
