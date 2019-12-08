@@ -21,8 +21,8 @@ Vue.component('TrackList', TrackList);
 import NavBottom from '@/components/NavBottom';
 Vue.component('NavBottom', NavBottom);
 
-// import App from './components/App';
 import App from './components/App';
+// import App from './components/App';
 
 new Vue({
 	components: {

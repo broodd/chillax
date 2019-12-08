@@ -77,8 +77,6 @@
 							page
 						});
 
-						console.log('--- playlists', playlists);
-
 						if (playlists.data)
 							this.playlists = this.playlists.concat(playlists.data.data);
 					} catch (err) {

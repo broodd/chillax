@@ -4,7 +4,7 @@
 				<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false">
 					<GridLayout class="" columns="*" rows="250, *">
 						
-						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="playlist.img ? `http://192.168.100.37:3000/static/playlists/${playlist.img}_clip.png` : ''">
+						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="playlist.img ? `http://192.168.0.104:3000/static/playlists/${playlist.img}_clip.png` : ''">
 							<StackLayout class="row" height="100%">
 								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
 									<Label class="fz-35" :text="playlist.name"/>
@@ -26,7 +26,7 @@
 										class="template__btn"
 										:class="{ active: key == selectedTemplate }"
 										:key="key"
-										:backgroundImage="`http://192.168.100.37:3000/static/tracks/${template.img}.jpg`"
+										:backgroundImage="`http://192.168.0.104:3000/static/tracks/${template.img}.jpg`"
 										@tap="selectTemplate(key)"
 									>
 										<Label class="template__text" :text="key == selectedTemplate ? '✔️' : template.name"/>
@@ -160,7 +160,7 @@
 				mediafilepicker.on("getFiles", (res) => {
 					let results = res.object.get('results');
 					if (results[0]) {
-						this.$set(track, 'img', `http://192.168.100.37:3000/static/tracks/${this.playlist.img}.jpg`);
+						this.$set(track, 'img', `http://192.168.0.104:3000/static/tracks/${this.playlist.img}.jpg`);
 						this.$set(track, 'audio', results[0].file);
 					}
 				});

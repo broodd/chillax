@@ -19,19 +19,19 @@ const mutations = {
 };
 
 const actions = {
-	setToken: ({ commit }, payload) => {
+	setToken ({ commit }, payload) {
 		commit('setToken', payload);
 	},
-	setUser: ({ commit }, payload) => {
+	setUser ({ commit }, payload) {
 		commit('setUser', payload);
 	}
 };
 
 const getters = {
-	getToken: (state) => {
+	getToken (state) {
 		return state.token || appSettings.getString('token');
 	},
-	getUserId: (state) => {
+	getUserId (state) {
 		return state.userId || appSettings.getString('userId');
 	},
 }

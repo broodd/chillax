@@ -1,7 +1,7 @@
 <template>
-	<FlexboxLayout class="track" :class="{ active: stage }">
-		<AbsoluteLayout class="track__button" @tap="playTrack" :backgroundImage="`http://192.168.100.37:3000/static/tracks/${track.img}.jpg`">
-			<Label class="track__button__circle" left="28" top="28"/>
+	<FlexboxLayout class="track" :class="{ active: stage, paused: !paused }">
+		<AbsoluteLayout class="track__button" @tap="$emit('playTrack', index)" :backgroundImage="`http://192.168.0.104:3000/static/tracks/${track.img}.jpg`">
+			<Label class="track__button__circle"/>
 		</AbsoluteLayout>
 		<StackLayout class="track__text">
 			<Label class="track__name" :text="track.name" />
@@ -20,13 +20,9 @@
 		name: 'Track',
 		props: {
 			track: Object,
-			index: Number
-		},
-		data () {
-			return {
-				stage: false,
-				countPlaying: 0
-			}
+			index: Number,
+			stage: Boolean,
+			paused: Boolean
 		},
 		methods: {
 			goToAuthor () {
@@ -35,46 +31,6 @@
 						id: this.track.author._id
 					}
 				})
-			},
-			playTrack () {
-				try {
-					if (this.stage == true) {
-						player.pause();
-						this.stage = false;
-					} else {
-						if (this.countPlaying > 1) {
-							player.resume();
-							this.stage = true;
-						} else {
-							const playerOptions = {
-								audioFile: `http://192.168.100.37:3000/static/audio${this.track.src}`,
-								loop: false,
-								completeCallback: () => {
-									console.log('finished playing');
-									this.countPlaying = 0
-								},
-								errorCallback: (errorObject) => {
-									console.log(JSON.stringify(errorObject));
-								},
-								infoCallback: (args) => {
-									console.log(JSON.stringify(args));
-								}
-							};
-
-							player
-								.playFromFile(playerOptions)
-								.then(() => {
-									this.stage = true;
-								})
-						}
-						
-						this.counter++;
-					}
-				} catch (err) {
-					console.log('something went wrong...', err);
-					
-					this.stage = false;
-				}
 			}
 		}
 	}
