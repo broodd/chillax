@@ -1,9 +1,6 @@
 <template>
     <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
-			<!-- <AbsoluteLayout>
-				<Label text="ERRROR" />
-			</AbsoluteLayout> -->
-			<GridLayout columns="*" rows="*, auto" height="100%">
+			<GridLayout columns="*" rows="100, *, auto" height="100%">
 				<VerticalScroll @nextPage="onNextPageTrack">
 					<GridLayout class="" columns="*" rows="250, auto, *">
 						

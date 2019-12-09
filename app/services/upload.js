@@ -8,7 +8,7 @@ export default {
       const token = store.getters.getToken;
 
       const request = {
-        url: 'http://192.168.100.37:3000/audio-file',
+				url: 'http://192.168.0.104:3000/audio-file',
         method: 'PUT',
         headers: {
           'Content-Type': 'multipart/form-data',

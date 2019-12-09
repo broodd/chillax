@@ -190,26 +190,24 @@
 	align-items: center;
 	justify-content: space-between;
 
-	&.active {
-		.track__button__circle {
-			border-radius: 0;
-		}	
-	}
-
 	&__button {
 		border-radius: 50%;
 		width: 80;
 		height: 80;
 		background-color: $grey;
-		// background-image: url('~/assets/img/tracks/cover.jpg');
 		background-repeat: no-repeat;
 		background-size: cover;
-		transition: all 400ms ease;
+		border-color: $grey;
+		border-width: 1;
 
 		&__circle {
+			// border-color: $grey;
+			border-width: 0;
 			border-radius: 50%;
 			width: 24;
 			height: 24;
+			left: 28;
+			top: 28;
 			background-color: $cream-bg;
 			color: $black;
 			font-size: 29;
@@ -226,7 +224,51 @@
 	&__author {
 		color: $grey;
 	}
+
+	
+	&.active {
+		.track__button {
+			border-color: $green;
+			&__circle {
+				border-color: $green;
+				border-width: 1;
+				transform: scale(1.6);
+				// animation-name: playing;
+				// animation-duration: 2s;
+				// animation-fill-mode: forwards;
+				// animation-iteration-count: infinite;
+				// animation-timing-function: ease;
+				// transform-origin: center center;
+			}
+		}
+		
+		&.paused {
+			.track__button {
+				border-color: $tomato;
+				&__circle {
+					border-color: $tomato;
+					animation: none;
+				}
+			}
+		}
+	}
+
 }
+
+// @keyframes playing {
+// 	0% {
+// 		transform: scale(1);
+// 	}
+// 	30% {
+// 		transform: scale(1.3);
+// 	}
+// 	80% {
+// 		transform: scale(1.6);
+// 	}
+// 	100% {
+// 		transform: scale(1);
+// 	}
+// }
 
 .template {
 	&__btn {
