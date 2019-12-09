@@ -15,7 +15,6 @@
 					<FlexboxLayout class="form__bottom container pb-4" width="100%" row="1">
 						<StackLayout class="row text-center">
 							<Button class="btn green" text="Sign in" @tap="$goToPage(Login)" />
-							<Button class="btn green" text="Home" @tap="$goToPage(Home)" />
 							
 							<Label class="mt-2 new-account" text="New Account?" @tap="$goToPage(Registration)" />
 						</StackLayout>
@@ -29,7 +28,6 @@
 <script>
 		import Login from '@/pages/Login';
 		import Registration from '@/pages/Registration';		
-		import Home from '@/pages/Home';		
 
     export default {
 			name: 'Wellcome',
@@ -40,8 +38,7 @@
 			data() {
 				return {
 					Login,
-					Registration,
-					Home
+					Registration
 				}
 			}
     };
