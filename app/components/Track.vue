@@ -1,6 +1,6 @@
 <template>
 	<FlexboxLayout class="track" :class="{ active: stage, paused: !paused }">
-		<AbsoluteLayout class="track__button" @tap="$emit('playTrack', index)" :backgroundImage="`http://192.168.0.104:3000/static/tracks/${track.img}.jpg`">
+		<AbsoluteLayout class="track__button" @tap="$emit('playTrack', index)" :backgroundImage="`https://chillax-server.herokuapp.com/static/tracks/${track.img}.jpg`">
 			<Label class="track__button__circle"/>
 		</AbsoluteLayout>
 		<StackLayout class="track__text">

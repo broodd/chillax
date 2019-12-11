@@ -1,5 +1,5 @@
 <template>
-	<StackLayout orientation="vertical" v-if="tracks && tracks.length">
+	<StackLayout orientation="vertical">
 		<Track
 			v-for="(track, index) in tracks"
 			:key="track._id"
@@ -13,7 +13,7 @@
 		/>
 			<!-- :stage="nowPlayingId == track._id" -->
 	</StackLayout>
-	<ActivityIndicator v-else busy="true" />
+	<!-- <ActivityIndicator v-else busy="true" /> -->
 </template>
 
 <script>
@@ -61,7 +61,7 @@
 						} else {
 							console.log('--- stoped, need start (next)', index, track.src);
 							const playerOptions = {
-								audioFile: `http://192.168.0.104:3000/static/audio/${track.src}`,
+								audioFile: `https://chillax-server.herokuapp.com/static/audio/${track.src}`,
 								loop: false,
 								completeCallback: () => {
 									console.log('finished playing');
