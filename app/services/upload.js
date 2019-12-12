@@ -14,7 +14,9 @@ export default {
           'Content-Type': 'multipart/form-data',
           authorization: token || undefined
         },
-        description: 'FileName'
+        description: 'uploading file...',
+        androidAutoDeleteAfterUpload: false,
+        androidNotificationTitle: 'Chillax uploading audio'
 			};
 			
       const task = session.multipartUpload(params, request);
