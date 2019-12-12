@@ -4,10 +4,10 @@
 				<VerticalScroll @nextPage="onNextPageTrack">
 					<GridLayout class="" columns="*" rows="250, auto, *">
 						
-						<FlexboxLayout class="container container-fluid bg--top" width="100%" row="0" backgroundImage="~/assets/authors/default_clip.png">
+						<FlexboxLayout v-if="author.email" class="container container-fluid bg--top" width="100%" row="0" backgroundImage="~/assets/authors/default_clip.png">
 							<StackLayout class="row" height="100%">
 								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center" height="100%" @tap="logOut">
-									<Image class="author__img" src="~/assets/img/authors/author.png"/>
+									<Image class="author__img" :src="`https://api.adorable.io/avatars/200/${author.email}.png`"/>
 									<Label class="fz-24 my-2" :text="author.profile.name"/>
 									<Label class="fz-17" :text="author.followersCount"/>
 								</FlexboxLayout>
@@ -60,7 +60,8 @@
 			data() {
 				return {
 					author: {
-						profile: {}
+						profile: {},
+						email: ''
 					},
 					playlists: [],
 					tracks: []
