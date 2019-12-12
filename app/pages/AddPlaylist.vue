@@ -4,10 +4,11 @@
 				<ScrollView class="panel panel--home" orientation="vertical" scrollBarIndicatorVisible="false">
 					<GridLayout class="" columns="*" rows="250, *">
 						
-						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="playlist.img ? `https://chillax-server.herokuapp.com/static/playlists/${playlist.img}_clip.png` : ''">
+						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="playlist.img ? `https://chillax-server.herokuapp.com/static/tracks/${playlist.img}.jpg` : ''">
 							<StackLayout class="row" height="100%">
 								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
-									<Label class="fz-35" :text="playlist.name"/>
+									<!-- <Label class="fz-35" :text="playlist.name"/> -->
+									<TextField class="field field--outline" v-model="playlist.name" hint="Input playlist name here" @focus="clearErrors('name')"/>
 								</FlexboxLayout>
 							</StackLayout>
 						</FlexboxLayout>
@@ -15,8 +16,8 @@
 						<FlexboxLayout v-if="!stage" class="container container-fluid" width="100%" row="1">
 							<StackLayout class="row">
 
-								<TextField class="field field--green" v-model="playlist.name" hint="Input playlist name" @focus="clearErrors('name')"/>
-								<Label class="error error--field" :text="errors.name" />
+								<!-- <TextField class="field field--green" v-model="playlist.name" hint="Input playlist name here" @focus="clearErrors('name')"/>
+								<Label class="error error--field" :text="errors.name" /> -->
 
 								<Label class="fz-17" text="Select image"/>
 
@@ -240,7 +241,8 @@
 						page
 					});
 					
-					this.templates = templates.data.data;
+					if (templates.data)
+						this.templates = this.templates.concat(templates.data.data);
 				} catch (err) {
 					console.log('--- err', err);
 				}

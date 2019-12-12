@@ -4,11 +4,12 @@
 				<VerticalScroll @nextPage="onNextPageTrack">
 					<GridLayout class="" columns="*" rows="300, *">
 						
-						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="`https://chillax-server.herokuapp.com/static/playlists/${playlist.img}_clip.png`">
+						<!-- <FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="`https://chillax-server.herokuapp.com/static/playlists/${playlist.img}_clip.png`"> -->
+						<FlexboxLayout class="container container-fluid bg--top playlist__header" width="100%" row="0" :backgroundImage="`https://chillax-server.herokuapp.com/static/tracks/${playlist.img}.jpg`">
 							<StackLayout class="row" height="100%">
 								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center"  height="100%">
 									<Label class="fz-35" :text="playlist.name"/>
-									<Label class="fz-24 my-2" :text="'awd ' + !!playlist.author._id" @tap="goToAuthor()"/>
+									<Label class="fz-24 my-2" :text="playlist.author.profile ? playlist.author.profile.name : 'author'" @tap="goToAuthor()"/>
 									<FlexboxLayout alignItems="center">
 										<Button class="like my-fa" text.decode="&#xe802;" :class="{active: playlist.liked}" @tap="onLikePlaylist"/>
 									</FlexboxLayout>

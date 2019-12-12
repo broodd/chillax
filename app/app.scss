@@ -112,7 +112,18 @@
 	&--green {
 		background-color: $green;
 		color: $white;
-		placeholder-color: $white;;
+		placeholder-color: $white;
+	}
+
+	&--outline {
+		background-color: $cream-bg;		
+		color: $black;
+		border-width: 0;
+		border-color: $black;
+		// border-top-width: 0;
+		// border-left-width: 0;
+		// border-right-width: 0;
+		// border-radius: 10;
 	}
 }
 
@@ -163,6 +174,9 @@
 .playlist {
 	&__header {
 		margin-bottom: 20;
+		// background-size: cover;
+		background-repeat: repeat;
+		background-position: center;
 	}
 	&-list {
 		margin: 10 0;
