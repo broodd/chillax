@@ -16,7 +16,7 @@
 							<StackLayout class="row">
 								<HorizontalScroll @nextPage="onNextPagePlaylist" class="playlist-list">
 									<PlaylistButton
-										v-for="playlist in playlists"
+										v-for="playlist of playlists"
 										:key="playlist._id"
 										:playlist="playlist"
 									/>

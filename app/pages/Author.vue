@@ -1,15 +1,15 @@
 <template>
     <Page class="page page--home c-black" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
-			<GridLayout columns="*" rows="100, *, auto" height="100%">
+			<GridLayout columns="*" rows="*, auto" height="100%">
 				<VerticalScroll @nextPage="onNextPageTrack">
 					<GridLayout class="" columns="*" rows="250, auto, *">
 						
-						<FlexboxLayout class="container container-fluid bg--top" width="100%" row="0" backgroundImage="~/assets/authors/default_clip.png">
+						<FlexboxLayout class="container container-fluid bg--top" width="100%" row="0" backgroundImage="~/assets/img/main_bg_clip.png">
 							<StackLayout class="row" height="100%">
 								<FlexboxLayout flexDirection="column" alignItems="center" justifyContent="center" height="100%" @tap="logOut">
 									<Image class="author__img" src="~/assets/img/authors/author.png"/>
 									<Label class="fz-24 my-2" :text="author.profile.name"/>
-									<Label class="fz-17" :text="author.followersCount"/>
+									<!-- <Label class="fz-17" :text="author.followersCount"/> -->
 								</FlexboxLayout>
 							</StackLayout>
 						</FlexboxLayout>
@@ -19,7 +19,7 @@
 							<StackLayout class="row">
 								<HorizontalScroll @nextPage="onNextPagePlaylist" class="playlist-list">
 									<PlaylistButton
-										v-for="playlist in playlists"
+										v-for="playlist of playlists"
 										:key="playlist._id"
 										:playlist="playlist"
 									/>

@@ -2,6 +2,7 @@
 	<Button
 		@tap="goToPlaylist(playlist._id)"
 		class="playlist-list__btn"
+		:backgroundImage="`https://chillax-server.herokuapp.com/static/tracks/${playlist.img}.jpg`"
 		:text="playlist.name"
 	/>
 </template>
