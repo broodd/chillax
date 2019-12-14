@@ -80,13 +80,13 @@
 							password: this.password
 						});
 
-						this.$store.dispatch('setUser', {
+						await this.$store.dispatch('setUser', {
 							token: response.data.token,
 							userId: response.data.user._id
 						})
-							// .then(() => {
+							.then(() => {
 								this.$goToPage(Home);
-							// });
+							});
 					} catch (err) {
 						if (err.response && err.response.data && typeof err.response.data.message == 'object') {
 							for (const e of err.response.data.message) {

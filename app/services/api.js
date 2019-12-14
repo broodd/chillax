@@ -16,7 +16,8 @@ export default () => {
 	});
 
 	apiClient.interceptors.response.use(response => {
-		return response
+		return Promise.resolve(response);
+		// return response
 	},
 		error => {
 			if (error.response)

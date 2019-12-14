@@ -76,15 +76,13 @@
 								password: this.password
 							});
 
-							if (response.data && response.data.success !== false) {
-								this.$store.dispatch('setUser', {
-									token: response.data.token,
-									userId: response.data.data._id
-								})
-									.then(() => {
-										this.$goToPage(Home);
-									});
-							}
+							this.$store.dispatch('setUser', {
+								token: response.data.token,
+								userId: response.data.data._id
+							})
+								.then(() => {
+									this.$goToPage(Home);
+								});
 						} catch (err) {
 							if (err.response && err.response.data && typeof err.response.data.message == 'object') {
 								for (const e of err.response.data.message) {
