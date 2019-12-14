@@ -8,6 +8,35 @@
 // Import common styles
 @import 'app-common';
 
+.page {
+	background-color: $cream-bg;
+	// color: rgb(94, 94, 94);
+}
+
+.nav {
+	background-color: $grey;
+	text-align: center;
+	color: $white;
+	font-size: 23;
+	padding: 0;
+	.my-fa {
+		padding: 20 0;
+		&.active {
+			background-color: $green;
+		}
+	}
+}
+
+.bg--top {
+	text-align: center;
+	background-size: cover;
+	background-color: $cream-bg;
+	background-position: center bottom;
+	color: $white;
+	padding-bottom: 20;
+	margin-bottom: 10;
+}
+
 .form {
 	width: 100%;
 	height: 100%;
@@ -43,6 +72,16 @@
 	color: $black;
 }
 
+.error {
+	color: $tomato;
+	text-align: left;
+
+	&--field {
+		font-size: 12;
+		margin-bottom: 10;
+		padding-left: 20;
+	}
+}
 
 .bg {
 	background-repeat: no-repeat;
@@ -67,9 +106,42 @@
 	border-radius: 28;
 	border: 1px solid $cream-field;
 	padding: 10 20;
-	margin-bottom: 10;
+	margin-bottom: 0;
 	text-align: left;
+	
+	&--green {
+		background-color: $green;
+		color: $white;
+		placeholder-color: $white;
+	}
+
+	&--outline {
+		background-color: $cream-bg;		
+		color: $black;
+		border-width: 0;
+		border-color: $black;
+		// border-top-width: 0;
+		// border-left-width: 0;
+		// border-right-width: 0;
+		// border-radius: 10;
+	}
 }
+
+.input {
+	border-color: red;
+	&.error {
+		border-bottom-color: $tomato;
+	}
+}
+
+// .field {
+// 	width: 100%;
+// 	background-color: $white;
+// 	text-align: left;
+// 	color: $black;
+// 	border-radius: 28;
+// 	padding: 10 20;
+// }
 
 .btn {
 	width: 100%;
@@ -96,67 +168,177 @@
 		box-shadow: 0 27 tomato;
 	}
 }
-.container {
-	width: 100%;
-	// height: 100%;
-	// justify-content: flex-end;
+
+
+// Custom styles
+.playlist {
+	&__header {
+		margin-bottom: 20;
+		// background-size: cover;
+		background-repeat: repeat;
+		background-position: center;
+	}
+	&-list {
+		margin: 10 0;
+		&__btn {
+			margin-right: 10;
+			margin-left: 0;
+			text-transform: uppercase;
+			text-align: center;
+			width: 160;
+			height: 160;
+			font-size: 22;
+			letter-spacing: 0.2;
+			color: $white;
+			border-radius: 10;
+			background-size: cover;
+			background-image: url('~/assets/img/playlists/focus.jpg');
+			// background-color: lime;
+		}
+	}
+}
+
+
+.track {
+	margin-bottom: 10;
 	align-items: center;
-	flex-direction: column;
+	justify-content: space-between;
+
+	&__button {
+		border-radius: 50%;
+		width: 80;
+		height: 80;
+		background-color: $grey;
+		background-repeat: no-repeat;
+		background-size: cover;
+		border-color: $grey;
+		border-width: 1;
+
+		&__circle {
+			// border-color: $grey;
+			border-width: 0;
+			border-radius: 50%;
+			width: 24;
+			height: 24;
+			left: 28;
+			top: 28;
+			background-color: $cream-bg;
+			color: $black;
+			font-size: 29;
+		}
+	}
+
+	&__text {
+		margin-left: 20;
+		flex: 1 1 100%;
+	}
+	&__name {
+		font-size: 20;
+	}
+	&__author {
+		color: $grey;
+	}
+
 	
-	.row {
-		width: 80%;
-		// width: 100%;
-		// flex-direction: column;
+	&.active {
+		.track__button {
+			border-color: $green;
+			&__circle {
+				// border-color: $green;
+				// border-width: 1;
+				transform: scale(1.6);
+				animation-name: playing;
+				animation-duration: 2s;
+				animation-fill-mode: forwards;
+				animation-iteration-count: infinite;
+				animation-timing-function: ease;
+				transform-origin: center center;
+			}
+		}
+		
+		&.paused {
+			.track__button {
+				border-color: $tomato;
+				&__circle {
+					border-color: $tomato;
+					animation: none;
+				}
+			}
+		}
+	}
+
+}
+
+@keyframes playing {
+	0% {
+		transform: scale(1);
+	}
+	30% {
+		transform: scale(1.3);
+	}
+	80% {
+		transform: scale(1.6);
+	}
+	100% {
+		transform: scale(1);
 	}
 }
 
-.m {
-	&t {
-		&-2 {
-			margin-top: 20;
-		}
-	}
-	&b {
-		&-2 {
-			margin-bottom: 20;
-		}
-		&-5 {
-			margin-bottom: 50;
-		}
-	}
-}
-
-.p {
-	&b {
-		&-4 {
-			padding-bottom: 40;
-		}
-	}
-}
-
-.text {
-	&-center {
-		text-align: center;
-	}
-}
-
-.c {
-	&-white {
+.template {
+	&__btn {
+		margin-right: 10;
+		margin-left: 0;
+		justify-content: center;
+		align-items: center;
+		width: 160;
+		height: 160;
+		font-size: 22;
+		letter-spacing: 0.2;
 		color: $white;
+		border-radius: 10;
+		background-size: cover;
+		border: 10 solid $green;
+
+		&.active {
+			.template__text {
+				background-color: rgba(0, 0, 0, 0.7);
+			}
+		}
 	}
-	&-black {
-		color: $black;
+	&__text {
+		margin: 0;
+		padding: 8 15;
+		text-transform: uppercase;
+		border-radius: 5;
+		font-size: 17;
+		background-color: rgba(0, 0, 0, 0.4);
 	}
 }
 
-.fz {
-	&-24 {
-		font-size: 24;
+.like {
+	width: 50;
+	height: 50;
+	font-size: 20;
+	color: $grey;
+	background-color: $cream-bg;
+	border-radius: 50%;
+	android-elevation: 0;
+	&.active {
+		color: $tomato;
+	}
+	&.add {
+		font-size: 30;
+		&.active {
+			color: $green;
+		}
 	}
 }
 
-.fw {
-	&-bold {
-		font-weight: bold;
+
+.author {
+	&__img {
+		border-radius: 50%;
+		width: 100;
+		height: 100;
 	}
 }

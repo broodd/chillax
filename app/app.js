@@ -1,19 +1,37 @@
 import Vue from "nativescript-vue";
-import store from './store';
+import store from '@/store';
 
-import Home from "./components/Home";
+// Global mixins
+import goToPage from '@/mixins/goToPage';
+Vue.mixin(goToPage);
 
-// var authService = require("./auth-service");
-// authService.configureOAuthProviders();
+// My global components
+import HorizontalScroll from '@/components/HorizontalScroll';
+Vue.component('HorizontalScroll', HorizontalScroll);
 
-new Vue({
-	template: `
-		<Frame>
-				<Home />
-		</Frame>`,
+import VerticalScroll from '@/components/VerticalScroll';
+Vue.component('VerticalScroll', VerticalScroll);
+
+import PlaylistButton from '@/components/PlaylistButton';
+Vue.component('PlaylistButton', PlaylistButton);
+
+import TrackList from '@/components/TrackList';
+Vue.component('TrackList', TrackList);
+
+import NavBottom from '@/components/NavBottom';
+Vue.component('NavBottom', NavBottom);
+
+import App from './components/App';
+// import App from './components/App';
+
+const app = new Vue({
 	components: {
-		Home
+		App,
 	},
-	// render: h => h(Home),
-	store,
+	render: h => h(App),
+	store
 }).$start();
+
+Vue.config.silent = false;
+
+export default app;
