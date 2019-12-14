@@ -5,7 +5,7 @@
 		</AbsoluteLayout>
 		<StackLayout class="track__text">
 			<Label class="track__name" :text="track.name" />
-			<Label class="track__author" :text="'petro' + !!track.author._id" @tap="goToAuthor()"/>
+			<Label class="track__author" :text="track.author.profile.name" @tap="goToAuthor()"/>
 		</StackLayout>
 		<Button class="like my-fa" text.decode="&#xe802;" :class="{ active: track.liked }" @tap="$emit('likeTrack', track._id, index)"/>
 	</FlexboxLayout>

@@ -1,5 +1,7 @@
 import axios from 'axios';
 import store from '@/store';
+import app from '../app';
+import Home from '@/pages/Home';
 
 export default () => {
 	const token = store.getters.getToken;
@@ -13,33 +15,21 @@ export default () => {
 		}
 	});
 
-	// apiClient.interceptors.response.use(response => {
-	// 	return response
-	// },
-	// 	error => {
-	// 		if (error.response)
-	// 			console.error('--- Server error ---', error.response);
-	// 		// if (error.response.status === 401) {
-	// 		// 	store.dispatch('setToken', '')
-	// 		// 		.then(() => {
-	// 		// 			console.log('--- empty token', );
-	// 		// 		})
-	// 		// }
-	// 		return error
-	// 	}
-	// );
-
-	// axios.interceptors.response.use((response) => {
-	// 	return response;
-	// }, function (error) {
-	// 	// Do something with response error
-	// 	if (error.response.status === 401) {
-	// 		console.log('unauthorized, logging out ...');
-	// 		auth.logout();
-	// 		router.replace('/auth/login');
-	// 	}
-	// 	return Promise.reject(error.response);
-	// });
+	apiClient.interceptors.response.use(response => {
+		return response
+	},
+		error => {
+			if (error.response)
+			if (error.response.status === 401) {
+				store.dispatch('setUser', {
+					token: '',
+					userId: ''
+				})
+				app.$goToPage(Home)
+			}
+			return Promise.reject(error);
+		}
+	);
 
 	return apiClient;
 }

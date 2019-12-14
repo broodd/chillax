@@ -70,7 +70,6 @@
 </template>
 
 <script>
-	const fs = require("file-system");
 	const mediaPicker = require('nativescript-mediafilepicker');
 	import Home from '@/pages/Home';
 	import Playlist from '@/pages/Playlist';
@@ -185,11 +184,6 @@
 					const track = this.tracks[index];
 
 					if (track.name && track.img) {
-						let file = fs.File.fromPath(path);
-
-						console.log('--- file', file);
-						console.log('--- file.path', file.path);
-						console.log('--- file._path', file._path);
 
 						const params = [
 							{
@@ -205,8 +199,6 @@
 								filename: track.audio
 							}
 						];
-
-						console.log('--- params', params);
 
 						const task = await UploadService.uploadFile(params);
 

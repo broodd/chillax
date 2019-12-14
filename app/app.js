@@ -21,10 +21,10 @@ Vue.component('TrackList', TrackList);
 import NavBottom from '@/components/NavBottom';
 Vue.component('NavBottom', NavBottom);
 
-// import App from './components/App';
 import App from './components/App';
+// import App from './components/App';
 
-new Vue({
+const app = new Vue({
 	components: {
 		App,
 	},
@@ -34,3 +34,4 @@ new Vue({
 
 Vue.config.silent = false;
 
+export default app;
