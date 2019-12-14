@@ -13,7 +13,7 @@ Relax mobile application powered by NativeScript
 ![Start panel(img)](https://images2.imgbox.com/ea/76/bVLIZXaX_o.jpg)
 
 ## Install
-- [Apk file for android](https://we.tl/t-ZWiMBqBX8a)
+- [Apk file for android](https://we.tl/t-Zt5LvEc6Vz)
 
 
 ## Setup
