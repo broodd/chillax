@@ -80,7 +80,7 @@
 						if (playlists.data)
 							this.playlists = this.playlists.concat(playlists.data.data);
 					} catch (err) {
-						console.log('--- err', err);
+						alert(err);
 					}
 				},
 				async loadTracks (page = 1) {
@@ -92,7 +92,7 @@
 						if (tracks.data)
 							this.tracks = this.tracks.concat(tracks.data.data);
 					} catch (err) {
-						console.log('--- err', err);
+						alert(err);
 					}
 				}
 			},

@@ -81,7 +81,7 @@
 
 						this.author = author.data.data;
 					} catch (err)  {
-						console.log('--- err', err);
+						alert(err);
 					}
 				},
 				async loadPlaylists (page = 1) {
@@ -107,7 +107,7 @@
 						if (tracks.data)
 							this.tracks = this.tracks.concat(tracks.data.data);
 					} catch (err) {
-						console.log('--- err', err);
+						alert(err);
 					}
 				},
 				logOut () {

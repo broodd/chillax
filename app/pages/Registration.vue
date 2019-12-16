@@ -80,7 +80,7 @@
 							password: this.password
 						});
 
-						await this.$store.dispatch('setUser', {
+						this.$store.dispatch('setUser', {
 							token: response.data.token,
 							userId: response.data.user._id
 						})

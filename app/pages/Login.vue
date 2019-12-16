@@ -88,6 +88,8 @@
 								for (const e of err.response.data.message) {
 									this.$set(this.errors, e.field, e.message);
 								}
+							} else {
+								alert(err);
 							}
 						}
 					}

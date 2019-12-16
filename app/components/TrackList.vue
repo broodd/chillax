@@ -102,7 +102,7 @@
 						}
 					}
 				} catch (err) {
-					console.log('something went wrong...', err);
+					alert(err);
 					
 					this.paused = false;
 				}

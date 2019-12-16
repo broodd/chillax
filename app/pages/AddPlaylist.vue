@@ -212,8 +212,7 @@
 						})
 					}
 				} catch (err) {
-					console.log('--- err upload',);
-					console.dir(err);
+					alert(err);
 				}
 			},
 			deleteTrack (index) {
@@ -236,7 +235,7 @@
 					if (templates.data)
 						this.templates = this.templates.concat(templates.data.data);
 				} catch (err) {
-					console.log('--- err', err);
+					alert(err);
 				}
 			}
 		},

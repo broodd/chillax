@@ -76,11 +76,9 @@
 						
 						if (playlist.data.data[0]) {
 							this.playlist = playlist.data.data[0];
-						} else {
-							console.log('--- Not found Playlist', );
 						}
 					} catch (err) {
-						console.log('--- ', err.response.message);
+						alert(err);
 					}
 				},
 				async loadTracks (page = 1) {
@@ -93,7 +91,7 @@
 						if (tracks.data)
 							this.tracks = this.tracks.concat(tracks.data.data);
 					} catch (err) {
-						console.log('--- ', err.response.message);
+						alert(err);
 					}
 				},
 				async onLikePlaylist () {
@@ -104,7 +102,7 @@
 						
 						this.$set(this.playlist, 'liked', liked.data.data);
 					} catch (err) {
-						console.log('--- ', err.response.message);
+						alert(err);
 					}
 				}
 			},
