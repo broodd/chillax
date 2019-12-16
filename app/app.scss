@@ -183,8 +183,8 @@
 		&__btn {
 			margin-right: 10;
 			margin-left: 0;
-			text-transform: uppercase;
-			text-align: center;
+			align-items: center;
+			justify-content: center;
 			width: 160;
 			height: 160;
 			font-size: 22;
@@ -194,6 +194,12 @@
 			background-size: cover;
 			background-image: url('~/assets/img/playlists/focus.jpg');
 			// background-color: lime;
+			&__text {
+				text-transform: lowercase;
+				background-color: rgba(0, 0, 0, 0.7);
+				padding: 3 5;
+				border-radius: 5;
+			}
 		}
 	}
 }
@@ -226,6 +232,23 @@
 			color: $black;
 			font-size: 29;
 		}
+
+		.icon {
+			top: 20;
+			background-color: rgba(0, 0, 0, 0.7);
+			font-size: 20;
+			color: $white;
+			border-radius: 50%;
+			border-width: 0;
+		}
+		.play {
+			padding: 10 10 10 14;
+			left: 20;
+		}
+		.pause {
+			padding: 11 12;
+			left: 20;
+		}
 	}
 
 	&__text {
@@ -246,13 +269,13 @@
 			&__circle {
 				// border-color: $green;
 				// border-width: 1;
-				transform: scale(1.6);
-				animation-name: playing;
-				animation-duration: 2s;
-				animation-fill-mode: forwards;
-				animation-iteration-count: infinite;
-				animation-timing-function: ease;
-				transform-origin: center center;
+				transform: scale(2);
+				// animation-name: playing;
+				// animation-duration: 2s;
+				// animation-fill-mode: forwards;
+				// animation-iteration-count: infinite;
+				// animation-timing-function: ease;
+				// transform-origin: center center;
 			}
 		}
 		
@@ -269,20 +292,20 @@
 
 }
 
-@keyframes playing {
-	0% {
-		transform: scale(1);
-	}
-	30% {
-		transform: scale(1.3);
-	}
-	80% {
-		transform: scale(1.6);
-	}
-	100% {
-		transform: scale(1);
-	}
-}
+// @keyframes playing {
+// 	0% {
+// 		transform: scale(1);
+// 	}
+// 	30% {
+// 		transform: scale(1.3);
+// 	}
+// 	80% {
+// 		transform: scale(1.6);
+// 	}
+// 	100% {
+// 		transform: scale(1);
+// 	}
+// }
 
 .template {
 	&__btn {

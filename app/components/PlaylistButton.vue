@@ -1,10 +1,12 @@
 <template>
-	<Button
+	<FlexboxLayout
 		@tap="goToPlaylist(playlist._id)"
 		class="playlist-list__btn"
 		:backgroundImage="`https://chillax-server.herokuapp.com/static/tracks/${playlist.img}.jpg`"
 		:text="playlist.name"
-	/>
+	>
+		<Label class="playlist-list__btn__text" :text="playlist.name"/>
+	</FlexboxLayout>
 </template>
 
 <script>

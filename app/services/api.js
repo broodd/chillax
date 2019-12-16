@@ -1,7 +1,7 @@
 import axios from 'axios';
 import store from '@/store';
 import app from '../app';
-import Home from '@/pages/Home';
+import Wellcome from '@/pages/Wellcome';
 
 export default () => {
 	const token = store.getters.getToken;
@@ -20,13 +20,12 @@ export default () => {
 		// return response
 	},
 		error => {
-			if (error.response)
 			if (error.response.status === 401) {
 				store.dispatch('setUser', {
 					token: '',
 					userId: ''
 				})
-				app.$goToPage(Home)
+				app.$goToPage(Wellcome)
 			}
 			return Promise.reject(error);
 		}

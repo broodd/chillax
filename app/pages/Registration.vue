@@ -80,11 +80,14 @@
 							password: this.password
 						});
 
+						console.log('--- response', response);
+
 						this.$store.dispatch('setUser', {
 							token: response.data.token,
-							userId: response.data.user._id
+							userId: response.data.data._id
 						})
 							.then(() => {
+								console.log('--- redirect su', );
 								this.$goToPage(Home);
 							});
 					} catch (err) {
@@ -92,6 +95,12 @@
 							for (const e of err.response.data.message) {
 								this.$set(this.errors, e.field, e.message);
 							}
+						} else if (err.response && err.response.data) {
+							alert({
+								title: "Error",
+								message: err.response.data.message,
+								okButtonText: "Try again"
+							})
 						}
 					}
 				}

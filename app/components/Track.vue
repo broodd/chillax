@@ -1,7 +1,9 @@
 <template>
 	<FlexboxLayout class="track" :class="{ active: stage, paused: !paused }">
 		<AbsoluteLayout class="track__button" @tap="$emit('playTrack', index)" :backgroundImage="`https://chillax-server.herokuapp.com/static/tracks/${track.img}.jpg`">
-			<Label class="track__button__circle"/>
+			<Label v-if="!stage" class="track__button__circle"/>
+			<Label v-if="stage && !paused" class="icon play my-fa" text.decode="&#xe80a;"></Label>
+			<Label v-if="stage && paused" class="icon pause my-fa" text.decode="&#xe80b;"></Label>
 		</AbsoluteLayout>
 		<StackLayout class="track__text">
 			<Label class="track__name" :text="track.name" />
