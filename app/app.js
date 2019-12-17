@@ -21,8 +21,8 @@ Vue.component('TrackList', TrackList);
 import NavBottom from '@/components/NavBottom';
 Vue.component('NavBottom', NavBottom);
 
-import App from './components/App';
 // import App from './components/App';
+import App from './components/App';
 
 const app = new Vue({
 	components: {
@@ -30,7 +30,9 @@ const app = new Vue({
 	},
 	render: h => h(App),
 	store
-}).$start();
+});
+
+app.$start();
 
 Vue.config.silent = false;
 
