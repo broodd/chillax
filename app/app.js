@@ -25,11 +25,11 @@ Vue.component('NavBottom', NavBottom);
 import App from './components/App';
 
 const app = new Vue({
-	components: {
-		App,
-	},
-	render: h => h(App),
-	store
+  components: {
+    App,
+  },
+  render: h => h(App),
+  store
 });
 
 app.$start();

@@ -5,7 +5,7 @@ export default {
         props,
         animated: true,
         transition: {
-					name: "fade",
+          name: "fade",
           duration: 250,
           curve: "easeIn"
         }

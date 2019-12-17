@@ -9,11 +9,11 @@ Vue.use(Vuex);
 const debug = 'debug';
 
 const store = new Vuex.Store({
-	modules: {
-		user,
-		// track
-	},
-	strict: debug,
+  modules: {
+    user,
+    // track
+  },
+  strict: debug,
 });
 
 Vue.prototype.$store = store;
