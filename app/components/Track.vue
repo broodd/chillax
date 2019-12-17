@@ -3,16 +3,15 @@
 		<AbsoluteLayout class="track__button" @tap="$emit('playTrack', index)" :backgroundImage="`https://chillax-server.herokuapp.com/static/tracks/${track.img}.jpg`">
 			<Label class="track__button__circle"/>
 		</AbsoluteLayout>
-		<StackLayout class="track__text">
+		<StackLayout class="track__text" @tap="$emit('playTrack', index)">
 			<Label class="track__name" :text="track.name" />
-			<Label class="track__author" :text="track.author.profile.name" @tap="goToAuthor()"/>
+			<Label class="track__author" :text="track.author.profile.name"/>
 		</StackLayout>
 		<Button class="like my-fa" text.decode="&#xe802;" :class="{ active: track.liked }" @tap="$emit('likeTrack', track._id, index)"/>
 	</FlexboxLayout>
 </template>
 
 <script>
-	import Author from '@/pages/Author';
 	const audioPlayer = require('nativescript-audio');
 	const player = new audioPlayer.TNSPlayer();
 
@@ -23,15 +22,6 @@
 			index: Number,
 			stage: Boolean,
 			paused: Boolean
-		},
-		methods: {
-			goToAuthor () {
-				this.$navigateTo(Author, {
-					props: {
-						id: this.track.author._id
-					}
-				})
-			}
 		}
 	}
 </script>
